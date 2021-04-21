@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   List<CheckBoxListTileModel> checkBoxListTileModel =
-  CheckBoxListTileModel.getFilters();
+      CheckBoxListTileModel.getFilters();
 
   void filterScreen(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
@@ -89,25 +89,25 @@ class _MyAppState extends State<MyApp> {
             itemBuilder: (BuildContext context, int index) {
               return new Card(
                   child: new Container(
-                    padding: new EdgeInsets.all(8),
-                    child: Column(
-                      children: <Widget>[
-                        new CheckboxListTile(
-                          activeColor: Colors.red,
-                          dense: true,
-                          title: Text(checkBoxListTileModel[index].filter),
-                          value: checkBoxListTileModel[index].isChecked,
-                          secondary: Container(
-                            height: 50,
-                            width: 50,
-                          ),
-                          onChanged: (bool val) {
-                            //itemChange(val, index);
-                          },
-                        )
-                      ],
-                    ),
-                  ));
+                padding: new EdgeInsets.all(8),
+                child: Column(
+                  children: <Widget>[
+                    new CheckboxListTile(
+                      activeColor: Colors.red,
+                      dense: true,
+                      title: Text(checkBoxListTileModel[index].filter),
+                      value: checkBoxListTileModel[index].isChecked,
+                      secondary: Container(
+                        height: 50,
+                        width: 50,
+                      ),
+                      onChanged: (bool val) {
+                        //itemChange(val, index);
+                      },
+                    )
+                  ],
+                ),
+              ));
             },
           ));
     }));
@@ -123,7 +123,7 @@ class CheckBoxListTileModel {
   static List<CheckBoxListTileModel> getFilters() {
     return <CheckBoxListTileModel>[
       CheckBoxListTileModel(filter: 'Skräpkorgar', isChecked: true),
-      CheckBoxListTileModel(filter: 'Hundparker', isChecked: false),
+      //CheckBoxListTileModel(filter: 'Hundparker', isChecked: false),
     ];
   }
 }
