@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import "settings.dart";
 
 void main() {
   runApp(MaterialApp(
@@ -39,7 +40,8 @@ class _MyAppState extends State<MyApp> {
                 icon: const Icon(Icons.settings_applications),
                 tooltip: 'Settings',
                 onPressed: () {
-                  filterScreen(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Settings()));
                 },
               ),
             ]),
@@ -100,7 +102,7 @@ class _MyAppState extends State<MyApp> {
                             width: 50,
                           ),
                           onChanged: (bool val) {
-                            itemChange(val, index);
+                            //itemChange(val, index);
                           },
                         )
                       ],
