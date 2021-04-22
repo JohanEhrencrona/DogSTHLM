@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-<<<<<<< HEAD
+
 		<version>2.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging> 
 	<name>demo</name>
-=======
+
 		<version>2.4.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
@@ -22,44 +22,44 @@
 	<artifactId>accessing-data-mysql</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>accessing-data-mysql</name>
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
+
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-<<<<<<< HEAD
+
 	
 	<dependencies>
 	
-=======
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
-<<<<<<< HEAD
+
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
-=======
+
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
+
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
+
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -70,18 +70,18 @@
 
 	<build>
 	
-=======
+
 	</dependencies>
 
 	<build>
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-<<<<<<< HEAD
+
 		
 		<extensions>
 			<extension>
@@ -120,8 +120,8 @@
 			<url>git@github.com:JohanEhrencrona/DogSTHLM.git</url>
 		</repository>
 	</distributionManagement>
-=======
+
 	</build>
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
+
 
 </project>
