@@ -7,7 +7,11 @@
 @REM "License"); you may not use this file except in compliance
 @REM with the License.  You may obtain a copy of the License at
 @REM
+<<<<<<< HEAD
 @REM    https://www.apache.org/licenses/LICENSE-2.0
+=======
+@REM    http://www.apache.org/licenses/LICENSE-2.0
+>>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
 @REM
 @REM Unless required by applicable law or agreed to in writing,
 @REM software distributed under the License is distributed on an
@@ -18,7 +22,11 @@
 @REM ----------------------------------------------------------------------------
 
 @REM ----------------------------------------------------------------------------
+<<<<<<< HEAD
 @REM Maven Start Up Batch script
+=======
+@REM Maven2 Start Up Batch script
+>>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
 @REM
 @REM Required ENV vars:
 @REM JAVA_HOME - location of a JDK home dir
@@ -26,7 +34,11 @@
 @REM Optional ENV vars
 @REM M2_HOME - location of maven2's installed home dir
 @REM MAVEN_BATCH_ECHO - set to 'on' to enable the echoing of the batch commands
+<<<<<<< HEAD
 @REM MAVEN_BATCH_PAUSE - set to 'on' to wait for a keystroke before ending
+=======
+@REM MAVEN_BATCH_PAUSE - set to 'on' to wait for a key stroke before ending
+>>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
 @REM MAVEN_OPTS - parameters passed to the Java VM when running Maven
 @REM     e.g. to debug Maven itself, use
 @REM set MAVEN_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000
@@ -37,7 +49,11 @@
 @echo off
 @REM set title of command window
 title %0
+<<<<<<< HEAD
 @REM enable echoing by setting MAVEN_BATCH_ECHO to 'on'
+=======
+@REM enable echoing my setting MAVEN_BATCH_ECHO to 'on'
+>>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
 @if "%MAVEN_BATCH_ECHO%" == "on"  echo %MAVEN_BATCH_ECHO%
 
 @REM set %HOME% to equivalent of $HOME
@@ -120,7 +136,11 @@ SET MAVEN_JAVA_EXE="%JAVA_HOME%\bin\java.exe"
 set WRAPPER_JAR="%MAVEN_PROJECTBASEDIR%\.mvn\wrapper\maven-wrapper.jar"
 set WRAPPER_LAUNCHER=org.apache.maven.wrapper.MavenWrapperMain
 
+<<<<<<< HEAD
 set DOWNLOAD_URL="https://repo.maven.apache.org/maven2/io/takari/maven-wrapper/0.5.6/maven-wrapper-0.5.6.jar"
+=======
+set DOWNLOAD_URL="https://repo.maven.apache.org/maven2/io/takari/maven-wrapper/0.5.2/maven-wrapper-0.5.2.jar"
+>>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
 
 FOR /F "tokens=1,2 delims==" %%A IN ("%MAVEN_PROJECTBASEDIR%\.mvn\wrapper\maven-wrapper.properties") DO (
     IF "%%A"=="wrapperUrl" SET DOWNLOAD_URL=%%B
@@ -129,6 +149,7 @@ FOR /F "tokens=1,2 delims==" %%A IN ("%MAVEN_PROJECTBASEDIR%\.mvn\wrapper\maven-
 @REM Extension to allow automatically downloading the maven-wrapper.jar from Maven-central
 @REM This allows using the maven wrapper in projects that prohibit checking in binary data.
 if exist %WRAPPER_JAR% (
+<<<<<<< HEAD
     if "%MVNW_VERBOSE%" == "true" (
         echo Found %WRAPPER_JAR%
     )
@@ -141,6 +162,16 @@ if exist %WRAPPER_JAR% (
         echo Downloading from: %DOWNLOAD_URL%
     )
 
+=======
+    echo Found %WRAPPER_JAR%
+) else (
+	if not "%MVNW_REPOURL%" == "" (
+	  SET DOWNLOAD_URL="%MVNW_REPOURL%/io/takari/maven-wrapper/0.5.2/maven-wrapper-0.5.2.jar"
+	)
+    echo Couldn't find %WRAPPER_JAR%, downloading it ...
+	echo Downloading from: %DOWNLOAD_URL%
+	
+>>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
     powershell -Command "&{"^
 		"$webclient = new-object System.Net.WebClient;"^
 		"if (-not ([string]::IsNullOrEmpty('%MVNW_USERNAME%') -and [string]::IsNullOrEmpty('%MVNW_PASSWORD%'))) {"^
@@ -148,6 +179,7 @@ if exist %WRAPPER_JAR% (
 		"}"^
 		"[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $webclient.DownloadFile('%DOWNLOAD_URL%', '%WRAPPER_JAR%')"^
 		"}"
+<<<<<<< HEAD
     if "%MVNW_VERBOSE%" == "true" (
         echo Finished downloading %WRAPPER_JAR%
     )
@@ -158,6 +190,12 @@ if exist %WRAPPER_JAR% (
 @REM work with both Windows and non-Windows executions.
 set MAVEN_CMD_LINE_ARGS=%*
 
+=======
+    echo Finished downloading %WRAPPER_JAR%
+)
+@REM End of extension
+
+>>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
 %MAVEN_JAVA_EXE% %JVM_CONFIG_MAVEN_PROPS% %MAVEN_OPTS% %MAVEN_DEBUG_OPTS% -classpath %WRAPPER_JAR% "-Dmaven.multiModuleProjectDirectory=%MAVEN_PROJECTBASEDIR%" %WRAPPER_LAUNCHER% %MAVEN_CONFIG% %*
 if ERRORLEVEL 1 goto error
 goto end
