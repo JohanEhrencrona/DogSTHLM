@@ -26,14 +26,14 @@ class FilterScreenState extends State<FilterScreen> {
                   new CheckboxListTile(
                     activeColor: Colors.red,
                     dense: true,
-                    title: Text(checkBoxListTileModel[index].filter),
+                    title: Text(checkBoxListTileModel[index].filtername),
                     value: checkBoxListTileModel[index].isChecked,
                     secondary: Container(
                       height: 50,
                       width: 50,
                     ),
                     onChanged: (bool val) {
-                      //itemChange(val, index);
+                      itemChange(val, index);
                     },
                   )
                 ],
@@ -42,18 +42,29 @@ class FilterScreenState extends State<FilterScreen> {
           },
         ));
   }
+
+  void itemChange(bool val, int index) {
+    setState(() {
+      checkBoxListTileModel[index].isChecked = val;
+    });
+  }
 }
 
 class CheckBoxListTileModel {
-  String filter;
+  String filtername;
   bool isChecked;
 
-  CheckBoxListTileModel({this.filter, this.isChecked});
+  CheckBoxListTileModel({this.filtername, this.isChecked});
 
   static List<CheckBoxListTileModel> getFilters() {
     return <CheckBoxListTileModel>[
-      CheckBoxListTileModel(filter: 'Skräpkorgar', isChecked: true),
-      CheckBoxListTileModel(filter: 'Hundparker', isChecked: false),
+      CheckBoxListTileModel(filtername: 'Skräpkorgar', isChecked: true),
+      CheckBoxListTileModel(filtername: 'Hundparker', isChecked: false),
+      CheckBoxListTileModel(filtername: 'Placeholder', isChecked: false),
+      CheckBoxListTileModel(filtername: 'Placeholder', isChecked: false),
+      CheckBoxListTileModel(filtername: 'Placeholder', isChecked: false),
+      CheckBoxListTileModel(filtername: 'Placeholder', isChecked: false),
+      CheckBoxListTileModel(filtername: 'Placeholder', isChecked: false),
     ];
   }
 }

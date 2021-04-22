@@ -1,8 +1,8 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hund_pvt/filter.dart';
+import 'filter.dart';
 import "settings.dart";
 
 void main() {
@@ -45,6 +45,13 @@ class _MyAppState extends State<MyApp> {
                       MaterialPageRoute(builder: (context) => Settings()));
                 },
               ),
+              FloatingActionButton(
+                child: Icon(Icons.filter),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FilterScreen()));
+                },
+              )
             ]),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
