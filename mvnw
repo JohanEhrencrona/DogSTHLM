@@ -8,11 +8,7 @@
 # "License"); you may not use this file except in compliance
 # with the License.  You may obtain a copy of the License at
 #
-<<<<<<< HEAD
-#    https://www.apache.org/licenses/LICENSE-2.0
-=======
 #    http://www.apache.org/licenses/LICENSE-2.0
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
 #
 # Unless required by applicable law or agreed to in writing,
 # software distributed under the License is distributed on an
@@ -23,11 +19,7 @@
 # ----------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------
-<<<<<<< HEAD
-# Maven Start Up Batch script
-=======
 # Maven2 Start Up Batch script
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
 #
 # Required ENV vars:
 # ------------------
@@ -219,17 +211,10 @@ else
     if [ "$MVNW_VERBOSE" = true ]; then
       echo "Couldn't find .mvn/wrapper/maven-wrapper.jar, downloading it ..."
     fi
-<<<<<<< HEAD
-    if [ -n "$MVNW_REPOURL" ]; then
-      jarUrl="$MVNW_REPOURL/io/takari/maven-wrapper/0.5.6/maven-wrapper-0.5.6.jar"
-    else
-      jarUrl="https://repo.maven.apache.org/maven2/io/takari/maven-wrapper/0.5.6/maven-wrapper-0.5.6.jar"
-=======
     if [ "$MVNW_REPOURL" = true]; then
       jarUrl="$MVNW_REPOURL/io/takari/maven-wrapper/0.5.2/maven-wrapper-0.5.2.jar"
     else
       jarUrl="https://repo.maven.apache.org/maven2/io/takari/maven-wrapper/0.5.2/maven-wrapper-0.5.2.jar"
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
     fi
     while IFS="=" read key value; do
       case "$key" in (wrapperUrl) jarUrl="$value"; break ;;
@@ -261,11 +246,7 @@ else
         else
             curl --user $MVNW_USERNAME:$MVNW_PASSWORD -o "$wrapperJarPath" "$jarUrl" -f
         fi
-<<<<<<< HEAD
-
-=======
         
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
     else
         if [ "$MVNW_VERBOSE" = true ]; then
           echo "Falling back to using Java to download"
@@ -315,14 +296,6 @@ if $cygwin; then
     MAVEN_PROJECTBASEDIR=`cygpath --path --windows "$MAVEN_PROJECTBASEDIR"`
 fi
 
-<<<<<<< HEAD
-# Provide a "standardized" way to retrieve the CLI args that will
-# work with both Windows and non-Windows executions.
-MAVEN_CMD_LINE_ARGS="$MAVEN_CONFIG $@"
-export MAVEN_CMD_LINE_ARGS
-
-=======
->>>>>>> 94383d51d0c12fda8d1d6811cc968cf68bd0391f
 WRAPPER_LAUNCHER=org.apache.maven.wrapper.MavenWrapperMain
 
 exec "$JAVACMD" \
