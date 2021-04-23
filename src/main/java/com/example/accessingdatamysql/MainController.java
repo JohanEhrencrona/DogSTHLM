@@ -30,7 +30,7 @@ public class MainController {
 		return "Saved";
 	}
 
-	@PostMapping(path="/skrapkorg/add") // Map ONLY POST Requests
+	@PostMapping(path="skrapkorg/add") // Map ONLY POST Requests
 	public @ResponseBody String addNewTrashCan (@RequestParam double xCoordinate
 			, @RequestParam double yCoordinate) {
 		// @ResponseBody means the returned String is the response, not a view name
