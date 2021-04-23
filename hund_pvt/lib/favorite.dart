@@ -22,11 +22,11 @@ class FavoriteState extends State<Favorite> {
             return Card(
               child: ListTile(
                 trailing: IconButton(
-                    icon: const Icon(Icons.delete), onPressed: () {
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
                       places.removeAt(index);
-                      setState(() {
-                      });
-                }),
+                      setState(() {});
+                    }),
                 onTap: () {},
                 title: Text(places[index]),
               ),
