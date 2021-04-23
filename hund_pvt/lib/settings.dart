@@ -10,7 +10,7 @@ class Settings extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
           },

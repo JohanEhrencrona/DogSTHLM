@@ -14,6 +14,7 @@ class FilterScreenState extends State<FilterScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Filter'),
+          backgroundColor: Colors.pink,
         ),
         body: ListView.builder(
           itemCount: checkBoxListTileModel.length,
