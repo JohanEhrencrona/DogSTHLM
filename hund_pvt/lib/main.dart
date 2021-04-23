@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'settings.dart';
+import 'favorite.dart';
 import 'filter.dart';
-import "settings.dart";
 
 void main() {
   runApp(MaterialApp(
@@ -17,6 +18,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  int _currentIndex = 0;
+
   Completer<GoogleMapController> _controller = Completer();
 
   static const LatLng _center = const LatLng(59.325898, 18.0539599);
@@ -61,24 +64,32 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white,
-          backgroundColor: Colors.pink,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              title: Text("Favorite"),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.filter_alt_rounded),
-              title: Text("Filter"),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              title: Text("Search"),
-            ),
-          ],
-        ),
+            currentIndex: _currentIndex,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white,
+            backgroundColor: Colors.pink,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                title: Text("Favorite"),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.filter_alt_rounded),
+                title: Text("Filter"),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                title: Text("Search"),
+              ),
+            ],
+            onTap: (index) {
+              setState(() {
+                if (index == 0) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Favorite()));
+                }
+              });
+            }),
       ),
     );
   }
