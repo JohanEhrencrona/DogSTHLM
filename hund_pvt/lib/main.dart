@@ -48,13 +48,6 @@ class _MyAppState extends State<MyApp> {
                       MaterialPageRoute(builder: (context) => Settings()));
                 },
               ),
-              FloatingActionButton(
-                child: Icon(Icons.filter),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FilterScreen()));
-                },
-              )
             ]),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
@@ -87,6 +80,10 @@ class _MyAppState extends State<MyApp> {
                 if (index == 0) {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Favorite()));
+                }
+                if (index == 1) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FilterScreen()));
                 }
               });
             }),
