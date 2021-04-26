@@ -5,6 +5,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 Completer<GoogleMapController> _controller = Completer();
 
+List<Marker> _testMarkers = <Marker>[
+  Marker(
+      markerId: MarkerId('id'),
+      position: LatLng(59.3360198, 18.0297926),
+      infoWindow: InfoWindow(title: 'Marker title'))
+];
+
 const LatLng _center = const LatLng(59.325898, 18.0539599);
 
 void _onMapCreated(GoogleMapController controller) {
@@ -14,6 +21,7 @@ void _onMapCreated(GoogleMapController controller) {
 Widget mapsWidget = Container(
   child: GoogleMap(
     onMapCreated: _onMapCreated,
+    markers: Set<Marker>.of(_testMarkers),
     initialCameraPosition: CameraPosition(
       target: _center,
       zoom: 12.5,
