@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
 @WebServlet(
-"/app"
+urlPatterns = "/app/"
 )
 
 @Controller	// This means that this class is a Controller
