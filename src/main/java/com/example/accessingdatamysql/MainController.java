@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet(urlPatterns = "/server/*")
 
 @Controller	// This means that this class is a Controller
 @RequestMapping(path="/server") // This means URL's start with /demo (after Application path)
@@ -47,9 +50,21 @@ public class MainController {
 		return "Saved";
 	}
 
-	@GetMapping(path="/all")
-	public @ResponseBody Iterable<User> getAllUsers() {
+	@GetMapping(path="hello")
+	public @ResponseBody void doGet(HttpServletRequest request,
+							   HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		out.print("<h1>Hello</h1>");
+
+		out.close();
+	}
+
+	@GetMapping(path="trashcan/all")
+	public @ResponseBody Iterable<TrashCan> getAllTrashCans() {
 		// This returns a JSON or XML with the users
-		return userRepository.findAll();
+		return trashCanRepository.findAll();
 	}
 }
