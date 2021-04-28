@@ -1,15 +1,48 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Pages/settings.dart';
 
 import 'package:hund_pvt/Services/mapstest.dart';
+
+BitmapDescriptor realIcon;
+
+List<Marker> _testMarkers = <Marker>[
+];
+
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
+const LatLng _center = const LatLng(59.325898, 18.0539599);
+
+Completer<GoogleMapController> _controller = Completer();
+
+void _onMapCreated(GoogleMapController controller) {
+  _controller.complete(controller);
+}
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    getIcons();
+    super.initState();
+  }
+
+  getIcons() async {
+    final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(0,0)), 'assets/images/Restaurants.png');
+    _testMarkers.add(Marker(
+      markerId: MarkerId('ID'),
+      position: LatLng(59.3360198, 18.0297926),
+      icon: bitmapIcon,
+    ));
+    setState(() {
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +64,16 @@ class _HomeState extends State<Home> {
                 },
               ),
             ]),
-        body: mapsWidget,
+        body: Container(
+          child: GoogleMap(
+            onMapCreated: _onMapCreated,
+            markers: Set<Marker>.of(_testMarkers),
+            initialCameraPosition: CameraPosition(
+              target: _center,
+              zoom: 12.5,
+            ),
+          ),
+        ),
         //body: new MapsScreenState().build(context),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
