@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
 
   getIcons() async {
     final bitmapIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(0, 0)), 'assets/images/Restaurants.png');
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
     _testMarkers.add(Marker(
       markerId: MarkerId('ID'),
       position: LatLng(59.3360198, 18.0297926),
