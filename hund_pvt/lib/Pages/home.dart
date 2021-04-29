@@ -26,8 +26,8 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    getIcons();
     super.initState();
+    getIcons();
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
