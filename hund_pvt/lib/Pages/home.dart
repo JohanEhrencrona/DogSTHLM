@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hund_pvt/Pages/settings.dart';
-import 'package:hund_pvt/Services/mapstest.dart';
 
 BitmapDescriptor realIcon;
 
