@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  getIcons() async {
+  void getIcons() async {
     final cafeIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
     _customIcons.add(cafeIcon);
@@ -49,11 +49,14 @@ class _HomeState extends State<Home> {
     final vetIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(0, 0)), 'assets/images/Vet.png');
     _customIcons.add(vetIcon);
+    _addMarker();
+  }
 
+  void _addMarker() {
     _testMarkers.add(Marker(
         markerId: MarkerId('ID'),
         position: LatLng(59.3360198, 18.0297926),
-        icon: _customIcons.elementAt(0),
+        icon: _customIcons.elementAt(1),
         infoWindow: InfoWindow(title: 'Marker title')));
     setState(() {});
   }
