@@ -3,19 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Pages/settings.dart';
-
 import 'package:hund_pvt/Services/mapstest.dart';
 
 BitmapDescriptor realIcon;
 
-List<Marker> _testMarkers = <Marker>[
-];
-
+List<Marker> _testMarkers = <Marker>[];
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
+
 const LatLng _center = const LatLng(59.325898, 18.0539599);
 
 Completer<GoogleMapController> _controller = Completer();
@@ -34,14 +32,14 @@ class _HomeState extends State<Home> {
   }
 
   getIcons() async {
-    final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(0,0)), 'assets/images/Restaurants.png');
+    final bitmapIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Restaurants.png');
     _testMarkers.add(Marker(
       markerId: MarkerId('ID'),
       position: LatLng(59.3360198, 18.0297926),
       icon: bitmapIcon,
     ));
-    setState(() {
-    });
+    setState(() {});
   }
 
   @override
