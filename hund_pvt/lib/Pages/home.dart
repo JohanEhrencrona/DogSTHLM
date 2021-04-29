@@ -31,10 +31,10 @@ class _HomeState extends State<Home> {
     final bitmapIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
     _testMarkers.add(Marker(
-      markerId: MarkerId('ID'),
-      position: LatLng(59.3360198, 18.0297926),
-      icon: bitmapIcon,
-    ));
+        markerId: MarkerId('ID'),
+        position: LatLng(59.3360198, 18.0297926),
+        icon: bitmapIcon,
+        infoWindow: InfoWindow(title: 'Marker title')));
     setState(() {});
   }
 
