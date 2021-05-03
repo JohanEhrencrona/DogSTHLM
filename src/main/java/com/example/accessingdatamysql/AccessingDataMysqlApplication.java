@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @ServletComponentScan
 @SpringBootApplication
+@RequestMapping(path="/app")
 public class AccessingDataMysqlApplication {
 
 	public static void main(String[] args) {
