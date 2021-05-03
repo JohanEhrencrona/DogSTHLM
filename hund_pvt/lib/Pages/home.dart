@@ -5,24 +5,23 @@ import 'package:hund_pvt/Services/getmarkersapi.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-List<Marker> _testMarkers = <Marker>[];
+//List<Marker> _testMarkers = <Marker>[];
 List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 String _mapStyle;
-
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-const LatLng _center = const LatLng(59.325898, 18.0539599);
+//const LatLng _center = const LatLng(59.325898, 18.0539599);
 
-Completer<GoogleMapController> _controller = Completer();
+//Completer<GoogleMapController> _controller = Completer();
 
-void _onMapCreated(GoogleMapController controller) {
+/*void _onMapCreated(GoogleMapController controller) {
   _controller.complete(controller);
   controller.setMapStyle(_mapStyle);
-}
+}*/
 
 class _HomeState extends State<Home> {
   //BottomnavigationBar index
@@ -35,6 +34,7 @@ class _HomeState extends State<Home> {
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
+    controller.setMapStyle(_mapStyle);
   }
 
   int markCounter = 1;
@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
   }
 
   void _addMarker() {
-    _testMarkers.add(Marker(
+    _testmarkers.add(Marker(
         markerId: MarkerId('ID'),
         position: LatLng(59.3360198, 18.0297926),
         icon: _customIcons.elementAt(1),
@@ -147,7 +147,7 @@ class _HomeState extends State<Home> {
         body: Container(
           child: GoogleMap(
             onMapCreated: _onMapCreated,
-            markers: Set<Marker>.of(_testMarkers),
+            markers: _testmarkers,
             initialCameraPosition: CameraPosition(
               target: _center,
               zoom: 12.5,
