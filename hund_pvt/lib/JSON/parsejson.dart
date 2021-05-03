@@ -17,7 +17,7 @@ class FeatureCollection {
 class Features {
   String type;
   String id;
-  TrashCanPin geometry;
+  GeometryTrash geometry;
 
   Features({this.type, this.id, this.geometry});
 
@@ -25,26 +25,26 @@ class Features {
     return Features(
         type: parsedJson['type'],
         id: parsedJson['id'],
-        geometry: TrashCanPin.fromJson(parsedJson['geometry']));
+        geometry: GeometryTrash.fromJson(parsedJson['geometry']));
   }
 }
 
-class TrashCanPin {
+class GeometryTrash {
   String type;
   num coordinateLat;
   num coordinateLong;
   //List<num> coordinates;
   //Contructor
-  TrashCanPin({this.type, this.coordinateLat, this.coordinateLong});
+  GeometryTrash({this.type, this.coordinateLat, this.coordinateLong});
 
-  factory TrashCanPin.fromJson(Map<String, dynamic> parsedJson) {
+  factory GeometryTrash.fromJson(Map<String, dynamic> parsedJson) {
     var coordinatesFromJson = parsedJson['coordinates'];
 
     List<num> coordinatesList = coordinatesFromJson.cast<num>();
 
-    return new TrashCanPin(
+    return new GeometryTrash(
         type: parsedJson['type'],
-        coordinateLat: coordinatesList.first,
-        coordinateLong: coordinatesList[1]);
+        coordinateLong: coordinatesList.first,
+        coordinateLat: coordinatesList[1]);
   }
 }
