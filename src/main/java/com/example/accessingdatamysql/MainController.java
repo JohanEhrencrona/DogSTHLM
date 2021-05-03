@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-@Controller	// This means that this class is a Controller
+@RestController	// This means that this class is a Controller
 @RequestMapping(path="/server") // This means URL's start with /demo (after Application path)
 public class MainController {
 	@Autowired // This means to get the bean called userRepository
