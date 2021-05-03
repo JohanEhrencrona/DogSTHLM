@@ -1,15 +1,65 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:hund_pvt/Pages/settings.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:hund_pvt/Services/mapstest.dart';
+List<Marker> _testMarkers = <Marker>[];
+List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
+String _mapStyle;
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
+const LatLng _center = const LatLng(59.325898, 18.0539599);
+
+Completer<GoogleMapController> _controller = Completer();
+
+void _onMapCreated(GoogleMapController controller) {
+  _controller.complete(controller);
+  controller.setMapStyle(_mapStyle);
+}
+
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getIcons();
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
+  }
+
+  void getIcons() async {
+    final cafeIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
+    _customIcons.add(cafeIcon);
+    final parkIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Dog_Park.png');
+    _customIcons.add(parkIcon);
+    final restaurantIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Restaurants.png');
+    _customIcons.add(restaurantIcon);
+    final trashIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Trash_Cans.png');
+    _customIcons.add(trashIcon);
+    final vetIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Vet.png');
+    _customIcons.add(vetIcon);
+    _addMarker();
+  }
+
+  void _addMarker() {
+    _testMarkers.add(Marker(
+        markerId: MarkerId('ID'),
+        position: LatLng(59.3360198, 18.0297926),
+        icon: _customIcons.elementAt(1),
+        infoWindow: InfoWindow(title: 'Marker title')));
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +81,16 @@ class _HomeState extends State<Home> {
                 },
               ),
             ]),
-        body: mapsWidget,
+        body: Container(
+          child: GoogleMap(
+            onMapCreated: _onMapCreated,
+            markers: Set<Marker>.of(_testMarkers),
+            initialCameraPosition: CameraPosition(
+              target: _center,
+              zoom: 12.5,
+            ),
+          ),
+        ),
         //body: new MapsScreenState().build(context),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
@@ -41,15 +100,15 @@ class _HomeState extends State<Home> {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.favorite),
-                title: Text("Favorite"),
+                label: ("Favorite"),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.filter_alt_rounded),
-                title: Text("Filter"),
+                label: ("Filter"),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.search),
-                title: Text("Search"),
+                label: ("Search"),
               ),
             ],
             onTap: (index) {
