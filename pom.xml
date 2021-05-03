@@ -13,6 +13,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>accessing-data-mysql</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>accessing-data-mysql</name>
 	<description>Demo project for Spring Boot</description>
 	
