@@ -5,7 +5,6 @@ import 'package:hund_pvt/Services/getmarkersapi.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-//List<Marker> _testMarkers = <Marker>[];
 List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 String _mapStyle;
 
@@ -13,15 +12,6 @@ class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
-
-//const LatLng _center = const LatLng(59.325898, 18.0539599);
-
-//Completer<GoogleMapController> _controller = Completer();
-
-/*void _onMapCreated(GoogleMapController controller) {
-  _controller.complete(controller);
-  controller.setMapStyle(_mapStyle);
-}*/
 
 class _HomeState extends State<Home> {
   //BottomnavigationBar index
@@ -43,6 +33,7 @@ class _HomeState extends State<Home> {
     Marker mark = Marker(
       markerId: MarkerId('$markCounter'),
       position: LatLng(lat, long),
+      icon: _customIcons.elementAt(3),
     );
     markCounter++;
     _testmarkers.add(mark);
