@@ -51,7 +51,7 @@ public class MainController {
 		return "Saved";
 	}
 
-	@GetMapping("/hello")
+	@GetMapping(path="hello")
 	public @ResponseBody void doGet(HttpServletRequest request,
 							   HttpServletResponse response)
 			throws ServletException, IOException {
