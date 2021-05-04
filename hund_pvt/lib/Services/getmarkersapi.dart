@@ -38,9 +38,18 @@ Future getPark() async {
       'https://openstreetgs.stockholm.se/geoservice/api/9f0bd873-30d2-40ad-99f3-7a32f115717f/wfs/?version=1.0.0&request=GetFeature&typeName=od_gis:Hundrastgard_Yta&outputFormat=JSON'));
   final jsonResponse = jsonDecode(response.body);
   FeatureCollectionPark pin = new FeatureCollectionPark.fromJson(jsonResponse);
-  print(pin.features.first.geometry.coordinates.toString());
-  //Iterate through and convert coordinates
+
+  pin.features.forEach((element) {
+    List<CrsCoordinate> lista = [];
+    element.geometry.getCoordinates().forEach((cord) {
+      lista.add(convertPoint(cord.elementAt(1), cord.elementAt(0)));
+      getParksList.add(ParkLocation(wgs84Points: lista));
+    });
+  });
+  //print(getParksList.first.wgs84Points);
 }
+
+//Iterate through and convert coordinates
 
 CrsCoordinate convertPoint(double lat, double long) {
   CrsCoordinate sweref99 =
