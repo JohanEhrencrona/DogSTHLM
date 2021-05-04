@@ -6,14 +6,10 @@ List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 
 int markCounter = 1;
 
-Set<Marker> trashCanMarkers = <Marker>{
-  Marker(
-    markerId: MarkerId('min'),
-    position: LatLng(59.325898, 18.0539599),
-  )
-};
+Set<Marker> trashCanMarkers = {};
+Set<Polygon> parkPolygonsSet = {};
 
-void getTrashMarkers(double lat, double long) {
+void addTrashMarkers(double lat, double long) {
   Marker mark = Marker(
     markerId: MarkerId('$markCounter'),
     position: LatLng(lat, long),
@@ -23,31 +19,22 @@ void getTrashMarkers(double lat, double long) {
   trashCanMarkers.add(mark);
 }
 
-Set<Polygon> parkPolygonsSet = {};
-
 void addParkPolygons(List points) {
   parkPolygonsSet.add(Polygon(
     polygonId: PolygonId('$markCounter'),
     points: points,
-    fillColor: Colors.yellow,
+    fillColor: Colors.green.withOpacity(0.1),
     strokeColor: Colors.yellow,
+    strokeWidth: 4,
   ));
+
   markCounter++;
 }
 
-void _addMarker() {
-  trashCanMarkers.add(Marker(
-      markerId: MarkerId('ID'),
-      position: LatLng(59.3360198, 18.0297926),
-      icon: _customIcons.elementAt(1),
-      infoWindow: InfoWindow(title: 'Marker title')));
-  //setState(() {});
-}
-
 //Checkbox filter
-Set<Marker> empty = {};
 
 Set<Marker> getSet() {
+  Set<Marker> empty = {};
   if (checkBoxListTileModel[0].isChecked) {
     return trashCanMarkers;
   } else {
@@ -64,6 +51,7 @@ Set<Polygon> getPolygon() {
   }
 }
 
+//Checkbox filter
 void getIcons() async {
   final cafeIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
@@ -80,7 +68,4 @@ void getIcons() async {
   final vetIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Vet.png');
   _customIcons.add(vetIcon);
-  _addMarker();
 }
-
-//Checkbox filter

@@ -63,39 +63,6 @@ class _HomeState extends State<Home> {
                     setState(() {});
                   }),
               IconButton(
-                  icon: Icon(Icons.file_download),
-                  onPressed: () async {
-                    await getPark();
-                    getParksList.forEach((element) {
-                      List<LatLng> coord = [];
-                      element.wgs84Points.forEach((element) {
-                        coord
-                            .add(LatLng(element.yLatitude, element.xLongitude));
-                      });
-                      addParkPolygons(coord);
-                    });
-                  }),
-              IconButton(
-                  icon: Icon(Icons.get_app),
-                  onPressed: () async {
-                    await getTrashCan();
-                    getTrashMarkers(
-                        getTrashCanList.elementAt(0).wgs84.yLatitude,
-                        getTrashCanList.elementAt(0).wgs84.xLongitude);
-                    getTrashMarkers(
-                        getTrashCanList.elementAt(1).wgs84.yLatitude,
-                        getTrashCanList.elementAt(1).wgs84.xLongitude);
-                    getTrashMarkers(
-                        getTrashCanList.elementAt(2).wgs84.yLatitude,
-                        getTrashCanList.elementAt(2).wgs84.xLongitude);
-                    getTrashMarkers(
-                        getTrashCanList.elementAt(3).wgs84.yLatitude,
-                        getTrashCanList.elementAt(3).wgs84.xLongitude);
-                    getTrashMarkers(
-                        getTrashCanList.elementAt(4).wgs84.yLatitude,
-                        getTrashCanList.elementAt(4).wgs84.xLongitude);
-                  }),
-              IconButton(
                 icon: const Icon(Icons.settings_applications),
                 tooltip: 'Settings',
                 onPressed: () {
