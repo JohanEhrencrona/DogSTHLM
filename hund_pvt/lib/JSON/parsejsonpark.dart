@@ -33,16 +33,20 @@ class Features {
 class GeometryPark {
   String type;
   //List<double> coordinates;
-  List<List<List<double>>> coordinates;
+  List<List<List<double>>> coordinatesList;
 
-  GeometryPark({this.type, this.coordinates});
+  GeometryPark({this.type, this.coordinatesList});
 
   factory GeometryPark.fromJson(Map<String, dynamic> json) => GeometryPark(
         type: json["type"],
-        coordinates: List<List<List<double>>>.from(json["coordinates"].map(
+        coordinatesList: List<List<List<double>>>.from(json["coordinates"].map(
             (x) => List<List<double>>.from(
                 x.map((x) => List<double>.from(x.map((x) => x.toDouble())))))),
       );
+
+  List<List<double>> getCoordinates() {
+    return coordinatesList.expand((element) => element).toList();
+  }
 
   /*factory GeometryPark.fromJson(Map<String, dynamic> parsedJson) {
     var coordinatesListOfLists = parsedJson['coordinates'] as List;

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hund_pvt/Services/getmarkersapi.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hund_pvt/Services/markersets.dart';
 
-List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 String _mapStyle;
 
 class Home extends StatefulWidget {
@@ -27,24 +27,6 @@ class _HomeState extends State<Home> {
     controller.setMapStyle(_mapStyle);
   }
 
-  int markCounter = 1;
-
-  void getMarkers(double lat, double long) {
-    Marker mark = Marker(
-      markerId: MarkerId('$markCounter'),
-      position: LatLng(lat, long),
-      icon: _customIcons.elementAt(3),
-    );
-    markCounter++;
-    _testmarkers.add(mark);
-  }
-
-  Set<Marker> _testmarkers = <Marker>{
-    Marker(
-      markerId: MarkerId('min'),
-      position: LatLng(59.325898, 18.0539599),
-    )
-  };
   //Google////////////////////////////////////////////////////////////
   @override
   void initState() {
@@ -53,34 +35,6 @@ class _HomeState extends State<Home> {
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
-  }
-
-  void getIcons() async {
-    final cafeIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
-    _customIcons.add(cafeIcon);
-    final parkIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(0, 0)), 'assets/images/Dog_Park.png');
-    _customIcons.add(parkIcon);
-    final restaurantIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(0, 0)), 'assets/images/Restaurants.png');
-    _customIcons.add(restaurantIcon);
-    final trashIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(0, 0)), 'assets/images/Trash_Cans.png');
-    _customIcons.add(trashIcon);
-    final vetIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(0, 0)), 'assets/images/Vet.png');
-    _customIcons.add(vetIcon);
-    _addMarker();
-  }
-
-  void _addMarker() {
-    _testmarkers.add(Marker(
-        markerId: MarkerId('ID'),
-        position: LatLng(59.3360198, 18.0297926),
-        icon: _customIcons.elementAt(1),
-        infoWindow: InfoWindow(title: 'Marker title')));
-    setState(() {});
   }
 
   @override
@@ -103,28 +57,42 @@ class _HomeState extends State<Home> {
               IconButton(
                   icon: Icon(Icons.print),
                   onPressed: () {
-                    print(_testmarkers.toString());
+                    print(trashCanMarkers.toString());
+                    print(parkPolygonsSet.first.toString());
                     print(markCounter);
                     setState(() {});
                   }),
               IconButton(
                   icon: Icon(Icons.file_download),
-                  onPressed: () {
-                    getPark();
+                  onPressed: () async {
+                    await getPark();
+                    getParksList.forEach((element) {
+                      List<LatLng> coord = [];
+                      element.wgs84Points.forEach((element) {
+                        coord
+                            .add(LatLng(element.yLatitude, element.xLongitude));
+                      });
+                      addParkPolygons(coord);
+                    });
                   }),
               IconButton(
                   icon: Icon(Icons.get_app),
                   onPressed: () async {
                     await getTrashCan();
-                    getMarkers(getTrashCanList.elementAt(0).wgs84.yLatitude,
+                    getTrashMarkers(
+                        getTrashCanList.elementAt(0).wgs84.yLatitude,
                         getTrashCanList.elementAt(0).wgs84.xLongitude);
-                    getMarkers(getTrashCanList.elementAt(1).wgs84.yLatitude,
+                    getTrashMarkers(
+                        getTrashCanList.elementAt(1).wgs84.yLatitude,
                         getTrashCanList.elementAt(1).wgs84.xLongitude);
-                    getMarkers(getTrashCanList.elementAt(2).wgs84.yLatitude,
+                    getTrashMarkers(
+                        getTrashCanList.elementAt(2).wgs84.yLatitude,
                         getTrashCanList.elementAt(2).wgs84.xLongitude);
-                    getMarkers(getTrashCanList.elementAt(3).wgs84.yLatitude,
+                    getTrashMarkers(
+                        getTrashCanList.elementAt(3).wgs84.yLatitude,
                         getTrashCanList.elementAt(3).wgs84.xLongitude);
-                    getMarkers(getTrashCanList.elementAt(4).wgs84.yLatitude,
+                    getTrashMarkers(
+                        getTrashCanList.elementAt(4).wgs84.yLatitude,
                         getTrashCanList.elementAt(4).wgs84.xLongitude);
                   }),
               IconButton(
@@ -138,7 +106,8 @@ class _HomeState extends State<Home> {
         body: Container(
           child: GoogleMap(
             onMapCreated: _onMapCreated,
-            markers: _testmarkers,
+            markers: getSet(),
+            polygons: getPolygon(),
             initialCameraPosition: CameraPosition(
               target: _center,
               zoom: 12.5,
