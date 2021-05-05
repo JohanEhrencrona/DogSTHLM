@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-
 @RestController	// This means that this class is a Controller
 @RequestMapping(path="/server") // This means URL's start with /demo (after Application path)
 public class MainController {
@@ -25,7 +24,7 @@ public class MainController {
 	@Autowired
 	private TrashCanRepository trashCanRepository;
 
-	@PostMapping(path="user/add") // Map ONLY POST Requests
+	@PostMapping(path="/user/add") // Map ONLY POST Requests
 	public @ResponseBody String addNewUser (@RequestParam String name
 			, @RequestParam String email) {
 		// @ResponseBody means the returned String is the response, not a view name
@@ -38,7 +37,7 @@ public class MainController {
 		return "Saved";
 	}
 
-	@PostMapping(path="trashcan/add") // Map ONLY POST Requests
+	@PostMapping(path="/trashcan/add") // Map ONLY POST Requests
 	public @ResponseBody String addNewTrashCan (@RequestParam double xCoordinate
 			, @RequestParam double yCoordinate) {
 		// @ResponseBody means the returned String is the response, not a view name
@@ -51,7 +50,7 @@ public class MainController {
 		return "Saved";
 	}
 
-	@GetMapping(path="hello")
+	@GetMapping(path="/hello")
 	public @ResponseBody void doGet(HttpServletRequest request,
 							   HttpServletResponse response)
 			throws ServletException, IOException {
@@ -63,7 +62,7 @@ public class MainController {
 		out.close();
 	}
 
-	@GetMapping(path="trashcan/all")
+	@GetMapping(path="/trashcan/all")
 	public @ResponseBody Iterable<TrashCan> getAllTrashCans() {
 		// This returns a JSON or XML with the users
 		return trashCanRepository.findAll();
