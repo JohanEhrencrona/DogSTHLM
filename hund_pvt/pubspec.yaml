@@ -29,8 +29,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_maps_flutter: ^2.0.3
   sweden_crs_transformations_4dart: ^1.0.1
-
   http: ^0.13.1
+  flutter_spinkit: ^4.1.2
+  permission_handler: ^7.1.0
+  location: ^4.1.1
 
 dev_dependencies:
   flutter_test:
