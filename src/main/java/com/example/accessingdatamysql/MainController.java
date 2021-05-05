@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@RestController	// This means that this class is a Controller
+@Controller	// This means that this class is a Controller
 @RequestMapping(path="/server") // This means URL's start with /demo (after Application path)
 public class MainController {
 	@Autowired // This means to get the bean called userRepository
