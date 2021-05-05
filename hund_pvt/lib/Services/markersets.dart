@@ -23,11 +23,10 @@ void addParkPolygons(List points) {
   parkPolygonsSet.add(Polygon(
     polygonId: PolygonId('$markCounter'),
     points: points,
-    fillColor: Colors.green.withOpacity(0.1),
+    fillColor: Colors.green.withOpacity(0.8),
     strokeColor: Colors.yellow,
-    strokeWidth: 4,
+    strokeWidth: 1,
   ));
-
   markCounter++;
 }
 
