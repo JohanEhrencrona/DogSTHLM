@@ -5,6 +5,8 @@ import 'package:hund_pvt/Services/getmarkersapi.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:location/location.dart';
 
 String _mapStyle;
 
@@ -18,13 +20,21 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
 
   //Google/////////////////////////////////////////////////////////////
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController _controller;
+  Location _location = Location();
 
   static const LatLng _center = const LatLng(59.325898, 18.0539599);
 
   void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
+    _controller = controller;
     controller.setMapStyle(_mapStyle);
+    _location.onLocationChanged.listen((l) {
+      _controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude, l.longitude),zoom: 15),
+        ),
+      );
+    });
   }
 
   //Google////////////////////////////////////////////////////////////
@@ -32,6 +42,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     getIcons();
+    requestPermission();
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
@@ -75,6 +86,7 @@ class _HomeState extends State<Home> {
             onMapCreated: _onMapCreated,
             markers: getSet(),
             polygons: getPolygon(),
+            myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
               target: _center,
               zoom: 12.5,
@@ -117,6 +129,8 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+Future<void> requestPermission() async { await Permission.location.request(); }
 
 void _showSearchModal(context) {
   showModalBottomSheet(
