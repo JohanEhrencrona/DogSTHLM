@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hund_pvt/Services/getmarkersapi.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 String _mapStyle;
@@ -14,12 +16,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   //BottomnavigationBar index
   int _currentIndex = 0;
 
   //Google/////////////////////////////////////////////////////////////
   Completer<GoogleMapController> _controller = Completer();
 
+  //Startposition for map
   static const LatLng _center = const LatLng(59.325898, 18.0539599);
 
   void _onMapCreated(GoogleMapController controller) {
@@ -39,22 +43,20 @@ class _HomeState extends State<Home> {
     _testmarkers.add(mark);
   }
 
-  Set<Marker> _testmarkers = <Marker>{
-    Marker(
-      markerId: MarkerId('min'),
-      position: LatLng(59.325898, 18.0539599),
-    )
-  };
+  Set<Marker> _testmarkers = <Marker>{};
+
   //Google////////////////////////////////////////////////////////////
   @override
   void initState() {
     super.initState();
     getIcons();
+    requestPermission();
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
   }
 
+  //Get custom pictures for our markers and add these to a list of Icons
   void getIcons() async {
     final cafeIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
@@ -74,11 +76,12 @@ class _HomeState extends State<Home> {
     _addMarker();
   }
 
+  //adding marker to map
   void _addMarker() {
     _testmarkers.add(Marker(
         markerId: MarkerId('ID'),
         position: LatLng(59.3360198, 18.0297926),
-        icon: _customIcons.elementAt(1),
+        icon: _customIcons.elementAt(4),
         infoWindow: InfoWindow(title: 'Marker title')));
     setState(() {});
   }
@@ -139,6 +142,7 @@ class _HomeState extends State<Home> {
           child: GoogleMap(
             onMapCreated: _onMapCreated,
             markers: _testmarkers,
+            myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
               target: _center,
               zoom: 12.5,
@@ -181,6 +185,8 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+Future<void> requestPermission() async { await Permission.location.request(); }
 
 void _showSearchModal(context) {
   showModalBottomSheet(
