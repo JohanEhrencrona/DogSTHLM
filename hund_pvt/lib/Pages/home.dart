@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:hund_pvt/Services/getmarkersapi.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
@@ -28,13 +27,6 @@ class _HomeState extends State<Home> {
   void _onMapCreated(GoogleMapController controller) {
     _controller = controller;
     controller.setMapStyle(_mapStyle);
-    _location.onLocationChanged.listen((l) {
-      _controller.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude, l.longitude),zoom: 15),
-        ),
-      );
-    });
   }
 
   //Google////////////////////////////////////////////////////////////
