@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@ServletComponentScan
 @SpringBootApplication
 public class AccessingDataMysqlApplication extends SpringBootServletInitializer {
+
+	public AccessingDataMysqlApplication (){
+
+	}
 
 	public static void main(String[] args) {
 
