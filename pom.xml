@@ -11,10 +11,10 @@
 	</parent>
 	
 	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>accessingdatamysql</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>demo</name>
+	<name>accessingdatamysql</name>
 	<description>Demo project for Spring Boot</description>
 	
 	<properties>
