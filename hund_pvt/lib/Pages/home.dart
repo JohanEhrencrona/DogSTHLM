@@ -27,13 +27,6 @@ class _HomeState extends State<Home> {
   void _onMapCreated(GoogleMapController controller) {
     _controller = controller;
     controller.setMapStyle(_mapStyle);
-    _location.onLocationChanged.listen((l) {
-      _controller.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude, l.longitude),zoom: 15),
-        ),
-      );
-    });
   }
 
   //Google////////////////////////////////////////////////////////////
