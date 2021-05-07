@@ -86,6 +86,7 @@ class _HomeState extends State<Home> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
             currentIndex: _currentIndex,
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white,
@@ -103,6 +104,10 @@ class _HomeState extends State<Home> {
                 icon: Icon(Icons.search),
                 label: ("Search"),
               ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add),
+                label: ("New place"),
+              ),
             ],
             onTap: (index) {
               setState(() {
@@ -114,6 +119,9 @@ class _HomeState extends State<Home> {
                 }
                 if (index == 2) {
                   _showSearchModal(context);
+                }
+                if(index == 3) {
+                  Navigator.pushNamed(context, '/addplace');
                 }
               });
             }),
