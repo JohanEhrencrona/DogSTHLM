@@ -6,8 +6,30 @@ List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 
 int markCounter = 1;
 
+Set<Marker> restaurantMarkers ={};
+Set<Marker> cafeMarkers ={};
 Set<Marker> trashCanMarkers = {};
 Set<Polygon> parkPolygonsSet = {};
+
+void addCafeMarkers(double lat, double long) {
+  Marker mark = Marker(
+    markerId: MarkerId('$markCounter'),
+    position: LatLng(lat, long),
+    icon: _customIcons.elementAt(0),
+  );
+  markCounter++;
+  cafeMarkers.add(mark);
+}
+
+void addRestaurantMarkers(double lat, double long) {
+  Marker mark = Marker(
+    markerId: MarkerId('$markCounter'),
+    position: LatLng(lat, long),
+    icon: _customIcons.elementAt(2),
+  );
+  markCounter++;
+  restaurantMarkers.add(mark);
+}
 
 void addTrashMarkers(double lat, double long) {
   Marker mark = Marker(

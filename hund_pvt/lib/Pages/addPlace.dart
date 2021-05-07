@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:hund_pvt/Services/markersets.dart';
 
 class AddPlace extends StatefulWidget {
   @override
@@ -6,6 +8,9 @@ class AddPlace extends StatefulWidget {
 }
 
 class AddPlaceState extends State<AddPlace> {
+
+  String key = 'restaurant';
+  String address;
   int group = 1;
 
   @override
@@ -25,12 +30,12 @@ class AddPlaceState extends State<AddPlace> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Radio(
+                  Radio (
                       value: 1,
                       autofocus: true,
                       groupValue: group,
                       onChanged: (T) {
-                        print(T);
+                        key = 'restaurant';
                         setState(() {
                           group = T;
                         });
@@ -40,7 +45,7 @@ class AddPlaceState extends State<AddPlace> {
                       value: 2,
                       groupValue: group,
                       onChanged: (T) {
-                        print(T);
+                        key = 'cafe';
                         setState(() {
                           group = T;
                         });
@@ -51,7 +56,7 @@ class AddPlaceState extends State<AddPlace> {
               Row(
                 children: <Widget>[
                   new Flexible(
-                    child: new TextField(
+                    child: new TextField (
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         hintText: "Name",
@@ -65,6 +70,9 @@ class AddPlaceState extends State<AddPlace> {
                   new Flexible(
                     child: new TextField(
                       style: TextStyle(color: Colors.black),
+                      onChanged: (T){
+                        address = T;
+                      },
                       decoration: InputDecoration(
                         hintText: "Address",
                       ),
@@ -75,6 +83,14 @@ class AddPlaceState extends State<AddPlace> {
               FloatingActionButton(
                 backgroundColor: Colors.pink,
                 onPressed: () {
+                  if (key == 'restaurant'){
+                    print(address);
+                    addRestaurantMarkers(59.3296130737605, 18.066347622432104);
+                  }
+                  if (key == 'cafe'){
+                    print(address);
+                    addCafeMarkers(59.31788495276943, 18.041436850126107);
+                  }
                 },
                 child: Icon(Icons.add),
               ),
