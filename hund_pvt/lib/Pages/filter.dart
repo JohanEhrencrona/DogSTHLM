@@ -75,7 +75,8 @@ class CheckBoxListTileModel {
 
   static List<CheckBoxListTileModel> getFilters() {
     return <CheckBoxListTileModel>[
-      CheckBoxListTileModel(filtername: 'Skräpkorgar', isChecked: true, imageTest: AssetImage("assets/images/trashcan_symbol.png") ),
+
+      CheckBoxListTileModel(filtername: 'Skräpkorgar', isChecked: false, imageTest: AssetImage("assets/images/trashcan_symbol.png") ),
       CheckBoxListTileModel(filtername: 'Hundparker', isChecked: true, imageTest: AssetImage("assets/images/dog_symbol.png")),
       CheckBoxListTileModel(filtername: 'Veterinärer', isChecked: false, imageTest: AssetImage("assets/images/veterinary_symbol.png")),
       CheckBoxListTileModel(filtername: 'Caféer', isChecked: false, imageTest: AssetImage("assets/images/cafe_symbol.png")),

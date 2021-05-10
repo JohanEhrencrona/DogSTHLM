@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hund_pvt/Pages/filter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart';
@@ -17,10 +18,35 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   //BottomnavigationBar index
   int _currentIndex = 0;
+  double zoom = 12.5;
 
   //Google/////////////////////////////////////////////////////////////
   GoogleMapController _controller;
   Location _location = Location();
+
+  //Cluster////////////////////////////////////////////////////////////
+  void updateCluster(CameraPosition position) {
+    trashCans = fluster
+        .clusters([-180, -85, 180, 85], position.zoom.toInt())
+        .map((e) => e.toMarker())
+        .toList();
+    print(position.zoom);
+  }
+
+  List<Marker> trashCans = fluster
+      .clusters([-180, -85, 180, 85], 12)
+      .map((e) => e.toMarker())
+      .toList();
+
+  Set<Marker> getCluster() {
+    Set<Marker> empty = {};
+    if (checkBoxListTileModel[0].isChecked) {
+      return trashCans.toSet();
+    } else {
+      return empty;
+    }
+  }
+  //Cluster////////////////////////////////////////////////////////////
 
   static const LatLng _center = const LatLng(59.325898, 18.0539599);
 
@@ -38,6 +64,10 @@ class _HomeState extends State<Home> {
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
+  }
+
+  FutureOr poppingBack(dynamic value) {
+    setState(() {}); //Updates google map when returning from filterScreen.
   }
 
   @override
@@ -61,11 +91,6 @@ class _HomeState extends State<Home> {
             ),
             actions: <Widget>[
               IconButton(
-                  icon: Icon(Icons.update),
-                  onPressed: () {
-                    setState(() {});
-                  }),
-              IconButton(
                   icon: Icon(Icons.print),
                   onPressed: () {
                     print(trashCanMarkers.toString());
@@ -85,13 +110,18 @@ class _HomeState extends State<Home> {
           children: <Widget> [
             GoogleMap(
             onMapCreated: _onMapCreated,
-            markers: getSet(),
+            markers: getCluster(),
             polygons: getPolygon(),
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
               target: _center,
-              zoom: 12.5,
+              zoom: zoom,
             ),
+            onCameraMove: (position) {
+              //Calls update method for cluster when camera zooms in or out.
+              updateCluster(position);
+              setState(() {});
+            },
           ),
           Positioned(
             top: 5,
@@ -104,8 +134,8 @@ class _HomeState extends State<Home> {
           ]
           
         ),
+
         bottomNavigationBar: _createBottomNavigationBar(),
-        
       ),
     );
   }
@@ -145,7 +175,7 @@ class _HomeState extends State<Home> {
                         Navigator.pushNamed(context, '/favorite');
                       }
                       if (index == 1) {
-                        Navigator.pushNamed(context, '/filter');
+                        Navigator.pushNamed(context, '/filter').then(poppingBack);
                       }
                       if (index == 2) {
                         _showSearchModal(context);
@@ -157,7 +187,9 @@ class _HomeState extends State<Home> {
   }
 }
 
-Future<void> requestPermission() async { await Permission.location.request(); }
+Future<void> requestPermission() async {
+  await Permission.location.request();
+}
 
 /*void _showSearchModal(context) {
   showModalBottomSheet(
