@@ -35,7 +35,7 @@ void addTrashMarkers(double lat, double long) {
   Marker mark = Marker(
     markerId: MarkerId('$markCounter'),
     position: LatLng(lat, long),
-    icon: _customIcons.elementAt(3),
+    icon: _customIcons.elementAt(4),
   );
   markCounter++;
   trashCanMarkers.add(mark);
@@ -83,6 +83,9 @@ void getIcons() async {
   final restaurantIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Restaurants.png');
   _customIcons.add(restaurantIcon);
+  final shopIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(0, 0)), 'assets/images/Shop.png');
+  _customIcons.add(shopIcon);
   final trashIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Trash_Cans.png');
   _customIcons.add(trashIcon);

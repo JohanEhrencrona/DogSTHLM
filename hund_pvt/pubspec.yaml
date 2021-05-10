@@ -56,6 +56,7 @@ flutter:
     - assets/images/Cafe.png
     - assets/images/Dog_Park.png
     - assets/images/Restaurants.png
+    - assets/images/Shop.png
     - assets/images/Trash_Cans.png
     - assets/images/Vet.png
     - assets/map_style.txt
