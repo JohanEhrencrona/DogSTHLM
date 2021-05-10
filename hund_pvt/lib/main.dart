@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/Pages/addPlace.dart';
 import 'package:hund_pvt/Pages/home.dart';
 import 'package:hund_pvt/Pages/filter.dart';
 import 'package:hund_pvt/Pages/settings.dart';
@@ -14,6 +15,7 @@ void main() {
       '/filter': (context) => FilterScreen(),
       '/settings': (context) => Settings(),
       '/favorite': (context) => Favorite(),
+      '/addplace': (context) => AddPlace(),
     },
     debugShowCheckedModeBanner: false,
   ));
