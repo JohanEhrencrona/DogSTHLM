@@ -8,12 +8,10 @@ List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 
 int markCounter = 1;
 
-
 List<TrashMarkerCluster> trashCanMarkers = [];
 Set<Polygon> parkPolygonsSet = {};
-Set<Marker> restaurantMarkers ={};
-Set<Marker> cafeMarkers ={};
-
+Set<Marker> restaurantMarkers = {};
+Set<Marker> cafeMarkers = {};
 
 void addCafeMarkers(double lat, double long) {
   Marker mark = Marker(
@@ -77,7 +75,7 @@ Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
         TrashMarkerCluster(
             id: MarkerId(cluster.id.toString()),
             position: LatLng(lat, long),
-            icon: _customIcons.elementAt(3),
+            icon: _customIcons.elementAt(4),
             isCluster: cluster.isCluster));
 
 //ClusterTrash/////////////////////////////////////
