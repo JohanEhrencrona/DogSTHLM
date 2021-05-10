@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hund_pvt/Services/markersets.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geocoding/geocoding.dart';
 
 
@@ -10,13 +9,12 @@ class AddPlace extends StatefulWidget {
 }
 
 class AddPlaceState extends State<AddPlace> {
-
   String key = 'restaurant';
   String address;
   int group = 1;
 
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
@@ -32,7 +30,7 @@ class AddPlaceState extends State<AddPlace> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Radio (
+                  Radio(
                       value: 1,
                       autofocus: true,
                       groupValue: group,
@@ -58,7 +56,7 @@ class AddPlaceState extends State<AddPlace> {
               Row(
                 children: <Widget>[
                   new Flexible(
-                    child: new TextField (
+                    child: new TextField(
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         hintText: "Name",
@@ -72,7 +70,7 @@ class AddPlaceState extends State<AddPlace> {
                   new Flexible(
                     child: new TextField(
                       style: TextStyle(color: Colors.black),
-                      onChanged: (T){
+                      onChanged: (T) {
                         address = T;
                       },
                       decoration: InputDecoration(
@@ -85,15 +83,7 @@ class AddPlaceState extends State<AddPlace> {
               FloatingActionButton(
                 backgroundColor: Colors.pink,
                 onPressed: () {
-                  if (key == 'restaurant'){
-                    print(address);
-                    getLocation(address);
-                    addRestaurantMarkers(59.3296130737605, 18.066347622432104);
-                  }
-                  if (key == 'cafe'){
-                    print(address);
-                    addCafeMarkers(59.31788495276943, 18.041436850126107);
-                  }
+                  setLocation(address, key);
                 },
                 child: Icon(Icons.add),
               ),
@@ -103,7 +93,14 @@ class AddPlaceState extends State<AddPlace> {
   }
 }
 
-void getLocation(String address) async {
+void setLocation(String address, String key) async {
+
   List<Location> locations = await locationFromAddress(address);
-  print(locations);
+
+  if (key == 'restaurant') {
+    addRestaurantMarkers(locations.first.latitude, locations.first.longitude);
+  }
+  if (key == 'cafe') {
+    addCafeMarkers(locations.first.latitude, locations.first.longitude);
+  }
 }

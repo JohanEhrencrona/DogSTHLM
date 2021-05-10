@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Pages/filter.dart';
-
 import 'package:fluster/fluster.dart';
 
 List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 
 int markCounter = 1;
 
-
 List<TrashMarkerCluster> trashCanMarkers = [];
 Set<Polygon> parkPolygonsSet = {};
-Set<Marker> restaurantMarkers ={};
-Set<Marker> cafeMarkers ={};
-
+Set<Marker> restaurantMarkers = {};
+Set<Marker> cafeMarkers = {};
 
 void addCafeMarkers(double lat, double long) {
   Marker mark = Marker(
@@ -77,7 +74,7 @@ Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
         TrashMarkerCluster(
             id: MarkerId(cluster.id.toString()),
             position: LatLng(lat, long),
-            icon: _customIcons.elementAt(3),
+            icon: _customIcons.elementAt(4),
             isCluster: cluster.isCluster));
 
 //ClusterTrash/////////////////////////////////////

@@ -38,13 +38,28 @@ class _HomeState extends State<Home> {
       .map((e) => e.toMarker())
       .toList();
 
-  Set<Marker> getCluster() {
-    Set<Marker> empty = {};
+  Set<Marker> getMarkers() {
+
+    Set<Marker> showMarkers = {};
+    Set<Marker> trashMarkers = {};
+
     if (checkBoxListTileModel[0].isChecked) {
-      return trashCans.toSet();
-    } else {
-      return empty;
+      trashMarkers = trashCans.toSet();
+      showMarkers.addAll(trashMarkers);
+    } else if (showMarkers.containsAll(trashMarkers)){
+      showMarkers.removeAll(trashMarkers);
     }
+    if (checkBoxListTileModel[3].isChecked) {
+      showMarkers.addAll(cafeMarkers);
+    } else if (showMarkers.containsAll(cafeMarkers)) {
+      showMarkers.removeAll(cafeMarkers);
+    }
+    if (checkBoxListTileModel[4].isChecked) {
+      showMarkers.addAll(restaurantMarkers);
+    } else if (showMarkers.containsAll(restaurantMarkers)) {
+      showMarkers.removeAll(restaurantMarkers);
+    }
+    return showMarkers;
   }
   //Cluster////////////////////////////////////////////////////////////
 
@@ -110,7 +125,7 @@ class _HomeState extends State<Home> {
           children: <Widget> [
             GoogleMap(
             onMapCreated: _onMapCreated,
-            markers: getCluster(),
+            markers: getMarkers(),
             polygons: getPolygon(),
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
@@ -150,6 +165,7 @@ class _HomeState extends State<Home> {
                   Color(0xffDD5151), Color(0xff583177)
                 ])),
                 child: BottomNavigationBar(
+                    type : BottomNavigationBarType.fixed,
                   currentIndex: _currentIndex,
                   selectedItemColor: Colors.white,
                   unselectedItemColor: Colors.white,
@@ -168,6 +184,10 @@ class _HomeState extends State<Home> {
                       icon: Icon(Icons.search),
                       label: ("Search"),
                     ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.add),
+                      label: ("Add new place"),
+                    ),
                   ],
                   onTap: (index) {
                     setState(() {
@@ -180,6 +200,8 @@ class _HomeState extends State<Home> {
                       if (index == 2) {
                         _showSearchModal(context);
                       }
+                      if (index == 3) {
+                        Navigator.pushNamed(context, '/addplace');                      }
                     });
                   }
                 )
