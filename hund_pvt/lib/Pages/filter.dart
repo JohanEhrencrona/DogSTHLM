@@ -59,7 +59,7 @@ class CheckBoxListTileModel {
 
   static List<CheckBoxListTileModel> getFilters() {
     return <CheckBoxListTileModel>[
-      CheckBoxListTileModel(filtername: 'Skräpkorgar', isChecked: true),
+      CheckBoxListTileModel(filtername: 'Skräpkorgar', isChecked: false),
       CheckBoxListTileModel(filtername: 'Hundparker', isChecked: true),
       CheckBoxListTileModel(filtername: 'Placeholder', isChecked: false),
       CheckBoxListTileModel(filtername: 'Placeholder', isChecked: false),

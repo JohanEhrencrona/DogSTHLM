@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Pages/filter.dart';
 
+import 'package:fluster/fluster.dart';
+
 List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 
 int markCounter = 1;
 
-Set<Marker> trashCanMarkers = {};
+List<TrashMarkerCluster> trashCanMarkers = [];
 Set<Polygon> parkPolygonsSet = {};
 
-void addTrashMarkers(double lat, double long) {
+/* void addTrashMarkers(double lat, double long) {
   Marker mark = Marker(
     markerId: MarkerId('$markCounter'),
     position: LatLng(lat, long),
@@ -17,7 +19,54 @@ void addTrashMarkers(double lat, double long) {
   );
   markCounter++;
   trashCanMarkers.add(mark);
+} */
+
+//ClusterTrash/////////////////////////////////////
+
+void addTrashMarkers(double lat, double long) {
+  TrashMarkerCluster mark = TrashMarkerCluster(
+    id: MarkerId('$markCounter'),
+    position: LatLng(lat, long),
+    icon: _customIcons.elementAt(3),
+  );
+  markCounter++;
+  trashCanMarkers.add(mark);
 }
+
+class TrashMarkerCluster extends Clusterable {
+  MarkerId id;
+  LatLng position;
+  BitmapDescriptor icon;
+
+  TrashMarkerCluster({
+    @required this.id,
+    @required this.position,
+    @required this.icon,
+    isCluster = false,
+  }) : super(
+            markerId: id.toString(),
+            latitude: position.latitude,
+            longitude: position.longitude,
+            isCluster: isCluster);
+
+  Marker toMarker() => Marker(markerId: id, position: position, icon: icon);
+}
+
+Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
+    minZoom: 0,
+    maxZoom: 18,
+    radius: 150,
+    extent: 2048,
+    nodeSize: 64,
+    points: trashCanMarkers,
+    createCluster: (BaseCluster cluster, double long, double lat) =>
+        TrashMarkerCluster(
+            id: MarkerId(cluster.id.toString()),
+            position: LatLng(lat, long),
+            icon: _customIcons.elementAt(3),
+            isCluster: cluster.isCluster));
+
+//ClusterTrash/////////////////////////////////////
 
 void addParkPolygons(List points) {
   parkPolygonsSet.add(Polygon(
@@ -32,14 +81,14 @@ void addParkPolygons(List points) {
 
 //Checkbox filter
 
-Set<Marker> getSet() {
+/*Set<Marker> getSet() {
   Set<Marker> empty = {};
   if (checkBoxListTileModel[0].isChecked) {
     return trashCanMarkers;
   } else {
     return empty;
   }
-}
+}*/
 
 Set<Polygon> getPolygon() {
   Set<Polygon> empty = {};

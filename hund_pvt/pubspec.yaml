@@ -33,6 +33,7 @@ dependencies:
   flutter_spinkit: ^4.1.2
   permission_handler: ^7.1.0
   location: ^4.1.1
+  fluster: ^1.2.0
 
 dev_dependencies:
   flutter_test:
