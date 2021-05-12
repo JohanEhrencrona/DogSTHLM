@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "177733136533",
+    "firebase_url": "https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "dogsthlm",
+    "storage_bucket": "dogsthlm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177733136533:android:b2aa29d08b51ff1c946b9c",
+        "android_client_info": {
+          "package_name": "com.example.hund_pvt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177733136533-e6vq44vku42ddda951s6n78qc72tidtm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hund_pvt",
+            "certificate_hash": "037afec61c7e2ea6cf6a1c9db68892bda3a1e154"
+          }
+        },
+        {
+          "client_id": "177733136533-f0fri5ku7nif0rptmqjgk072eak4d681.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1gKnqJuCEgCIQKyBYrHhGjJxaIh_sQKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177733136533-f0fri5ku7nif0rptmqjgk072eak4d681.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

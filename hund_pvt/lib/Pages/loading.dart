@@ -4,6 +4,8 @@ import 'package:hund_pvt/Services/getmarkersapi.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'login_page.dart';
+
 class Loading extends StatefulWidget {
   @override
   _LoadingState createState() => _LoadingState();
@@ -36,6 +38,7 @@ class _LoadingState extends State<Loading> {
       addRestaurantMarkers(element.latitude, element.longitude);
     });
     Navigator.pushReplacementNamed(context, '/home');
+
   }
 
   @override
