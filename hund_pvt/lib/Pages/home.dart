@@ -39,13 +39,28 @@ class _HomeState extends State<Home> {
       .map((e) => e.toMarker())
       .toList();
 
-  Set<Marker> getCluster() {
-    Set<Marker> empty = {};
+  Set<Marker> getMarkers() {
+
+    Set<Marker> showMarkers = {};
+    Set<Marker> trashMarkers = {};
+
     if (checkBoxListTileModel[0].isChecked) {
-      return trashCans.toSet();
-    } else {
-      return empty;
+      trashMarkers = trashCans.toSet();
+      showMarkers.addAll(trashMarkers);
+    } else if (showMarkers.containsAll(trashMarkers)){
+      showMarkers.removeAll(trashMarkers);
     }
+    if (checkBoxListTileModel[3].isChecked) {
+      showMarkers.addAll(cafeMarkers);
+    } else if (showMarkers.containsAll(cafeMarkers)) {
+      showMarkers.removeAll(cafeMarkers);
+    }
+    if (checkBoxListTileModel[4].isChecked) {
+      showMarkers.addAll(restaurantMarkers);
+    } else if (showMarkers.containsAll(restaurantMarkers)) {
+      showMarkers.removeAll(restaurantMarkers);
+    }
+    return showMarkers;
   }
 
   Set<Marker> getMarkers() {
@@ -151,7 +166,6 @@ class _HomeState extends State<Home> {
           GoogleMap(
             onMapCreated: _onMapCreated,
             markers: getMarkers(),
-            //getCluster(),
             polygons: getPolygon(),
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
@@ -179,44 +193,54 @@ class _HomeState extends State<Home> {
 
   Widget _createBottomNavigationBar() {
     return Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-        child: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white,
-            backgroundColor: Colors.transparent,
-            items: [
-              BottomNavigationBarItem(
-                icon: Image.asset("assets/images/favourites_symbol.png",
-                    height: 25),
-                label: ("Favorite"),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.filter_alt_rounded),
-                label: ("Filter"),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: ("Search"),
-              ),
-            ],
-            onTap: (index) {
-              setState(() {
-                if (index == 0) {
-                  Navigator.pushNamed(context, '/favorite');
-                }
-                if (index == 1) {
-                  Navigator.pushNamed(context, '/filter').then(poppingBack);
-                }
-                if (index == 2) {
-                  _showSearchModal(context);
-                }
-              });
-            }));
+      decoration: BoxDecoration(gradient: 
+                LinearGradient(begin:
+                Alignment.topCenter, end: Alignment.bottomCenter, colors: 
+                <Color>[
+                  Color(0xffDD5151), Color(0xff583177)
+                ])),
+                child: BottomNavigationBar(
+                    type : BottomNavigationBarType.fixed,
+                  currentIndex: _currentIndex,
+                  selectedItemColor: Colors.white,
+                  unselectedItemColor: Colors.white,
+                  backgroundColor: Colors.transparent,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: Image.asset("assets/images/favourites_symbol.png",
+                      height: 25),
+                      label: ("Favorite"),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.filter_alt_rounded),
+                      label: ("Filter"),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.search),
+                      label: ("Search"),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.add),
+                      label: ("Add new place"),
+                    ),
+                  ],
+                  onTap: (index) {
+                    setState(() {
+                      if (index == 0) {
+                        Navigator.pushNamed(context, '/favorite');
+                      }
+                      if (index == 1) {
+                        Navigator.pushNamed(context, '/filter').then(poppingBack);
+                      }
+                      if (index == 2) {
+                        _showSearchModal(context);
+                      }
+                      if (index == 3) {
+                        Navigator.pushNamed(context, '/addplace');                      }
+                    });
+                  }
+                )
+    );
   }
 }
 
