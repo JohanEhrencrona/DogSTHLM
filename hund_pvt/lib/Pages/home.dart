@@ -212,7 +212,7 @@ class _HomeState extends State<Home> {
                         _showSearchModal(context);
                       }
                       if (index == 3) {
-                        Navigator.pushNamed(context, '/addplace');                      }
+                        Navigator.pushNamed(context, '/addplace').then(poppingBack);                      }
                     });
                   }
                 )
@@ -224,39 +224,6 @@ Future<void> requestPermission() async {
   await Permission.location.request();
 }
 
-/*void _showSearchModal(context) {
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return Container(
-          height: MediaQuery.of(context).size.height * .60,
-          color: Colors.pink,
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.pink,
-            title: TextField(
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: 'Search',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  color: Colors.white,
-                  onPressed: () {},
-                ),
-                focusColor: Colors.white,
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-        );
-      });
-}
-*/
 void _showSearchModal(context) {
   showModalBottomSheet(
       context: context,
