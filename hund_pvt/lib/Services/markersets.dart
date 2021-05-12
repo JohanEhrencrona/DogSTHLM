@@ -11,6 +11,8 @@ List<TrashMarkerCluster> trashCanMarkers = [];
 Set<Polygon> parkPolygonsSet = {};
 Set<Marker> restaurantMarkers = {};
 Set<Marker> cafeMarkers = {};
+Set<Marker> petshopMarkers = {};
+
 
 void addCafeMarkers(double lat, double long) {
   Marker mark = Marker(
@@ -30,6 +32,16 @@ void addRestaurantMarkers(double lat, double long) {
   );
   markCounter++;
   restaurantMarkers.add(mark);
+}
+
+void addPetshopMarkers(double lat, double long) {
+  Marker mark = Marker(
+    markerId: MarkerId('$markCounter'),
+    position: LatLng(lat, long),
+    icon: _customIcons.elementAt(3),
+  );
+  markCounter++;
+  petshopMarkers.add(mark);
 }
 
 //ClusterTrash/////////////////////////////////////

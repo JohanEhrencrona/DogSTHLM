@@ -7,6 +7,7 @@ import 'package:hund_pvt/Pages/filter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart';
+import 'package:hund_pvt/Services/getmarkersapi.dart';
 
 String _mapStyle;
 
@@ -61,6 +62,34 @@ class _HomeState extends State<Home> {
     }
     return showMarkers;
   }
+
+  Set<Marker> getMarkers() {
+    Set<Marker> showMarkers = {};
+    Set<Marker> trashMarkers = {};
+
+    if (checkBoxListTileModel[0].isChecked) {
+      trashMarkers = trashCans.toSet();
+      showMarkers.addAll(trashMarkers);
+    } else if (showMarkers.containsAll(trashMarkers)) {
+      showMarkers.removeAll(trashMarkers);
+    }
+    if (checkBoxListTileModel[3].isChecked) {
+      showMarkers.addAll(cafeMarkers);
+    } else if (showMarkers.containsAll(cafeMarkers)) {
+      showMarkers.removeAll(cafeMarkers);
+    }
+    if (checkBoxListTileModel[4].isChecked) {
+      showMarkers.addAll(restaurantMarkers);
+    } else if (showMarkers.containsAll(restaurantMarkers)) {
+      showMarkers.removeAll(restaurantMarkers);
+    }
+    if (checkBoxListTileModel[5].isChecked) {
+      showMarkers.addAll(petshopMarkers);
+    } else if (showMarkers.containsAll(petshopMarkers)) {
+      showMarkers.removeAll(petshopMarkers);
+    }
+    return showMarkers;
+  }
   //Cluster////////////////////////////////////////////////////////////
 
   static const LatLng _center = const LatLng(59.325898, 18.0539599);
@@ -94,23 +123,35 @@ class _HomeState extends State<Home> {
             //backgroundColor: Colors.pink,
             // Here we take the value from the MyHomePage object that was created by
             // the App.build method, and use it to set our appbar title.
-            title: Text("Dog App", style: TextStyle(letterSpacing: 2.0),),
+            title: Text(
+              "Dog App",
+              style: TextStyle(letterSpacing: 2.0),
+            ),
             centerTitle: true,
             flexibleSpace: Container(
-              decoration: BoxDecoration(gradient: 
-              LinearGradient(begin:
-              Alignment.topCenter, end: Alignment.bottomCenter, colors: 
-              <Color>[
-                Color(0xffDD5151), Color(0xff583177)
-              ])),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
             ),
             actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.print),
+                  onPressed: () async {
+                    /* await getCafes();
+                    getCafesList.forEach((element) {
+                      addCafeMarkers(element.latitude, element.longitude); //Fel ordning LATLNG
+                    }); */
+                  }),
               IconButton(
                   icon: Icon(Icons.print),
                   onPressed: () {
                     print(trashCanMarkers.toString());
                     print(parkPolygonsSet.first.toString());
                     print(markCounter);
+                    print(trashCans.first.position);
+                    print(cafeMarkers.first.position);
                     setState(() {});
                   }),
               IconButton(
@@ -121,9 +162,8 @@ class _HomeState extends State<Home> {
                 },
               ),
             ]),
-        body: Stack(
-          children: <Widget> [
-            GoogleMap(
+        body: Stack(children: <Widget>[
+          GoogleMap(
             onMapCreated: _onMapCreated,
             markers: getMarkers(),
             polygons: getPolygon(),
@@ -139,22 +179,17 @@ class _HomeState extends State<Home> {
             },
           ),
           Positioned(
-            top: 5,
-            right: 340,
-            child: IconButton(
-              icon: Image.asset("assets/images/friends_symbol.png"),
-              onPressed: () {},
-            )
-          )
-          ]
-          
-        ),
-
+              top: 5,
+              right: 340,
+              child: IconButton(
+                icon: Image.asset("assets/images/friends_symbol.png"),
+                onPressed: () {},
+              ))
+        ]),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
     );
   }
-
 
   Widget _createBottomNavigationBar() {
     return Container(
@@ -254,12 +289,12 @@ void _showSearchModal(context) {
           height: MediaQuery.of(context).size.height * .60,
           child: AppBar(
             flexibleSpace: Container(
-              decoration: BoxDecoration(gradient: 
-              LinearGradient(begin:
-              Alignment.topCenter, end: Alignment.bottomCenter, colors: 
-              <Color>[
-                Color(0xffDD5151), Color(0xff583177)
-              ])),),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+            ),
             automaticallyImplyLeading: false,
             title: TextField(
               style: TextStyle(color: Colors.white),

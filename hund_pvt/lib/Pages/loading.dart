@@ -12,26 +12,28 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   void collectApi() async {
     await getTrashCan();
-    getTrashCanList.forEach((element) {
+    trashCanList.forEach((element) {
       addTrashMarkers(element.wgs84.yLatitude, element.wgs84.xLongitude);
     });
-    /*addTrashMarkers(getTrashCanList.elementAt(0).wgs84.yLatitude,
-        getTrashCanList.elementAt(0).wgs84.xLongitude);
-    addTrashMarkers(getTrashCanList.elementAt(1).wgs84.yLatitude,
-        getTrashCanList.elementAt(1).wgs84.xLongitude);
-    addTrashMarkers(getTrashCanList.elementAt(2).wgs84.yLatitude,
-        getTrashCanList.elementAt(2).wgs84.xLongitude);
-    addTrashMarkers(getTrashCanList.elementAt(3).wgs84.yLatitude,
-        getTrashCanList.elementAt(3).wgs84.xLongitude);
-    addTrashMarkers(getTrashCanList.elementAt(4).wgs84.yLatitude,
-        getTrashCanList.elementAt(4).wgs84.xLongitude);*/
     await getPark();
-    getParksList.forEach((element) {
+    parksList.forEach((element) {
       List<LatLng> coord = [];
       element.wgs84Points.forEach((element) {
         coord.add(LatLng(element.yLatitude, element.xLongitude));
       });
       addParkPolygons(coord);
+    });
+    await getCafes();
+    cafesList.forEach((element) {
+      addCafeMarkers(element.latitude, element.longitude);
+    });
+    await getPetshops();
+    petshopsList.forEach((element) {
+      addPetshopMarkers(element.latitude, element.longitude);
+    });
+    await getRestaurants();
+    restaurantsList.forEach((element) {
+      addRestaurantMarkers(element.latitude, element.longitude);
     });
     Navigator.pushReplacementNamed(context, '/home');
   }
