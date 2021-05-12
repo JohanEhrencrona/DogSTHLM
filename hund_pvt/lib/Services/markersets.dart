@@ -9,15 +9,22 @@ int markCounter = 1;
 Set<Marker> trashCanMarkers = {};
 Set<Polygon> parkPolygonsSet = {};
 
+//Trashcans with infowindow
+
 void addTrashMarkers(double lat, double long) {
   Marker mark = Marker(
     markerId: MarkerId('$markCounter'),
     position: LatLng(lat, long),
     icon: _customIcons.elementAt(3),
+    infoWindow: InfoWindow(
+      title: 'Trashcan',
+  ), 
   );
   markCounter++;
   trashCanMarkers.add(mark);
+  
 }
+
 
 void addParkPolygons(List points) {
   parkPolygonsSet.add(Polygon(
