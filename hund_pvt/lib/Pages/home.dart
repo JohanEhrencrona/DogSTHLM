@@ -40,30 +40,6 @@ class _HomeState extends State<Home> {
       .toList();
 
   Set<Marker> getMarkers() {
-
-    Set<Marker> showMarkers = {};
-    Set<Marker> trashMarkers = {};
-
-    if (checkBoxListTileModel[0].isChecked) {
-      trashMarkers = trashCans.toSet();
-      showMarkers.addAll(trashMarkers);
-    } else if (showMarkers.containsAll(trashMarkers)){
-      showMarkers.removeAll(trashMarkers);
-    }
-    if (checkBoxListTileModel[3].isChecked) {
-      showMarkers.addAll(cafeMarkers);
-    } else if (showMarkers.containsAll(cafeMarkers)) {
-      showMarkers.removeAll(cafeMarkers);
-    }
-    if (checkBoxListTileModel[4].isChecked) {
-      showMarkers.addAll(restaurantMarkers);
-    } else if (showMarkers.containsAll(restaurantMarkers)) {
-      showMarkers.removeAll(restaurantMarkers);
-    }
-    return showMarkers;
-  }
-
-  Set<Marker> getMarkers() {
     Set<Marker> showMarkers = {};
     Set<Marker> trashMarkers = {};
 
