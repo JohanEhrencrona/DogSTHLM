@@ -144,7 +144,10 @@ class _LoginPageState extends State<LoginPage> {
                                       });
                                       Navigator.pushReplacementNamed(context, '/home');
                                     } else {
-                                      print('Error');
+                                      setState(() {
+                                        successMessage =
+                                        'Incorrect email or password.';
+                                      });
                                     }
                                   });
                                 }
@@ -229,8 +232,8 @@ class _LoginPageState extends State<LoginPage> {
       final User currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
       return user;
-    } catch (e) {
-      handleError(e);
+    } catch (FirebaseAuthException) {
+      handleError(FirebaseAuthException);
       return null;
     }
   }
@@ -254,8 +257,8 @@ class _LoginPageState extends State<LoginPage> {
       assert(user.uid == currentUser.uid);
       print(currentUser);
       print("User Name  : ${currentUser.displayName}");
-    } catch (e) {
-      handleError(e);
+    } catch (FirebaseAuthException) {
+      handleError(FirebaseAuthException);
     }
     return currentUser;
   }
@@ -266,34 +269,22 @@ class _LoginPageState extends State<LoginPage> {
     return true;
   }
 
-  handleError(PlatformException error) {
-    print(error);
-    switch (error.code) {
-      case 'ERROR_USER_NOT_FOUND':
-        setState(() {
-          errorMessage = 'User Not Found!!!';
-        });
-        break;
-      case 'ERROR_WRONG_PASSWORD':
-        setState(() {
-          errorMessage = 'Wrong Password!!!';
-        });
-        break;
-    }
+  handleError(FirebaseAuthException error) {
+    // Fixa popup
   }
 
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (value.isEmpty || !regex.hasMatch(value))
-      return 'Enter a valid email';
+    if (!regex.hasMatch(value))
+      return 'Please enter a valid email';
     else
       return null;
   }
 
   String validatePassword(String value) {
-    if (value.trim().isEmpty) {
+    if (value.trim().isEmpty || value.length<6) {
       return 'Enter a valid password';
     }
     return null;
