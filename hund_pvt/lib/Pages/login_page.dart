@@ -26,7 +26,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dog App'),
+        title: Text(
+          "Dog App",
+          style: TextStyle(letterSpacing: 2.0),
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+        ),
       ),
       body: Center(
           child: Column(
