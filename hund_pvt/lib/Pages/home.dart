@@ -40,15 +40,6 @@ class _HomeState extends State<Home> {
       .map((e) => e.toMarker())
       .toList();
 
-  Set<Marker> getCluster() {
-    Set<Marker> empty = {};
-    if (checkBoxListTileModel[0].isChecked) {
-      return trashCans.toSet();
-    } else {
-      return empty;
-    }
-  }
-
   Set<Marker> getMarkers() {
     Set<Marker> showMarkers = {};
     Set<Marker> trashMarkers = {};
@@ -163,6 +154,7 @@ class _HomeState extends State<Home> {
                 setState(() {});
                 print(zoom);
               }),
+
           Positioned(
               top: 5,
               right: 340,

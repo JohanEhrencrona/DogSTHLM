@@ -107,6 +107,7 @@ class CheckBoxListTileModel {
           filtername: 'Placeholder',
           isChecked: false,
           imageTest: AssetImage("assets/images/pawer.png")),
+
     ];
   }
 }

@@ -4,6 +4,7 @@ import 'package:hund_pvt/Services/markersets.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:hund_pvt/Services/getmarkersapi.dart';
 
+
 class AddPlace extends StatefulWidget {
   @override
   AddPlaceState createState() => AddPlaceState();
@@ -89,6 +90,7 @@ class AddPlaceState extends State<AddPlace> {
                 backgroundColor: Colors.pink,
                 onPressed: () {
                   if (name == null || address == null) {
+
                     showErrorDialog(context, 'empty');
                   } else if (name.isEmpty || address.isEmpty) {
                     showErrorDialog(context, 'empty');
@@ -160,3 +162,4 @@ showErrorDialog(BuildContext context, String type) {
     },
   );
 }
+
