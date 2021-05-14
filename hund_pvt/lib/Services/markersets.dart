@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Pages/filter.dart';
-
 import 'package:fluster/fluster.dart';
 
 List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
@@ -13,6 +12,7 @@ Set<Polygon> parkPolygonsSet = {};
 Set<Marker> restaurantMarkers = {};
 Set<Marker> cafeMarkers = {};
 Set<Marker> petshopMarkers = {};
+
 
 void addCafeMarkers(double lat, double long) {
   Marker mark = Marker(
@@ -78,7 +78,7 @@ class TrashMarkerCluster extends Clusterable {
 Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
     minZoom: 0,
     maxZoom: 18,
-    radius: 150,
+    radius: 200,
     extent: 2048,
     nodeSize: 64,
     points: trashCanMarkers,
@@ -103,15 +103,6 @@ void addParkPolygons(List points) {
 }
 
 //Checkbox filter
-
-/*Set<Marker> getSet() {
-  Set<Marker> empty = {};
-  if (checkBoxListTileModel[0].isChecked) {
-    return trashCanMarkers;
-  } else {
-    return empty;
-  }
-}*/
 
 Set<Polygon> getPolygon() {
   Set<Polygon> empty = {};

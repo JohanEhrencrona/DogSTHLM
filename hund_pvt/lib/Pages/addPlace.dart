@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 import 'package:hund_pvt/Services/markersets.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:hund_pvt/Services/getmarkersapi.dart';
 
 
 class AddPlace extends StatefulWidget {
@@ -10,13 +11,13 @@ class AddPlace extends StatefulWidget {
 }
 
 class AddPlaceState extends State<AddPlace> {
-
   String key = 'restaurant';
+  String name;
   String address;
   int group = 1;
 
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
@@ -32,7 +33,7 @@ class AddPlaceState extends State<AddPlace> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Radio (
+                  Radio(
                       value: 1,
                       autofocus: true,
                       groupValue: group,
@@ -58,8 +59,11 @@ class AddPlaceState extends State<AddPlace> {
               Row(
                 children: <Widget>[
                   new Flexible(
-                    child: new TextField (
+                    child: new TextField(
                       style: TextStyle(color: Colors.black),
+                      onChanged: (T) {
+                        name = T;
+                      },
                       decoration: InputDecoration(
                         hintText: "Name",
                       ),
@@ -72,7 +76,7 @@ class AddPlaceState extends State<AddPlace> {
                   new Flexible(
                     child: new TextField(
                       style: TextStyle(color: Colors.black),
-                      onChanged: (T){
+                      onChanged: (T) {
                         address = T;
                       },
                       decoration: InputDecoration(
@@ -85,15 +89,13 @@ class AddPlaceState extends State<AddPlace> {
               FloatingActionButton(
                 backgroundColor: Colors.pink,
                 onPressed: () {
-                  if (key == 'restaurant'){
-                    print(address);
-                    getLocation(address);
-                    addRestaurantMarkers(59.3296130737605, 18.066347622432104);
-                  }
-                  if (key == 'cafe'){
-                    print(address);
-                    addCafeMarkers(59.31788495276943, 18.041436850126107);
-                  }
+                  if (name == null || address == null) {
+
+                    showErrorDialog(context, 'empty');
+                  } else if (name.isEmpty || address.isEmpty) {
+                    showErrorDialog(context, 'empty');
+                  } else
+                    setLocation(address, key);
                 },
                 child: Icon(Icons.add),
               ),
@@ -101,9 +103,63 @@ class AddPlaceState extends State<AddPlace> {
           ),
         ));
   }
+
+  void setLocation(String address, String key) async {
+    try {
+      List<Location> location = await locationFromAddress(address);
+
+      if (key == 'restaurant') {
+        addRestaurantMarkers(location.first.latitude, location.first.longitude);
+        Navigator.of(context).pop();
+      }
+      if (key == 'cafe') {
+        Cafe cafe = Cafe(
+            adress: address,
+            name: name,
+            latitude: location.first.latitude,
+            longitude: location.first.longitude);
+        postCafes(cafe);
+        addCafeMarkers(location.first.latitude, location.first.longitude);
+        Navigator.of(context).pop();
+      }
+    } on NoResultFoundException catch (e) {
+      showErrorDialog(context, 'notFound');
+    }
+  }
 }
 
-void getLocation(String address) async {
-  List<Location> locations = await locationFromAddress(address);
-  print(locations);
+showErrorDialog(BuildContext context, String type) {
+  String message;
+
+  if (type == 'empty') {
+    message = 'No fields can be empty';
+  }
+  if (type == 'notFound') {
+    message = 'Address not found';
+  }
+
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog dialog = AlertDialog(
+    title: Text("Error"),
+    content: Text(message),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return dialog;
+    },
+  );
 }
+
