@@ -8,6 +8,7 @@ import 'package:hund_pvt/Services/markersets.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart';
 import 'package:hund_pvt/Services/getmarkersapi.dart';
+import 'package:hund_pvt/infowindow.dart';
 
 String _mapStyle;
 
@@ -26,12 +27,12 @@ class _HomeState extends State<Home> {
   Location _location = Location();
 
   //Cluster////////////////////////////////////////////////////////////
-  void updateCluster(CameraPosition position) {
+  void updateCluster(double zoom) {
     trashCans = fluster
-        .clusters([-180, -85, 180, 85], position.zoom.toInt())
+        .clusters([-180, -85, 180, 85], zoom.toInt())
         .map((e) => e.toMarker())
         .toList();
-    print(position.zoom);
+    //print(position.zoom);
   }
 
   List<Marker> trashCans = fluster
@@ -121,14 +122,7 @@ class _HomeState extends State<Home> {
                       colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
             ),
             actions: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.print),
-                  onPressed: () async {
-                    /* await getCafes();
-                    getCafesList.forEach((element) {
-                      addCafeMarkers(element.latitude, element.longitude); //Fel ordning LATLNG
-                    }); */
-                  }),
+              IconButton(icon: Icon(Icons.print), onPressed: () async {}),
               IconButton(
                   icon: Icon(Icons.print),
                   onPressed: () {
@@ -149,21 +143,26 @@ class _HomeState extends State<Home> {
             ]),
         body: Stack(children: <Widget>[
           GoogleMap(
-            onMapCreated: _onMapCreated,
-            markers: getMarkers(),
-            //getCluster(),
-            polygons: getPolygon(),
-            myLocationEnabled: true,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: zoom,
-            ),
-            onCameraMove: (position) {
-              //Calls update method for cluster when camera zooms in or out.
-              updateCluster(position);
-              setState(() {});
-            },
-          ),
+              onMapCreated: _onMapCreated,
+              markers: getMarkers(),
+              //getCluster(),
+              polygons: getPolygon(),
+              myLocationEnabled: true,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: zoom,
+              ),
+              onCameraMove: (position) {
+                //Calls update method for cluster when camera zooms in or out.
+                //updateCluster(position);
+                //setState(() {});
+                zoom = position.zoom;
+              },
+              onCameraIdle: () {
+                updateCluster(zoom);
+                setState(() {});
+                print(zoom);
+              }),
           Positioned(
               top: 5,
               right: 340,
@@ -185,6 +184,7 @@ class _HomeState extends State<Home> {
                 end: Alignment.bottomCenter,
                 colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
         child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
             currentIndex: _currentIndex,
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white,
@@ -203,6 +203,10 @@ class _HomeState extends State<Home> {
                 icon: Icon(Icons.search),
                 label: ("Search"),
               ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add),
+                label: ("Add new place"),
+              ),
             ],
             onTap: (index) {
               setState(() {
@@ -215,6 +219,9 @@ class _HomeState extends State<Home> {
                 if (index == 2) {
                   _showSearchModal(context);
                 }
+                if (index == 3) {
+                  Navigator.pushNamed(context, '/addplace').then(poppingBack);
+                }
               });
             }));
   }
@@ -224,39 +231,6 @@ Future<void> requestPermission() async {
   await Permission.location.request();
 }
 
-/*void _showSearchModal(context) {
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return Container(
-          height: MediaQuery.of(context).size.height * .60,
-          color: Colors.pink,
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.pink,
-            title: TextField(
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: 'Search',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  color: Colors.white,
-                  onPressed: () {},
-                ),
-                focusColor: Colors.white,
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-        );
-      });
-}
-*/
 void _showSearchModal(context) {
   showModalBottomSheet(
       context: context,

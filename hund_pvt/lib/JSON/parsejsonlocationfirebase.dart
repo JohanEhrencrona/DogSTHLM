@@ -13,6 +13,13 @@ class Cafe {
         longitude: parsedJson['longitude'],
         name: parsedJson['Namn']);
   }
+
+  Map<String, dynamic> toJson() => {
+        "Adress": adress,
+        "latitude": latitude,
+        "longitude": longitude,
+        "Namn": name,
+      };
 }
 
 class Petshop {
