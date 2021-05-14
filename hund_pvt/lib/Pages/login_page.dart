@@ -49,8 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Form(
-                        key: _formStateKey,
-                        autovalidate: true,
+                        autovalidateMode: AutovalidateMode.always, key: _formStateKey,
                         child: Column(
                           children: <Widget>[
                             Padding(
@@ -123,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                         data: ButtonBarThemeData(buttonTextTheme: ButtonTextTheme.accent),
                         child: ButtonBar(
                           children: <Widget>[
+                            // ignore: deprecated_member_use
                             FlatButton(
                               child: Text(
                                 'LOGIN',
@@ -149,6 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                                 }
                               },
                             ),
+                            // ignore: deprecated_member_use
                             FlatButton(
                               child: Text(
                                 'Register new Account',
@@ -181,6 +182,7 @@ class _LoginPageState extends State<LoginPage> {
               )
                   : Container()),
               (!isGoogleSignIn
+                  // ignore: deprecated_member_use
                   ? RaisedButton(
                 child: Text('Sign in with Google'),
                 onPressed: () {
@@ -199,6 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                   });
                 },
               )
+                  // ignore: deprecated_member_use
                   : RaisedButton(
                 child: Text('Sign out'),
                 onPressed: () {
