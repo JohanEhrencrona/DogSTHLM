@@ -208,12 +208,10 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<User> signIn(String email, String password) async {
     try {
-      User user = (await auth.signInWithEmailAndPassword(
-          email: email, password: password)) as User;
-
+      User user = (await auth.signInWithEmailAndPassword( //_CastError HERE
+          email: email, password: password)).user;
       assert(user != null);
       assert(await user.getIdToken() != null);
-
       final User currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
       return user;
@@ -227,14 +225,12 @@ class _LoginPageState extends State<LoginPage> {
     User currentUser;
     try {
       final GoogleSignInAccount googleUser = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+        idToken: googleAuth.idToken,);
 
-      final User user = (await auth.signInWithCredential(credential)) as User;
+      final User user = (await auth.signInWithCredential(credential)).user; // _CastError here
       assert(user.email != null);
       assert(user.displayName != null);
       assert(!user.isAnonymous);
