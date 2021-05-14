@@ -39,8 +39,9 @@ class _LoginPageState extends State<LoginPage> {
                   colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
         ),
       ),
-      body: Center(
-          child: Column(
+      body:  Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Card(
                 child: Padding(
@@ -65,18 +66,18 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: InputDecoration(
                                   focusedBorder: new UnderlineInputBorder(
                                     borderSide: new BorderSide(
-                                        color: Colors.green,
+                                        color: Colors.pinkAccent,
                                         width: 2,
                                         style: BorderStyle.solid),
                                   ),
                                   labelText: "Email",
                                   icon: Icon(
                                     Icons.email,
-                                    color: Colors.green,
+                                    color: Colors.pinkAccent,
                                   ),
                                   fillColor: Colors.white,
                                   labelStyle: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.pinkAccent,
                                   ),
                                 ),
                               ),
@@ -94,17 +95,17 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: InputDecoration(
                                   focusedBorder: new UnderlineInputBorder(
                                       borderSide: new BorderSide(
-                                          color: Colors.green,
+                                          color: Colors.pinkAccent,
                                           width: 2,
                                           style: BorderStyle.solid)),
                                   labelText: "Password",
                                   icon: Icon(
                                     Icons.lock,
-                                    color: Colors.green,
+                                    color: Colors.pinkAccent,
                                   ),
                                   fillColor: Colors.white,
                                   labelStyle: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.pinkAccent,
                                   ),
                                 ),
                               ),
@@ -128,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                                 'LOGIN',
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: Colors.green,
+                                  color: Colors.pinkAccent,
                                 ),
                               ),
                               onPressed: () {
@@ -155,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                                 'Register new Account',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.green,
+                                  color: Colors.pinkAccent,
                                 ),
                               ),
                               onPressed: () {
@@ -178,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                   ? Text(
                 successMessage,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, color: Colors.green),
+                style: TextStyle(fontSize: 18, color: Colors.pinkAccent),
               )
                   : Container()),
               (!isGoogleSignIn
@@ -216,8 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
               )),
             ],
-          )),
-    );
+          ));
   }
 
   Future<User> signIn(String email, String password) async {
