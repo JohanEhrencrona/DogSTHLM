@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>177733136533-4mcgenn5js76744fc43c39uriepc4lri.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.177733136533-4mcgenn5js76744fc43c39uriepc4lri</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>177733136533-e6vq44vku42ddda951s6n78qc72tidtm.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAKxvtpjKsy_AWE6J6k15pwfpPEK2yrGfs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>177733136533</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.hundPvt</string>
+	<key>PROJECT_ID</key>
+	<string>dogsthlm</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dogsthlm.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:177733136533:ios:ed3c35c974c2f3bb946b9c</string>
+	<key>DATABASE_URL</key>
+	<string>https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
