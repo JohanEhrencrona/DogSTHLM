@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:hund_pvt/JSON/parsejson.dart';
 import 'package:hund_pvt/JSON/parsejsonpark.dart';
@@ -23,7 +23,7 @@ CrsCoordinate convertPoint(double lat, double long) {
 
 //TRASHCAN///////////////////////////////////////////////////////////////////////////////
 Future getTrashCan() async {
-  Response response = await get(Uri.parse(
+  http.Response response = await http.get(Uri.parse(
       'https://openstreetgs.stockholm.se/geoservice/api/9f0bd873-30d2-40ad-99f3-7a32f115717f/wfs?request=GetFeature&typeName=od_gis:Skrapkorg_Punkt&outputFormat=JSON'));
   final jsonResponse = jsonDecode(response.body);
 
@@ -50,11 +50,11 @@ class LocationTrash {
 
 //DOGPARKS///////////////////////////////////////////////////////////////////////////////
 Future getPark() async {
-  Response response = await get(Uri.parse(
+  http.Response response = await http.get(Uri.parse(
       'https://openstreetgs.stockholm.se/geoservice/api/9f0bd873-30d2-40ad-99f3-7a32f115717f/wfs/?version=1.0.0&request=GetFeature&typeName=od_gis:Hundrastgard_Yta&outputFormat=JSON'));
   final jsonResponse = jsonDecode(response.body);
   FeatureCollectionPark pin = new FeatureCollectionPark.fromJson(jsonResponse);
-
+  //Iterate through and convert coordinates
   pin.features.forEach((element) {
     List<CrsCoordinate> lista = [];
     element.geometry.getCoordinates().forEach((cord) {
@@ -78,7 +78,7 @@ class ParkLocation {
 
 //CAFES///////////////////////////////////////////////////////////////////////////////
 Future getCafes() async {
-  Response response = await get(Uri.parse(
+  http.Response response = await http.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'));
   final jsonResponse = jsonDecode(response.body);
   final Map<String, dynamic> data = jsonResponse;
@@ -90,6 +90,18 @@ Future getCafes() async {
         longitude: cafe.longitude,
         name: cafe.name));
   });
+}
+
+Future<http.Response> postCafes(Cafe cafe) {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json';
+  final Map<String, dynamic> data = {cafe.name: cafe.toJson()};
+  var body = data;
+  print(body);
+  String json = jsonEncode(data);
+  print(json);
+
+  return http.patch(Uri.parse(url), body: json);
 }
 
 class CafeLocation {
@@ -105,7 +117,7 @@ class CafeLocation {
 //PETSHOPS///////////////////////////////////////////////////////////////////////////////
 
 Future getPetshops() async {
-  Response response = await get(Uri.parse(
+  http.Response response = await http.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/petshops/.json'));
   final jsonResponse = jsonDecode(response.body);
   final Map<String, dynamic> data = jsonResponse;
@@ -134,7 +146,7 @@ class PetshopLocation {
 ! -------------------------------------RESTAURANTS-----------------------------------------
 */
 Future getRestaurants() async {
-  Response response = await get(Uri.parse(
+  http.Response response = await http.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/restaurants/.json'));
   final jsonResponse = jsonDecode(response.body);
   final Map<String, dynamic> data = jsonResponse;

@@ -36,6 +36,8 @@ dependencies:
   fluster: ^1.2.0
   geocoding: ^2.0.0
   flutter_google_places: ^0.3.0
+  #firebase_core: ^1.1.1
+  #firebase_auth: ^1.1.4
 
 dev_dependencies:
   flutter_test:

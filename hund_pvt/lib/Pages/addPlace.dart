@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:hund_pvt/Services/getmarkersapi.dart';
+
 
 class AddPlace extends StatefulWidget {
   @override
@@ -87,9 +90,10 @@ class AddPlaceState extends State<AddPlace> {
                 backgroundColor: Colors.pink,
                 onPressed: () {
                   if (name == null || address == null) {
-                    showErrorDialog(context,'empty');
+
+                    showErrorDialog(context, 'empty');
                   } else if (name.isEmpty || address.isEmpty) {
-                    showErrorDialog(context,'empty');
+                    showErrorDialog(context, 'empty');
                   } else
                     setLocation(address, key);
                 },
@@ -101,33 +105,36 @@ class AddPlaceState extends State<AddPlace> {
   }
 
   void setLocation(String address, String key) async {
-
-    try{
+    try {
       List<Location> location = await locationFromAddress(address);
 
-      if (key == 'restaurant'){
+      if (key == 'restaurant') {
         addRestaurantMarkers(location.first.latitude, location.first.longitude);
         Navigator.of(context).pop();
       }
-      if (key == 'cafe'){
+      if (key == 'cafe') {
+        Cafe cafe = Cafe(
+            adress: address,
+            name: name,
+            latitude: location.first.latitude,
+            longitude: location.first.longitude);
+        postCafes(cafe);
         addCafeMarkers(location.first.latitude, location.first.longitude);
         Navigator.of(context).pop();
       }
-    }
-    on NoResultFoundException catch(e) {
-      showErrorDialog(context,'notFound');
+    } on NoResultFoundException catch (e) {
+      showErrorDialog(context, 'notFound');
     }
   }
 }
 
-showErrorDialog(BuildContext context,String type) {
-
+showErrorDialog(BuildContext context, String type) {
   String message;
 
-  if (type == 'empty'){
+  if (type == 'empty') {
     message = 'No fields can be empty';
   }
-  if (type == 'notFound'){
+  if (type == 'notFound') {
     message = 'Address not found';
   }
 
@@ -151,7 +158,8 @@ showErrorDialog(BuildContext context,String type) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-        return dialog;
-      },
+      return dialog;
+    },
   );
 }
+
