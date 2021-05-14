@@ -37,7 +37,7 @@ class _LoadingState extends State<Loading> {
     restaurantsList.forEach((element) {
       addRestaurantMarkers(element.latitude, element.longitude);
     });
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.pushReplacementNamed(context, '/login');
 
   }
 
