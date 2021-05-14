@@ -34,13 +34,13 @@ dependencies:
   permission_handler: ^7.1.0
   location: ^4.1.1
   fluster: ^1.2.0
-  geocoding: ^2.0.0
+  #geocoding: ^2.0.0
+  geocode: 1.0.1
   flutter_google_places: ^0.3.0
   firebase_auth: 1.1.4
-  firebase_core : ^1.1.1
+  firebase_core: ^1.1.1
   google_sign_in: ^4.1.0
   firebase_dynamic_links: ^0.5.1
-
 
 dev_dependencies:
   flutter_test:

@@ -1,52 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hund_pvt/Pages/filter.dart';
 import 'package:fluster/fluster.dart';
 
 List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
 
 int markCounter = 1;
 
+enum sets { cafe, petshop, restaurant, vets }
+
 List<TrashMarkerCluster> trashCanMarkers = [];
 Set<Polygon> parkPolygonsSet = {};
 Set<Marker> restaurantMarkers = {};
 Set<Marker> cafeMarkers = {};
 Set<Marker> petshopMarkers = {};
+Set<Marker> vetsMarkers = {};
 
-
-void addCafeMarkers(double lat, double long) {
-  Marker mark = Marker(
-    markerId: MarkerId('$markCounter'),
-    position: LatLng(lat, long),
-    icon: _customIcons.elementAt(0),
-  );
-  markCounter++;
-  cafeMarkers.add(mark);
-}
-
-void addRestaurantMarkers(double lat, double long) {
-  Marker mark = Marker(
-    markerId: MarkerId('$markCounter'),
-    position: LatLng(lat, long),
-    icon: _customIcons.elementAt(2),
-  );
-  markCounter++;
-  restaurantMarkers.add(mark);
-}
-
-void addPetshopMarkers(double lat, double long) {
-  Marker mark = Marker(
-    markerId: MarkerId('$markCounter'),
-    position: LatLng(lat, long),
-    icon: _customIcons.elementAt(3),
-  );
-  markCounter++;
-  petshopMarkers.add(mark);
+void addMarkers(List list, sets type, int iconNumber) {
+  list.forEach((element) {
+    Marker mark = Marker(
+      markerId: MarkerId('$markCounter'),
+      position: LatLng(element.latitude, element.longitude),
+      icon: _customIcons.elementAt(iconNumber),
+    );
+    markCounter++;
+    if (type == sets.cafe) {
+      cafeMarkers.add(mark);
+    } else if (type == sets.petshop) {
+      petshopMarkers.add(mark);
+    } else if (type == sets.vets) {
+      vetsMarkers.add(mark);
+    } else {
+      restaurantMarkers.add(mark);
+    }
+  });
 }
 
 //ClusterTrash/////////////////////////////////////
 
-void addTrashMarkers(double lat, double long) {
+void addTrashMarkersClusters(double lat, double long) {
   TrashMarkerCluster mark = TrashMarkerCluster(
     id: MarkerId('$markCounter'),
     position: LatLng(lat, long),
@@ -54,6 +45,17 @@ void addTrashMarkers(double lat, double long) {
   );
   markCounter++;
   trashCanMarkers.add(mark);
+}
+
+void addParkPolygons(List points) {
+  parkPolygonsSet.add(Polygon(
+    polygonId: PolygonId('$markCounter'),
+    points: points,
+    fillColor: Colors.green.withOpacity(0.8),
+    strokeColor: Colors.yellow,
+    strokeWidth: 1,
+  ));
+  markCounter++;
 }
 
 class TrashMarkerCluster extends Clusterable {
@@ -91,29 +93,6 @@ Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
 
 //ClusterTrash/////////////////////////////////////
 
-void addParkPolygons(List points) {
-  parkPolygonsSet.add(Polygon(
-    polygonId: PolygonId('$markCounter'),
-    points: points,
-    fillColor: Colors.green.withOpacity(0.8),
-    strokeColor: Colors.yellow,
-    strokeWidth: 1,
-  ));
-  markCounter++;
-}
-
-//Checkbox filter
-
-Set<Polygon> getPolygon() {
-  Set<Polygon> empty = {};
-  if (checkBoxListTileModel[1].isChecked) {
-    return parkPolygonsSet;
-  } else {
-    return empty;
-  }
-}
-
-//Checkbox filter
 void getIcons() async {
   final cafeIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
