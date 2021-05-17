@@ -8,7 +8,7 @@ import 'package:hund_pvt/Services/markersets.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart';
 import 'package:hund_pvt/Services/getmarkersapi.dart';
-import 'package:hund_pvt/infowindow.dart';
+//import 'package:hund_pvt/infowindow.dart';
 
 String _mapStyle;
 
