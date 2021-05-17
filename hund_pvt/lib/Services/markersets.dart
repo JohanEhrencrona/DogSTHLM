@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:fluster/fluster.dart';
 
-List<BitmapDescriptor> _customIcons = <BitmapDescriptor>[];
+import 'package:hund_pvt/Pages/infowindowwidget.dart';
+import 'package:custom_info_window/custom_info_window.dart';
+
+List<BitmapDescriptor> customIcons = <BitmapDescriptor>[];
 
 int markCounter = 1;
 
@@ -15,13 +18,21 @@ Set<Marker> cafeMarkers = {};
 Set<Marker> petshopMarkers = {};
 Set<Marker> vetsMarkers = {};
 
+CustomInfoWindowController infoWindowController = CustomInfoWindowController();
+
 void addMarkers(List list, sets type, int iconNumber) {
   list.forEach((element) {
     Marker mark = Marker(
-      markerId: MarkerId('$markCounter'),
-      position: LatLng(element.latitude, element.longitude),
-      icon: _customIcons.elementAt(iconNumber),
-    );
+        markerId: MarkerId(element.name),
+        position: LatLng(element.latitude, element.longitude),
+        icon: customIcons.elementAt(iconNumber),
+        onTap: () {
+          infoWindowController.addInfoWindow(
+              InfoWindowWidget(
+                currentLocation: element,
+              ),
+              LatLng(element.latitude, element.longitude));
+        });
     markCounter++;
     if (type == sets.cafe) {
       cafeMarkers.add(mark);
@@ -41,7 +52,7 @@ void addTrashMarkersClusters(double lat, double long) {
   TrashMarkerCluster mark = TrashMarkerCluster(
     id: MarkerId('$markCounter'),
     position: LatLng(lat, long),
-    icon: _customIcons.elementAt(4),
+    icon: customIcons.elementAt(4),
   );
   markCounter++;
   trashCanMarkers.add(mark);
@@ -88,7 +99,7 @@ Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
         TrashMarkerCluster(
             id: MarkerId(cluster.id.toString()),
             position: LatLng(lat, long),
-            icon: _customIcons.elementAt(4),
+            icon: customIcons.elementAt(4),
             isCluster: cluster.isCluster));
 
 //ClusterTrash/////////////////////////////////////
@@ -96,20 +107,20 @@ Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
 void getIcons() async {
   final cafeIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
-  _customIcons.add(cafeIcon);
+  customIcons.add(cafeIcon);
   final parkIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Dog_Park.png');
-  _customIcons.add(parkIcon);
+  customIcons.add(parkIcon);
   final restaurantIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Restaurants.png');
-  _customIcons.add(restaurantIcon);
+  customIcons.add(restaurantIcon);
   final shopIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Shop.png');
-  _customIcons.add(shopIcon);
+  customIcons.add(shopIcon);
   final trashIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Trash_Cans.png');
-  _customIcons.add(trashIcon);
+  customIcons.add(trashIcon);
   final vetIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(0, 0)), 'assets/images/Vet.png');
-  _customIcons.add(vetIcon);
+  customIcons.add(vetIcon);
 }

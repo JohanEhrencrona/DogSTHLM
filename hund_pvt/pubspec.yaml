@@ -41,6 +41,8 @@ dependencies:
   firebase_core: ^1.1.1
   google_sign_in: ^4.1.0
   firebase_dynamic_links: ^0.5.1
+  clippy_flutter: ^1.1.1
+  custom_info_window: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +76,11 @@ flutter:
     - assets/images/trashcan_symbol.png
     - assets/images/friends_symbol.png
     - assets/images/favourites_symbol.png
+    - assets/images/dark-paw_symbol.png
+    - assets/images/white-paw_symbol.png
+    - assets/images/full_heart_symbol.png
+    - assets/images/cancel_symbol.png
+    - assets/images/heart_symbol.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
