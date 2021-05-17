@@ -126,9 +126,6 @@ Future getCafes() async {
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'))
       .then((response) => cafeList =
           locationListGenerator(Map.from(jsonDecode(response.body)))); */
-/* final jsonResponse = jsonDecode(response.body);
-  final Map<String, dynamic> data = jsonResponse;
-  cafeList = locationListGenerator(data); */
 }
 
 Future<http.Response> postCafes(LocationsFromDatabase cafe) {
@@ -147,11 +144,11 @@ Future<http.Response> postCafes(LocationsFromDatabase cafe) {
 //PETSHOPS///////////////////////////////////////////////////////////////////////////////
 
 Future getPetshops() async {
-  http.Response response = await http.get(Uri.parse(
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/petshops/.json'));
-  final jsonResponse = jsonDecode(response.body);
-  final Map<String, dynamic> data = jsonResponse;
-  petshopList = locationListGenerator(data);
+  return await http
+      .get(Uri.parse(
+          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/petshops/.json'))
+      .then((response) => Map.from(jsonDecode(response.body)))
+      .then((data) => petshopList = locationListGenerator(data));
 }
 
 Future<http.Response> postPetShops(LocationsFromDatabase petshop) {
@@ -172,11 +169,11 @@ Future<http.Response> postPetShops(LocationsFromDatabase petshop) {
 ! -------------------------------------RESTAURANTS-----------------------------------------
 */
 Future getRestaurants() async {
-  http.Response response = await http.get(Uri.parse(
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/restaurants/.json'));
-  final jsonResponse = jsonDecode(response.body);
-  final Map<String, dynamic> data = jsonResponse;
-  restaurantList = locationListGenerator(data);
+  return await http
+      .get(Uri.parse(
+          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/restaurants/.json'))
+      .then((response) => Map.from(jsonDecode(response.body)))
+      .then((data) => restaurantList = locationListGenerator(data));
 }
 
 Future<http.Response> postRestaurant(LocationsFromDatabase restaurant) {
@@ -198,11 +195,11 @@ Future<http.Response> postRestaurant(LocationsFromDatabase restaurant) {
 ! -------------------------------------VETS-----------------------------------------
 */
 Future getVets() async {
-  http.Response response = await http.get(Uri.parse(
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/vets/.json'));
-  final jsonResponse = jsonDecode(response.body);
-  final Map<String, dynamic> data = jsonResponse;
-  vetsList = locationListGenerator(data);
+  return await http
+      .get(Uri.parse(
+          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/vets/.json'))
+      .then((response) => Map.from(jsonDecode(response.body)))
+      .then((data) => vetsList = locationListGenerator(data));
 }
 
 

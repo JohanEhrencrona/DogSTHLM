@@ -172,36 +172,6 @@ class AddPlaceState extends State<AddPlace> {
   }
 }
 
-/* void setLocation(String address, String key) async {
-    try {
-      List<Location> location = await locationFromAddress(address);
-      print(location.first.latitude);
-      print(location.first.longitude);
-      //Lat +1,6320963
-      //long +6,1030402
-      //lat + 1,6324859
-      //Long +6,1070117
-
-      if (key == 'restaurant') {
-        addRestaurantMarkers(location.first.latitude, location.first.longitude);
-        Navigator.of(context).pop();
-      }
-      if (key == 'cafe') {
-        Cafe cafe = Cafe(
-            adress: address,
-            name: name,
-            latitude: location.first.latitude,
-            longitude: location.first.longitude);
-        postCafes(cafe);
-        addCafeMarkers(location.first.latitude, location.first.longitude);
-        Navigator.of(context).pop();
-      }
-    } on NoResultFoundException catch (e) {
-      showErrorDialog(context, 'notFound');
-    }
-  }
-} */
-
 showErrorDialog(BuildContext context, String type) {
   String message;
 
