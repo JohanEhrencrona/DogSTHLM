@@ -26,6 +26,26 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          // ignore: deprecated_member_use
+          FlatButton(
+            child: Text(
+              'New Account',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white70,
+              ),
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => RegistrationPage(),
+                ),
+              );
+            },
+          ),
+        ],
         title: Text(
           "Dog App",
           style: TextStyle(letterSpacing: 2.0),
@@ -39,8 +59,9 @@ class _LoginPageState extends State<LoginPage> {
                   colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
         ),
       ),
-      body: Center(
-          child: Column(
+      body:  Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Card(
                 child: Padding(
@@ -65,18 +86,18 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: InputDecoration(
                                   focusedBorder: new UnderlineInputBorder(
                                     borderSide: new BorderSide(
-                                        color: Colors.green,
+                                        color: Colors.pinkAccent,
                                         width: 2,
                                         style: BorderStyle.solid),
                                   ),
                                   labelText: "Email",
                                   icon: Icon(
                                     Icons.email,
-                                    color: Colors.green,
+                                    color: Colors.pinkAccent,
                                   ),
                                   fillColor: Colors.white,
                                   labelStyle: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.pinkAccent,
                                   ),
                                 ),
                               ),
@@ -94,17 +115,17 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: InputDecoration(
                                   focusedBorder: new UnderlineInputBorder(
                                       borderSide: new BorderSide(
-                                          color: Colors.green,
+                                          color: Colors.pinkAccent,
                                           width: 2,
                                           style: BorderStyle.solid)),
                                   labelText: "Password",
                                   icon: Icon(
                                     Icons.lock,
-                                    color: Colors.green,
+                                    color: Colors.pinkAccent,
                                   ),
                                   fillColor: Colors.white,
                                   labelStyle: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.pinkAccent,
                                   ),
                                 ),
                               ),
@@ -125,10 +146,10 @@ class _LoginPageState extends State<LoginPage> {
                             // ignore: deprecated_member_use
                             FlatButton(
                               child: Text(
-                                'LOGIN',
+                                'Sign in',
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: Colors.green,
+                                  color: Colors.pinkAccent,
                                 ),
                               ),
                               onPressed: () {
@@ -143,30 +164,16 @@ class _LoginPageState extends State<LoginPage> {
                                       });
                                       Navigator.pushReplacementNamed(context, '/home');
                                     } else {
-                                      print('Error');
+                                      setState(() {
+                                        successMessage =
+                                        'Incorrect email or password.';
+                                      });
                                     }
                                   });
                                 }
                               },
                             ),
                             // ignore: deprecated_member_use
-                            FlatButton(
-                              child: Text(
-                                'Register new Account',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.green,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => RegistrationPage(),
-                                  ),
-                                );
-                              },
-                            ),
                           ],
                         ),
                       ),
@@ -178,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                   ? Text(
                 successMessage,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, color: Colors.green),
+                style: TextStyle(fontSize: 18, color: Colors.pinkAccent),
               )
                   : Container()),
               (!isGoogleSignIn
@@ -216,8 +223,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
               )),
             ],
-          )),
-    );
+          ));
   }
 
   Future<User> signIn(String email, String password) async {
@@ -229,8 +235,8 @@ class _LoginPageState extends State<LoginPage> {
       final User currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
       return user;
-    } catch (e) {
-      handleError(e);
+    } catch (FirebaseAuthException) {
+      handleError(FirebaseAuthException);
       return null;
     }
   }
@@ -254,8 +260,8 @@ class _LoginPageState extends State<LoginPage> {
       assert(user.uid == currentUser.uid);
       print(currentUser);
       print("User Name  : ${currentUser.displayName}");
-    } catch (e) {
-      handleError(e);
+    } catch (FirebaseAuthException) {
+      handleError(FirebaseAuthException);
     }
     return currentUser;
   }
@@ -266,34 +272,46 @@ class _LoginPageState extends State<LoginPage> {
     return true;
   }
 
-  handleError(PlatformException error) {
-    print(error);
-    switch (error.code) {
-      case 'ERROR_USER_NOT_FOUND':
-        setState(() {
-          errorMessage = 'User Not Found!!!';
-        });
-        break;
-      case 'ERROR_WRONG_PASSWORD':
-        setState(() {
-          errorMessage = 'Wrong Password!!!';
-        });
-        break;
-    }
-  }
+  handleError(FirebaseAuthException error) {
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Unable to sign in'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('The email or password is incorrect'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }  }
 
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (value.isEmpty || !regex.hasMatch(value))
-      return 'Enter a valid email';
+    if (!regex.hasMatch(value))
+      return 'Please enter a valid email';
     else
       return null;
   }
 
   String validatePassword(String value) {
-    if (value.trim().isEmpty) {
+    if (value.trim().isEmpty || value.length<6) {
       return 'Enter a valid password';
     }
     return null;
