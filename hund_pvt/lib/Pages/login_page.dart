@@ -26,6 +26,26 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          // ignore: deprecated_member_use
+          FlatButton(
+            child: Text(
+              'New Account',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white70,
+              ),
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => RegistrationPage(),
+                ),
+              );
+            },
+          ),
+        ],
         title: Text(
           "Dog App",
           style: TextStyle(letterSpacing: 2.0),
@@ -126,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                             // ignore: deprecated_member_use
                             FlatButton(
                               child: Text(
-                                'LOGIN',
+                                'Sign in',
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.pinkAccent,
@@ -154,23 +174,6 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                             // ignore: deprecated_member_use
-                            FlatButton(
-                              child: Text(
-                                'Register new Account',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.pinkAccent,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => RegistrationPage(),
-                                  ),
-                                );
-                              },
-                            ),
                           ],
                         ),
                       ),
@@ -270,8 +273,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   handleError(FirebaseAuthException error) {
-    // Fixa popup
-  }
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: true, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Unable to sign in'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('The email or password is incorrect'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }  }
 
   String validateEmail(String value) {
     Pattern pattern =

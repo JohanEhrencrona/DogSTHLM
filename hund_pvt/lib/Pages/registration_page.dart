@@ -25,10 +25,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Email Registration'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pushReplacementNamed(context, '/login')
+        ),
+        title: Text(
+          "Register new account",
+          style: TextStyle(letterSpacing: 2.0),
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+        ),
       ),
-      body: Center(
-        child: Column(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Card(
               child: Padding(
@@ -54,19 +70,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               decoration: InputDecoration(
                                 focusedBorder: new UnderlineInputBorder(
                                   borderSide: new BorderSide(
-                                      color: Colors.green,
+                                      color: Colors.pinkAccent,
                                       width: 2,
                                       style: BorderStyle.solid),
                                 ),
                                 // hintText: "Company Name",
-                                labelText: "Email Id",
+                                labelText: "Email",
                                 icon: Icon(
                                   Icons.email,
-                                  color: Colors.green,
+                                  color: Colors.pinkAccent,
                                 ),
                                 fillColor: Colors.white,
                                 labelStyle: TextStyle(
-                                  color: Colors.green,
+                                  color: Colors.pinkAccent,
                                 ),
                               ),
                             ),
@@ -91,11 +107,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 labelText: "Password",
                                 icon: Icon(
                                   Icons.lock,
-                                  color: Colors.green,
+                                  color: Colors.pinkAccent,
                                 ),
                                 fillColor: Colors.white,
                                 labelStyle: TextStyle(
-                                  color: Colors.green,
+                                  color: Colors.pinkAccent,
                                 ),
                               ),
                             ),
@@ -110,18 +126,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               decoration: InputDecoration(
                                 focusedBorder: new UnderlineInputBorder(
                                     borderSide: new BorderSide(
-                                        color: Colors.green,
+                                        color: Colors.pinkAccent,
                                         width: 2,
                                         style: BorderStyle.solid)),
                                 // hintText: "Company Name",
                                 labelText: "Confirm Password",
                                 icon: Icon(
                                   Icons.lock,
-                                  color: Colors.green,
+                                  color: Colors.pinkAccent,
                                 ),
                                 fillColor: Colors.white,
                                 labelStyle: TextStyle(
-                                  color: Colors.green,
+                                  color: Colors.pinkAccent,
                                 ),
                               ),
                             ),
@@ -140,46 +156,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       data: ButtonBarThemeData(buttonTextTheme: ButtonTextTheme.accent),
                       child: ButtonBar(
                         children: <Widget>[
+                          // ignore: deprecated_member_use
                           FlatButton(
                             child: Text(
-                              'Registration',
+                              'Register',
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Colors.green,
+                                color: Colors.pinkAccent,
                               ),
                             ),
                             onPressed: () {
                               if (_formStateKey.currentState.validate()) {
                                 _formStateKey.currentState.save();
                                 signUp(_emailId, _password).then((user) {
-                                  if (user != null) {
-                                    print('Registered Successfully.');
+                                  if (user != null) { //Successfully registered
                                     setState(() {
                                       successMessage =
                                       'Registered Successfully.\nYou can now navigate to Login Page.';
                                     });
-                                  } else {
-                                    print('Error while Login.');
                                   }
                                 });
                               }
-                            },
-                          ),
-                          FlatButton(
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.green,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => LoginPage(),
-                                ),
-                              );
                             },
                           ),
                         ],
@@ -189,7 +186,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
               ),
             ),
-            (successMessage != ''
+            (successMessage != 'Successfully registered account'
                 ? Text(
               successMessage,
               textAlign: TextAlign.center,
@@ -198,8 +195,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 : Container()),
           ],
         ),
-      ),
-    );
+      );
   }
 
   Future<User> signUp(email, password) async {
@@ -215,38 +211,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
     }
   }
 
-  handleError(PlatformException error) {
-    print(error);
-    switch (error.code) {
-      case 'ERROR_EMAIL_ALREADY_IN_USE':
-        setState(() {
-          errorMessage = 'Email Id already Exist!!!';
-        });
-        break;
-      default:
+  handleError(FirebaseAuthException error) {
+    setState(() {
+      errorMessage = 'The email is already associated with an account';
+    });
     }
-  }
+
 
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (value.isEmpty || !regex.hasMatch(value))
-      return 'Enter Valid Email Id!!!';
+    if (!regex.hasMatch(value))
+      return 'Please enter a valid email';
     else
       return null;
   }
 
   String validatePassword(String value) {
-    if (value.trim().isEmpty || value.length < 6 || value.length > 14) {
-      return 'Minimum 6 & Maximum 14 Characters!!!';
+    if (value.length < 6 || value.length > 14) {
+      return 'Please enter a valid password (6-14 characters)';
     }
     return null;
   }
 
   String validateConfirmPassword(String value) {
     if (value.trim() != _passwordController.text.trim()) {
-      return 'Password Mismatch!!!';
+      return 'The passwords are not matching';
     }
     return null;
   }
