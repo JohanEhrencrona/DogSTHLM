@@ -7,14 +7,16 @@ import 'package:hund_pvt/Pages/filter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:location/location.dart';
-import 'package:hund_pvt/Services/getmarkersapi.dart';
+
+import 'package:hund_pvt/Services/getmarkersfromapi.dart';
+
 //import 'package:hund_pvt/infowindow.dart';
+
 
 String _mapStyle;
 
 class Home extends StatefulWidget {
   @override
-
   _HomeState createState() => _HomeState();
 }
 
@@ -66,7 +68,21 @@ class _HomeState extends State<Home> {
     } else if (showMarkers.containsAll(petshopMarkers)) {
       showMarkers.removeAll(petshopMarkers);
     }
+    if (checkBoxListTileModel[2].isChecked) {
+      showMarkers.addAll(vetsMarkers);
+    } else if (showMarkers.containsAll(vetsMarkers)) {
+      showMarkers.removeAll(vetsMarkers);
+    }
     return showMarkers;
+  }
+
+  Set<Polygon> getPolygon() {
+    Set<Polygon> empty = {};
+    if (checkBoxListTileModel[1].isChecked) {
+      return parkPolygonsSet;
+    } else {
+      return empty;
+    }
   }
   //Cluster////////////////////////////////////////////////////////////
 
@@ -114,7 +130,15 @@ class _HomeState extends State<Home> {
                       colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
             ),
             actions: <Widget>[
-              IconButton(icon: Icon(Icons.print), onPressed: () async {}),
+              IconButton(
+                  icon: Icon(Icons.print),
+                  onPressed: () {
+                    print('trashlist ${trashCanList.length}');
+                    print('parklist ${parksList.length}');
+                    print('cafelist ${cafeList.length}');
+                    print('restaurantlist ${restaurantList.length}');
+                    print('petshoplist ${petshopList.length}');
+                  }),
               IconButton(
                   icon: Icon(Icons.print),
                   onPressed: () {
@@ -122,7 +146,9 @@ class _HomeState extends State<Home> {
                     print(parkPolygonsSet.first.toString());
                     print(markCounter);
                     print(trashCans.first.position);
+                    print(trashCanList.first.wgs84);
                     print(cafeMarkers.first.position);
+                    print(parksList.first.wgs84Points);
                     setState(() {});
                   }),
               IconButton(
@@ -155,7 +181,6 @@ class _HomeState extends State<Home> {
                 setState(() {});
                 print(zoom);
               }),
-
           Positioned(
               top: 5,
               right: 340,

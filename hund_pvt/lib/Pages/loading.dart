@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hund_pvt/Services/getmarkersapi.dart';
+import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 import 'package:hund_pvt/Services/markersets.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import 'login_page.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -12,33 +9,46 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  void collectApi() async {
+  /*void collectApi() async {
+    Stopwatch tid = Stopwatch();
+    tid.start();
     await getTrashCan();
-    trashCanList.forEach((element) {
-      addTrashMarkers(element.wgs84.yLatitude, element.wgs84.xLongitude);
-    });
+    createTrashMarkers();
     await getPark();
-    parksList.forEach((element) {
-      List<LatLng> coord = [];
-      element.wgs84Points.forEach((element) {
-        coord.add(LatLng(element.yLatitude, element.xLongitude));
-      });
-      addParkPolygons(coord);
-    });
+    createParkMarkers();
     await getCafes();
-    cafesList.forEach((element) {
-      addCafeMarkers(element.latitude, element.longitude);
-    });
+    addMarkers(cafeList, sets.cafe, 0);
     await getPetshops();
-    petshopsList.forEach((element) {
-      addPetshopMarkers(element.latitude, element.longitude);
-    });
+    addMarkers(petshopList, sets.petshop, 3);
     await getRestaurants();
-    restaurantsList.forEach((element) {
-      addRestaurantMarkers(element.latitude, element.longitude);
-    });
-    Navigator.pushReplacementNamed(context, '/login');
+    addMarkers(restaurantList, sets.restaurant, 2);
+    await getVets();
+    addMarkers(vetsList, sets.vets, 5);
+    print(tid.elapsed);
+    //Navigator.pushReplacementNamed(context, '/login');
+    Navigator.pushReplacementNamed(context, '/home');
+  } */
 
+  void collectApi() async {
+    return Future.wait([
+      getTrashCan(),
+      getPark(),
+      getCafes(),
+      //getData('cafes'),
+      getPetshops(),
+      getRestaurants(),
+      getVets(),
+    ]).then((List _) => {
+          createTrashMarkers(),
+          createParkMarkers(),
+          addMarkers(cafeList, sets.cafe, 0),
+          addMarkers(petshopList, sets.petshop, 3),
+          addMarkers(restaurantList, sets.restaurant, 2),
+          addMarkers(vetsList, sets.vets, 5),
+          Navigator.pushReplacementNamed(context, '/home'),
+        });
+
+    //Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override

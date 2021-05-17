@@ -33,7 +33,6 @@ class GeometryTrash {
   String type;
   num coordinateLat;
   num coordinateLong;
-  //List<num> coordinates;
   //Contructor
   GeometryTrash({this.type, this.coordinateLat, this.coordinateLong});
 

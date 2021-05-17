@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 import 'package:hund_pvt/Services/markersets.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:hund_pvt/Services/getmarkersapi.dart';
-
+//import 'package:geocoding/geocoding.dart';
+import 'package:geocode/geocode.dart';
+import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 class AddPlace extends StatefulWidget {
   @override
@@ -15,6 +15,8 @@ class AddPlaceState extends State<AddPlace> {
   String name;
   String address;
   int group = 1;
+
+  GeoCode geoCode = GeoCode(apiKey: 'AIzaSyCg6q-TOkJbrvDgrpv9Zz89ZWmgyCn2y18');
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,16 @@ class AddPlaceState extends State<AddPlace> {
                         });
                       }),
                   Text("Café"),
+                  Radio(
+                      value: 3,
+                      groupValue: group,
+                      onChanged: (T) {
+                        key = 'petshop';
+                        setState(() {
+                          group = T;
+                        });
+                      }),
+                  Text("Petshop"),
                 ],
               ),
               Row(
@@ -80,7 +92,7 @@ class AddPlaceState extends State<AddPlace> {
                         address = T;
                       },
                       decoration: InputDecoration(
-                        hintText: "Address",
+                        hintText: "Address, City",
                       ),
                     ),
                   ),
@@ -90,7 +102,6 @@ class AddPlaceState extends State<AddPlace> {
                 backgroundColor: Colors.pink,
                 onPressed: () {
                   if (name == null || address == null) {
-
                     showErrorDialog(context, 'empty');
                   } else if (name.isEmpty || address.isEmpty) {
                     showErrorDialog(context, 'empty');
@@ -106,23 +117,56 @@ class AddPlaceState extends State<AddPlace> {
 
   void setLocation(String address, String key) async {
     try {
-      List<Location> location = await locationFromAddress(address);
+      Coordinates coordinates =
+          await geoCode.forwardGeocoding(address: address);
 
       if (key == 'restaurant') {
-        addRestaurantMarkers(location.first.latitude, location.first.longitude);
+        LocationsFromDatabase restaurant = LocationsFromDatabase(
+          adress: address,
+          name: name,
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
+        );
+        await postRestaurant(restaurant);
+        print('restaurants innan ${restaurantMarkers.length}');
+        await getRestaurants();
+        restaurantMarkers = {};
+        print('restaurants tömd ${restaurantMarkers.length}');
+        addMarkers(restaurantList, sets.restaurant, 2);
+        print('restaurants efter ${restaurantMarkers.length}');
         Navigator.of(context).pop();
       }
       if (key == 'cafe') {
-        Cafe cafe = Cafe(
+        LocationsFromDatabase cafe = LocationsFromDatabase(
             adress: address,
             name: name,
-            latitude: location.first.latitude,
-            longitude: location.first.longitude);
-        postCafes(cafe);
-        addCafeMarkers(location.first.latitude, location.first.longitude);
+            latitude: coordinates.latitude,
+            longitude: coordinates.longitude);
+        await postCafes(cafe);
+        print('cafemarkers innan ${cafeMarkers.length}');
+        await getCafes();
+        cafeMarkers = {};
+        print('cafemarkers tömd ${cafeMarkers.length}');
+        addMarkers(cafeList, sets.cafe, 0);
+        print('cafemarkers efter ${cafeMarkers.length}');
         Navigator.of(context).pop();
       }
-    } on NoResultFoundException catch (e) {
+      if (key == 'petshop') {
+        LocationsFromDatabase petshop = LocationsFromDatabase(
+            adress: address,
+            name: name,
+            latitude: coordinates.latitude,
+            longitude: coordinates.longitude);
+        await postPetShops(petshop);
+        print('petshops innan ${petshopMarkers.length}');
+        await getPetshops();
+        petshopMarkers = {};
+        print('petshops tömd ${petshopMarkers.length}');
+        addMarkers(petshopList, sets.petshop, 3);
+        print('petshops efter ${petshopMarkers.length}');
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
       showErrorDialog(context, 'notFound');
     }
   }
@@ -162,4 +206,3 @@ showErrorDialog(BuildContext context, String type) {
     },
   );
 }
-

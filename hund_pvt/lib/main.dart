@@ -20,7 +20,7 @@ void main() async {
       '/settings': (context) => Settings(),
       '/favorite': (context) => Favorite(),
       '/addplace': (context) => AddPlace(),
-      '/login': (context) => LoginPage()
+      //'/login': (context) => LoginPage()
     },
     debugShowCheckedModeBanner: false,
   ));
