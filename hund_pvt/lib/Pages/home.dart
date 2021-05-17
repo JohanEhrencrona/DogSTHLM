@@ -172,16 +172,12 @@ class _HomeState extends State<Home> {
                 zoom: zoom,
               ),
               onCameraMove: (position) {
-                //Calls update method for cluster when camera zooms in or out.
-                //updateCluster(position);
-                //setState(() {});
                 infoWindowController.onCameraMove();
                 zoom = position.zoom;
               },
               onCameraIdle: () {
                 updateCluster(zoom);
                 setState(() {});
-                print(zoom);
               }),
           CustomInfoWindow(
             controller: infoWindowController,
