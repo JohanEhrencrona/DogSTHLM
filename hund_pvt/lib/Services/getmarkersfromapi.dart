@@ -26,8 +26,17 @@ class Locations {
   double latitude;
   double longitude;
   String name;
+  bool fav = false;
 
   Locations({this.adress, this.latitude, this.longitude, this.name});
+
+  void setFavorite() {
+    fav = true;
+  }
+
+  void unFavorite() {
+    fav = false;
+  }
 }
 
 //TRASHCAN///////////////////////////////////////////////////////////////////////////////
