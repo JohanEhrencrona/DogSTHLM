@@ -9,7 +9,9 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  void collectApi() async {
+  /*void collectApi() async {
+    Stopwatch tid = Stopwatch();
+    tid.start();
     await getTrashCan();
     createTrashMarkers();
     await getPark();
@@ -22,9 +24,31 @@ class _LoadingState extends State<Loading> {
     addMarkers(restaurantList, sets.restaurant, 2);
     await getVets();
     addMarkers(vetsList, sets.vets, 5);
-
+    print(tid.elapsed);
     //Navigator.pushReplacementNamed(context, '/login');
     Navigator.pushReplacementNamed(context, '/home');
+  } */
+
+  void collectApi() async {
+    return Future.wait([
+      getTrashCan(),
+      getPark(),
+      getCafes(),
+      //getData('cafes'),
+      getPetshops(),
+      getRestaurants(),
+      getVets(),
+    ]).then((List _) => {
+          createTrashMarkers(),
+          createParkMarkers(),
+          addMarkers(cafeList, sets.cafe, 0),
+          addMarkers(petshopList, sets.petshop, 3),
+          addMarkers(restaurantList, sets.restaurant, 2),
+          addMarkers(vetsList, sets.vets, 5),
+          Navigator.pushReplacementNamed(context, '/home'),
+        });
+
+    //Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override

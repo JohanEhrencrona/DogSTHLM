@@ -115,11 +115,20 @@ List<Locations> locationListGenerator(Map data) {
 
 //CAFES///////////////////////////////////////////////////////////////////////////////
 Future getCafes() async {
-  http.Response response = await http.get(Uri.parse(
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'));
-  final jsonResponse = jsonDecode(response.body);
+  return await http
+      .get(Uri.parse(
+          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'))
+      .then((response) => Map.from(jsonDecode(response.body)))
+      .then((data) => cafeList = locationListGenerator(data));
+
+  /* return await http
+      .get(Uri.parse(
+          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'))
+      .then((response) => cafeList =
+          locationListGenerator(Map.from(jsonDecode(response.body)))); */
+/* final jsonResponse = jsonDecode(response.body);
   final Map<String, dynamic> data = jsonResponse;
-  cafeList = locationListGenerator(data);
+  cafeList = locationListGenerator(data); */
 }
 
 Future<http.Response> postCafes(LocationsFromDatabase cafe) {
@@ -143,6 +152,18 @@ Future getPetshops() async {
   final jsonResponse = jsonDecode(response.body);
   final Map<String, dynamic> data = jsonResponse;
   petshopList = locationListGenerator(data);
+}
+
+Future<http.Response> postPetShops(LocationsFromDatabase petshop) {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/petshops/.json';
+  final Map<String, dynamic> data = {petshop.name: petshop.toJson()};
+  var body = data;
+  print(body);
+  String json = jsonEncode(data);
+  print(json);
+
+  return http.patch(Uri.parse(url), body: json);
 }
 
 //PETSHOPS///////////////////////////////////////////////////////////////////////////////

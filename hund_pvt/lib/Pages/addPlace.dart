@@ -56,6 +56,16 @@ class AddPlaceState extends State<AddPlace> {
                         });
                       }),
                   Text("Café"),
+                  Radio(
+                      value: 3,
+                      groupValue: group,
+                      onChanged: (T) {
+                        key = 'petshop';
+                        setState(() {
+                          group = T;
+                        });
+                      }),
+                  Text("Petshop"),
                 ],
               ),
               Row(
@@ -139,6 +149,21 @@ class AddPlaceState extends State<AddPlace> {
         print('cafemarkers tömd ${cafeMarkers.length}');
         addMarkers(cafeList, sets.cafe, 0);
         print('cafemarkers efter ${cafeMarkers.length}');
+        Navigator.of(context).pop();
+      }
+      if (key == 'petshop') {
+        LocationsFromDatabase petshop = LocationsFromDatabase(
+            adress: address,
+            name: name,
+            latitude: coordinates.latitude,
+            longitude: coordinates.longitude);
+        await postPetShops(petshop);
+        print('petshops innan ${petshopMarkers.length}');
+        await getPetshops();
+        petshopMarkers = {};
+        print('petshops tömd ${petshopMarkers.length}');
+        addMarkers(petshopList, sets.petshop, 3);
+        print('petshops efter ${petshopMarkers.length}');
         Navigator.of(context).pop();
       }
     } catch (e) {
