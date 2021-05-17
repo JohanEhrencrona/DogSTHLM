@@ -74,6 +74,7 @@ flutter:
     - assets/images/trashcan_symbol.png
     - assets/images/friends_symbol.png
     - assets/images/favourites_symbol.png
+    - assets/images/fa-solid_paw.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
