@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 import 'package:hund_pvt/Services/markersets.dart';
+
+List<BitmapDescriptor> customIcons = <BitmapDescriptor>[];
 
 class Loading extends StatefulWidget {
   @override
@@ -14,7 +17,6 @@ class _LoadingState extends State<Loading> {
       getTrashCan(),
       getPark(),
       getCafes(),
-      //getData('cafes'),
       getPetshops(),
       getRestaurants(),
       getVets(),
@@ -36,6 +38,27 @@ class _LoadingState extends State<Loading> {
     super.initState();
     getIcons();
     collectApi();
+  }
+
+  void getIcons() async {
+    final cafeIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
+    customIcons.add(cafeIcon);
+    final parkIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Dog_Park.png');
+    customIcons.add(parkIcon);
+    final restaurantIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Restaurants.png');
+    customIcons.add(restaurantIcon);
+    final shopIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Shop.png');
+    customIcons.add(shopIcon);
+    final trashIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Trash_Cans.png');
+    customIcons.add(trashIcon);
+    final vetIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Vet.png');
+    customIcons.add(vetIcon);
   }
 
   @override
