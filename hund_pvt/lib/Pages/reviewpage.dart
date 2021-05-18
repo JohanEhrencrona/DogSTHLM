@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/Pages/infowindowwidget.dart';
+import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 class ReviewPage extends StatefulWidget {
+  final Locations location;
+
+  ReviewPage(this.location);
+
   @override
-  ReviewState createState() => ReviewState();
+  ReviewState createState() => ReviewState(location);
 }
 
 class ReviewState extends State<ReviewPage> {
   String reviewText;
   int points;
+  Locations location;
+
+  ReviewState(Locations location) {
+    this.location = location;
+  }
 
   var blackPaw = Image.asset(
     'assets/images/fa-solid_paw.png',
@@ -47,7 +58,7 @@ class ReviewState extends State<ReviewPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
-          title: Text("Leave a review"),
+          title: Text(location.name),
           centerTitle: true,
         ),
         body: Padding(
@@ -56,6 +67,11 @@ class ReviewState extends State<ReviewPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text(
+                  "Leave a review for " + location.name,
+                  style: TextStyle(color: Colors.pink,
+                      fontSize: 20),
+                ),
                 TextFormField(
                   minLines: 6,
                   keyboardType: TextInputType.multiline,
@@ -81,8 +97,7 @@ class ReviewState extends State<ReviewPage> {
                   onChanged: (T) {
                     reviewText = T;
                     print(reviewText);
-                    setState(() {
-                    });
+                    setState(() {});
                   },
                 ),
                 Row(
@@ -97,8 +112,7 @@ class ReviewState extends State<ReviewPage> {
                             thirdPaw = blackPaw;
                             fourthPaw = blackPaw;
                             fifthPaw = blackPaw;
-                            setState(() {
-                            });
+                            setState(() {});
                           },
                           child: pinkPaw,
                         ),
@@ -112,8 +126,7 @@ class ReviewState extends State<ReviewPage> {
                             thirdPaw = blackPaw;
                             fourthPaw = blackPaw;
                             fifthPaw = blackPaw;
-                            setState(() {
-                            });
+                            setState(() {});
                           },
                           child: secondPaw,
                         ),
@@ -127,8 +140,7 @@ class ReviewState extends State<ReviewPage> {
                             thirdPaw = pinkPaw;
                             fourthPaw = blackPaw;
                             fifthPaw = blackPaw;
-                            setState(() {
-                            });
+                            setState(() {});
                           },
                           child: thirdPaw,
                         ),
@@ -142,8 +154,7 @@ class ReviewState extends State<ReviewPage> {
                             thirdPaw = pinkPaw;
                             fourthPaw = pinkPaw;
                             fifthPaw = blackPaw;
-                            setState(() {
-                            });
+                            setState(() {});
                           },
                           child: fourthPaw,
                         ),
@@ -157,8 +168,7 @@ class ReviewState extends State<ReviewPage> {
                             thirdPaw = pinkPaw;
                             fourthPaw = pinkPaw;
                             fifthPaw = pinkPaw;
-                            setState(() {
-                            });
+                            setState(() {});
                           },
                           child: fifthPaw,
                         ),
