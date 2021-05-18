@@ -108,10 +108,7 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 1;
                             print(points);
-                            secondPaw = blackPaw;
-                            thirdPaw = blackPaw;
-                            fourthPaw = blackPaw;
-                            fifthPaw = blackPaw;
+                            setPaws(points);
                             setState(() {});
                           },
                           child: pinkPaw,
@@ -122,10 +119,7 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 2;
                             print(points);
-                            secondPaw = pinkPaw;
-                            thirdPaw = blackPaw;
-                            fourthPaw = blackPaw;
-                            fifthPaw = blackPaw;
+                            setPaws(points);
                             setState(() {});
                           },
                           child: secondPaw,
@@ -136,10 +130,7 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 3;
                             print(points);
-                            secondPaw = pinkPaw;
-                            thirdPaw = pinkPaw;
-                            fourthPaw = blackPaw;
-                            fifthPaw = blackPaw;
+                            setPaws(points);
                             setState(() {});
                           },
                           child: thirdPaw,
@@ -150,10 +141,7 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 4;
                             print(points);
-                            secondPaw = pinkPaw;
-                            thirdPaw = pinkPaw;
-                            fourthPaw = pinkPaw;
-                            fifthPaw = blackPaw;
+                            setPaws(points);
                             setState(() {});
                           },
                           child: fourthPaw,
@@ -164,10 +152,7 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 5;
                             print(points);
-                            secondPaw = pinkPaw;
-                            thirdPaw = pinkPaw;
-                            fourthPaw = pinkPaw;
-                            fifthPaw = pinkPaw;
+                            setPaws(points);
                             setState(() {});
                           },
                           child: fifthPaw,
@@ -191,4 +176,46 @@ class ReviewState extends State<ReviewPage> {
               ]),
         ));
   }
+
+  void setPaws(int points){
+    switch (points){
+      case 1 : {
+        secondPaw = blackPaw;
+        thirdPaw = blackPaw;
+        fourthPaw = blackPaw;
+        fifthPaw = blackPaw;
+        break;
+      }
+      case 2 : {
+        secondPaw = pinkPaw;
+        thirdPaw = blackPaw;
+        fourthPaw = blackPaw;
+        fifthPaw = blackPaw;
+        break;
+      }
+      case 3 : {
+        secondPaw = pinkPaw;
+        thirdPaw = pinkPaw;
+        fourthPaw = blackPaw;
+        fifthPaw = blackPaw;
+        break;
+      }
+      case 4 : {
+        secondPaw = pinkPaw;
+        thirdPaw = pinkPaw;
+        fourthPaw = pinkPaw;
+        fifthPaw = blackPaw;
+        break;
+      }
+      case 5 : {
+        secondPaw = pinkPaw;
+        thirdPaw = pinkPaw;
+        fourthPaw = pinkPaw;
+        fifthPaw = pinkPaw;
+        break;
+      }
+    }
+  }
 }
+
+
