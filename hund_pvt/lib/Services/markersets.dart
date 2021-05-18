@@ -4,8 +4,7 @@ import 'package:fluster/fluster.dart';
 
 import 'package:hund_pvt/Pages/infowindowwidget.dart';
 import 'package:custom_info_window/custom_info_window.dart';
-
-List<BitmapDescriptor> customIcons = <BitmapDescriptor>[];
+import 'package:hund_pvt/Pages/loading.dart';
 
 int markCounter = 1;
 
@@ -93,7 +92,7 @@ Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
     maxZoom: 18,
     radius: 200,
     extent: 2048,
-    nodeSize: 64,
+    nodeSize: 2048,
     points: trashCanMarkers,
     createCluster: (BaseCluster cluster, double long, double lat) =>
         TrashMarkerCluster(
@@ -104,23 +103,4 @@ Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
 
 //ClusterTrash/////////////////////////////////////
 
-void getIcons() async {
-  final cafeIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
-  customIcons.add(cafeIcon);
-  final parkIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(0, 0)), 'assets/images/Dog_Park.png');
-  customIcons.add(parkIcon);
-  final restaurantIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(0, 0)), 'assets/images/Restaurants.png');
-  customIcons.add(restaurantIcon);
-  final shopIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(0, 0)), 'assets/images/Shop.png');
-  customIcons.add(shopIcon);
-  final trashIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(0, 0)), 'assets/images/Trash_Cans.png');
-  customIcons.add(trashIcon);
-  final vetIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(0, 0)), 'assets/images/Vet.png');
-  customIcons.add(vetIcon);
-}
+

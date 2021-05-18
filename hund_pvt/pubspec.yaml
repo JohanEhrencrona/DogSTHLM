@@ -34,7 +34,6 @@ dependencies:
   permission_handler: ^7.1.0
   location: ^4.1.1
   fluster: ^1.2.0
-  #geocoding: ^2.0.0
   geocode: 1.0.1
   flutter_google_places: ^0.3.0
   firebase_auth: 1.1.4
@@ -61,11 +60,21 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/Cafe.png
+    - assets/images/Cafe@2x.png
+    - assets/images/Cafe@3x.png
     - assets/images/Dog_Park.png
     - assets/images/Restaurants.png
+    - assets/images/Restaurants@2x.png
+    - assets/images/Restaurants@3x.png
     - assets/images/Shop.png
+    - assets/images/Shop@2x.png
+    - assets/images/Shop@3x.png
     - assets/images/Trash_Cans.png
+    - assets/images/Trash_Cans@2x.png
+    - assets/images/Trash_Cans@3x.png
     - assets/images/Vet.png
+    - assets/images/Vet@2x.png
+    - assets/images/Vet@3x.png
     - assets/map_style.txt
     - assets/images/pawer.png
     - assets/images/veterinary_symbol.png

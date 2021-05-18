@@ -96,7 +96,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    getIcons();
     requestPermission();
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
