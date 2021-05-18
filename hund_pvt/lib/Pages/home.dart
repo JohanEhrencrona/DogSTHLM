@@ -10,8 +10,7 @@ import 'package:location/location.dart';
 
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
-//import 'package:hund_pvt/infowindow.dart';
-
+import 'package:custom_info_window/custom_info_window.dart';
 
 String _mapStyle;
 
@@ -35,7 +34,6 @@ class _HomeState extends State<Home> {
         .clusters([-180, -85, 180, 85], zoom.toInt())
         .map((e) => e.toMarker())
         .toList();
-    //print(position.zoom);
   }
 
   List<Marker> trashCans = fluster
@@ -91,6 +89,7 @@ class _HomeState extends State<Home> {
   void _onMapCreated(GoogleMapController controller) {
     _controller = controller;
     controller.setMapStyle(_mapStyle);
+    infoWindowController.googleMapController = _controller;
   }
 
   //Google////////////////////////////////////////////////////////////
@@ -163,24 +162,29 @@ class _HomeState extends State<Home> {
           GoogleMap(
               onMapCreated: _onMapCreated,
               markers: getMarkers(),
-              //getCluster(),
               polygons: getPolygon(),
               myLocationEnabled: true,
+              onTap: (position) {
+                infoWindowController.hideInfoWindow();
+              },
               initialCameraPosition: CameraPosition(
                 target: _center,
                 zoom: zoom,
               ),
               onCameraMove: (position) {
-                //Calls update method for cluster when camera zooms in or out.
-                //updateCluster(position);
-                //setState(() {});
+                infoWindowController.onCameraMove();
                 zoom = position.zoom;
               },
               onCameraIdle: () {
                 updateCluster(zoom);
                 setState(() {});
-                print(zoom);
               }),
+          CustomInfoWindow(
+            controller: infoWindowController,
+            height: 260,
+            width: 260,
+            offset: 25,
+          ),
           Positioned(
               top: 5,
               right: 340,

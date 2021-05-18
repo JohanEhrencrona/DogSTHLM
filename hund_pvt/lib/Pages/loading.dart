@@ -9,26 +9,6 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  /*void collectApi() async {
-    Stopwatch tid = Stopwatch();
-    tid.start();
-    await getTrashCan();
-    createTrashMarkers();
-    await getPark();
-    createParkMarkers();
-    await getCafes();
-    addMarkers(cafeList, sets.cafe, 0);
-    await getPetshops();
-    addMarkers(petshopList, sets.petshop, 3);
-    await getRestaurants();
-    addMarkers(restaurantList, sets.restaurant, 2);
-    await getVets();
-    addMarkers(vetsList, sets.vets, 5);
-    print(tid.elapsed);
-    //Navigator.pushReplacementNamed(context, '/login');
-    Navigator.pushReplacementNamed(context, '/home');
-  } */
-
   void collectApi() async {
     return Future.wait([
       getTrashCan(),
