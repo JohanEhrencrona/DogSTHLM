@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hund_pvt/Pages/ReviewPage.dart';
+import 'package:hund_pvt/Pages/showreviews.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'package:hund_pvt/Services/markersets.dart';
@@ -143,7 +143,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                         .underline,
                                                     color: Colors.white)),
                                             onTap: () {
-                                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPage(widget.currentLocation)));
+                                              Navigator.push(context,MaterialPageRoute(builder: (context) => ShowReviews(widget.currentLocation)));
                                             },
                                           ),
                                         ),

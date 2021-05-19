@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hund_pvt/Pages/infowindowwidget.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 class ReviewPage extends StatefulWidget {
+
   final Locations location;
 
   ReviewPage(this.location);
@@ -69,8 +69,7 @@ class ReviewState extends State<ReviewPage> {
               children: [
                 Text(
                   "Leave a review for " + location.name,
-                  style: TextStyle(color: Colors.pink,
-                      fontSize: 20),
+                  style: TextStyle(color: Colors.pink, fontSize: 20),
                 ),
                 TextFormField(
                   minLines: 6,
@@ -169,7 +168,16 @@ class ReviewState extends State<ReviewPage> {
                           backgroundColor: Colors.pink,
                         ),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          if (reviewText == null) {
+                            showErrorDialog(context);
+                          } else if (reviewText.isEmpty) {
+                            showErrorDialog(context);
+                          } else if (reviewText.isNotEmpty &&
+                              reviewText != null) {
+                            location.addReview(reviewText);
+                            location.addPoints(points);
+                            Navigator.of(context).pop();
+                          }
                         },
                       )
                     ])
@@ -177,45 +185,74 @@ class ReviewState extends State<ReviewPage> {
         ));
   }
 
-  void setPaws(int points){
-    switch (points){
-      case 1 : {
-        secondPaw = blackPaw;
-        thirdPaw = blackPaw;
-        fourthPaw = blackPaw;
-        fifthPaw = blackPaw;
-        break;
-      }
-      case 2 : {
-        secondPaw = pinkPaw;
-        thirdPaw = blackPaw;
-        fourthPaw = blackPaw;
-        fifthPaw = blackPaw;
-        break;
-      }
-      case 3 : {
-        secondPaw = pinkPaw;
-        thirdPaw = pinkPaw;
-        fourthPaw = blackPaw;
-        fifthPaw = blackPaw;
-        break;
-      }
-      case 4 : {
-        secondPaw = pinkPaw;
-        thirdPaw = pinkPaw;
-        fourthPaw = pinkPaw;
-        fifthPaw = blackPaw;
-        break;
-      }
-      case 5 : {
-        secondPaw = pinkPaw;
-        thirdPaw = pinkPaw;
-        fourthPaw = pinkPaw;
-        fifthPaw = pinkPaw;
-        break;
-      }
+  void setPaws(int points) {
+    switch (points) {
+      case 1:
+        {
+          secondPaw = blackPaw;
+          thirdPaw = blackPaw;
+          fourthPaw = blackPaw;
+          fifthPaw = blackPaw;
+          break;
+        }
+      case 2:
+        {
+          secondPaw = pinkPaw;
+          thirdPaw = blackPaw;
+          fourthPaw = blackPaw;
+          fifthPaw = blackPaw;
+          break;
+        }
+      case 3:
+        {
+          secondPaw = pinkPaw;
+          thirdPaw = pinkPaw;
+          fourthPaw = blackPaw;
+          fifthPaw = blackPaw;
+          break;
+        }
+      case 4:
+        {
+          secondPaw = pinkPaw;
+          thirdPaw = pinkPaw;
+          fourthPaw = pinkPaw;
+          fifthPaw = blackPaw;
+          break;
+        }
+      case 5:
+        {
+          secondPaw = pinkPaw;
+          thirdPaw = pinkPaw;
+          fourthPaw = pinkPaw;
+          fifthPaw = pinkPaw;
+          break;
+        }
     }
   }
 }
 
+showErrorDialog(BuildContext context) {
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
 
+  // set up the AlertDialog
+  AlertDialog dialog = AlertDialog(
+    title: Text("Error"),
+    content: Text("A review can not be empty"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return dialog;
+    },
+  );
+}

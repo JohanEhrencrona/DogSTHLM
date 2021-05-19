@@ -22,6 +22,8 @@ CrsCoordinate convertPoint(double lat, double long) {
 }
 
 class Locations {
+  List<String> reviews = [];
+  List<int> points = [];
   String adress;
   double latitude;
   double longitude;
@@ -36,6 +38,14 @@ class Locations {
 
   void unFavorite() {
     fav = false;
+  }
+
+  void addReview(String s){
+    reviews.add(s);
+  }
+
+  void addPoints(int i){
+    points.add(i);
   }
 }
 
