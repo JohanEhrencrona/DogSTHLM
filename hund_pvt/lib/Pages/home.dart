@@ -14,6 +14,7 @@ import 'package:custom_info_window/custom_info_window.dart';
 
 String _mapStyle;
 
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -51,6 +52,11 @@ class _HomeState extends State<Home> {
     } else if (showMarkers.containsAll(trashMarkers)) {
       showMarkers.removeAll(trashMarkers);
     }
+    if (checkBoxListTileModel[1].isChecked) {
+      showMarkers.addAll(parkMarkers);
+    } else if (showMarkers.containsAll(parkMarkers)) {
+      showMarkers.removeAll(parkMarkers);
+    }
     if (checkBoxListTileModel[3].isChecked) {
       showMarkers.addAll(cafeMarkers);
     } else if (showMarkers.containsAll(cafeMarkers)) {
@@ -73,6 +79,7 @@ class _HomeState extends State<Home> {
     }
     return showMarkers;
   }
+
 
   Set<Polygon> getPolygon() {
     Set<Polygon> empty = {};

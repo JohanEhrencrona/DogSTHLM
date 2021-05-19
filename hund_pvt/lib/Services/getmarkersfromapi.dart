@@ -9,7 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 
 List<LocationTrash> trashCanList = [];
-List<LocationPark> parksList = [];
+List<Locations> parksList = [];
 List<Locations> cafeList = [];
 List<Locations> restaurantList = [];
 List<Locations> petshopList = [];
@@ -27,8 +27,13 @@ class Locations {
   double longitude;
   String name;
   bool fav = false;
+  List<CrsCoordinate> wgs84Points = [];
 
-  Locations({this.adress, this.latitude, this.longitude, this.name});
+  List getParkCoordinate() {
+    return wgs84Points;
+  }
+
+  Locations({this.adress, this.latitude, this.longitude, this.name, this.wgs84Points});
 
   void setFavorite() {
     fav = true;
@@ -82,7 +87,7 @@ Future getPark() async {
     List<CrsCoordinate> lista = [];
     element.geometry.getCoordinates().forEach((cord) {
       lista.add(convertPoint(cord.elementAt(1), cord.elementAt(0)));
-      parksList.add(LocationPark(wgs84Points: lista));
+      parksList.add(Locations(adress: "", latitude: lista.first.yLatitude, longitude: lista.first.xLongitude, name: element.id, wgs84Points: lista));
     });
   });
 }
@@ -97,7 +102,7 @@ void createParkMarkers() {
   });
 }
 
-class LocationPark {
+/*class LocationPark {
   List<CrsCoordinate> wgs84Points;
 
   LocationPark({this.wgs84Points});
@@ -105,7 +110,8 @@ class LocationPark {
   List getParkCoordinate() {
     return wgs84Points;
   }
-}
+}*/
+
 //DOGPARKS///////////////////////////////////////////////////////////////////////////////
 
 List<Locations> locationListGenerator(Map data) {
