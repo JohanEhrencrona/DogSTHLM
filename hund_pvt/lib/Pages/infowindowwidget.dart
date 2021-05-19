@@ -104,8 +104,6 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                             await removeFavorite(favorite);
                                             favoriteList
                                                 .remove(widget.currentLocation);
-                                            removeFavoriteMarker(
-                                                widget.currentLocation);
                                           } else {
                                             widget.currentLocation
                                                 .setFavorite();
@@ -122,17 +120,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                         .currentLocation
                                                         .longitude);
                                             await postFavorite(favorite);
-                                            print(
-                                                'favorites innan ${favoritesMarkers.length}');
                                             await getFavorites();
-                                            favoritesMarkers = {};
-                                            print(
-                                                'favorites tömd ${favoritesMarkers.length}');
-
-                                            addFavoriteMarkers(favoriteList,
-                                                sets.favorites, 0);
-                                            print(
-                                                'favorites efter ${favoritesMarkers.length}');
                                           }
                                           setState(() {});
                                         },

@@ -28,10 +28,6 @@ class _LoadingState extends State<Loading> {
           addMarkers(petshopList, sets.petshop, 3),
           addMarkers(restaurantList, sets.restaurant, 2),
           addMarkers(vetsList, sets.vets, 5),
-          if (favoriteList.isNotEmpty)
-            {
-              addFavoriteMarkers(favoriteList, sets.favorites, 0),
-            },
           Navigator.pushReplacementNamed(context, '/home'),
         });
 

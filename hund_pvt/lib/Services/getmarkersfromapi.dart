@@ -41,6 +41,19 @@ class Locations {
   void unFavorite() {
     fav = false;
   }
+
+  @override
+  bool operator ==(other) {
+    return (other is Locations) &&
+        other.name == name &&
+        other.adress == adress &&
+        other.latitude == latitude &&
+        other.longitude == longitude;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
 }
 
 //TRASHCAN///////////////////////////////////////////////////////////////////////////////
@@ -74,13 +87,36 @@ class LocationTrash {
   }
 }
 
+void markFavoritesInLists(Locations fav) {
+  print('inne i markfavoritesinlists');
+  Locations loc;
+  if (cafeList.contains(fav)) {
+    loc = (cafeList.singleWhere((element) => element.name == fav.name));
+    loc.setFavorite();
+  } else if (restaurantList.contains(fav)) {
+    print('inne i rest');
+    loc = (restaurantList.singleWhere((element) => element.name == fav.name));
+    loc.setFavorite();
+  } else if (petshopList.contains(fav)) {
+    print('inne i petshop');
+    loc = (petshopList.singleWhere((element) => element.name == fav.name));
+    loc.setFavorite();
+  } else if (vetsList.contains(fav)) {
+    loc = (vetsList.singleWhere((element) => element.name == fav.name));
+    loc.setFavorite();
+  }
+}
+
 Future getFavorites() async {
   http.Response response = await http.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json'));
   if (response.body != 'null') {
     print('inne i if');
-    return favoriteList =
-        locationListGenerator(Map.from(jsonDecode(response.body)));
+    favoriteList = locationListGenerator(Map.from(jsonDecode(response.body)));
+    favoriteList.forEach((fav) {
+      markFavoritesInLists(fav);
+    });
+    return favoriteList;
   } else {
     print('inne i else');
     return;
@@ -91,8 +127,6 @@ Future<http.Response> postFavorite(LocationsFromDatabase favorite) {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json';
   final Map<String, dynamic> data = {favorite.name: favorite.toJson()};
-  //final Map<String, dynamic> first = {type: second};
-  //final Map<String, dynamic> data = {auth.currentUser.uid: second};
   String json = jsonEncode(data);
 
   return http.patch(Uri.parse(url), body: json);

@@ -5,11 +5,10 @@ import 'package:fluster/fluster.dart';
 import 'package:hund_pvt/Pages/infowindowwidget.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:hund_pvt/Pages/loading.dart';
-import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 int markCounter = 1;
 
-enum sets { cafe, petshop, restaurant, vets, favorites }
+enum sets { cafe, petshop, restaurant, vets }
 
 List<TrashMarkerCluster> trashCanMarkers = [];
 Set<Polygon> parkPolygonsSet = {};
@@ -17,7 +16,6 @@ Set<Marker> restaurantMarkers = {};
 Set<Marker> cafeMarkers = {};
 Set<Marker> petshopMarkers = {};
 Set<Marker> vetsMarkers = {};
-Set<Marker> favoritesMarkers = {};
 
 CustomInfoWindowController infoWindowController = CustomInfoWindowController();
 
@@ -41,37 +39,10 @@ void addMarkers(List list, sets type, int iconNumber) {
       petshopMarkers.add(mark);
     } else if (type == sets.vets) {
       vetsMarkers.add(mark);
-      /* } else if (type == sets.favorites) {
-      favoritesMarkers.add(mark);
-      element.setFavorite(); */
     } else {
       restaurantMarkers.add(mark);
     }
   });
-}
-
-void addFavoriteMarkers(List list, sets type, int iconNumber) {
-  list.forEach((element) {
-    Marker mark = Marker(
-        markerId: MarkerId(element.name + ' favorite'),
-        position: LatLng(element.latitude, element.longitude),
-        icon: customIcons.elementAt(iconNumber),
-        onTap: () {
-          infoWindowController.addInfoWindow(
-              InfoWindowWidget(
-                currentLocation: element,
-              ),
-              LatLng(element.latitude, element.longitude));
-        });
-    favoritesMarkers.add(mark);
-    element.setFavorite();
-  });
-}
-
-void removeFavoriteMarker(Locations location) {
-  Marker mark = favoritesMarkers.firstWhere(
-      (marker) => marker.markerId.value == location.name + ' favorite');
-  favoritesMarkers.remove(mark);
 }
 
 void addParkPolygons(List points) {

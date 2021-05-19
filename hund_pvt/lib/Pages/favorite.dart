@@ -29,7 +29,7 @@ class FavoriteState extends State<Favorite> {
                       setState(() {});
                     }),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.pop(context, favoriteList.elementAt(index));
                 },
                 title: Text(favoriteList[index].name),
                 subtitle: Text(favoriteList[index].adress),

@@ -103,10 +103,6 @@ class CheckBoxListTileModel {
           filtername: 'Djurbutiker',
           isChecked: false,
           imageTest: AssetImage("assets/images/bone_symbol.png")),
-      CheckBoxListTileModel(
-          filtername: 'Favorites',
-          isChecked: false,
-          imageTest: AssetImage("assets/images/favourites_symbol.png")),
     ];
   }
 }

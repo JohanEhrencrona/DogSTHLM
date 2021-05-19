@@ -70,11 +70,6 @@ class _HomeState extends State<Home> {
     } else if (showMarkers.containsAll(vetsMarkers)) {
       showMarkers.removeAll(vetsMarkers);
     }
-    if (checkBoxListTileModel[6].isChecked) {
-      showMarkers.addAll(favoritesMarkers);
-    } else if (showMarkers.containsAll(favoritesMarkers)) {
-      showMarkers.removeAll(favoritesMarkers);
-    }
     return showMarkers;
   }
 
@@ -110,6 +105,21 @@ class _HomeState extends State<Home> {
     setState(() {}); //Updates google map when returning from filterScreen.
   }
 
+  void goToMarker(Locations loc) {
+    setState(() {
+      checkBoxListTileModel.elementAt(1).isChecked = true;
+      checkBoxListTileModel.elementAt(2).isChecked = true;
+      checkBoxListTileModel.elementAt(3).isChecked = true;
+      checkBoxListTileModel.elementAt(4).isChecked = true;
+      checkBoxListTileModel.elementAt(5).isChecked = true;
+    });
+    getMarkers().forEach((element) {
+      if (element.markerId.value == loc.name) {
+        element.onTap();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -141,7 +151,6 @@ class _HomeState extends State<Home> {
                     print('restaurantlist ${restaurantList.length}');
                     print('petshoplist ${petshopList.length}');
                     print(favoriteList.first.name);
-                    print(favoritesMarkers.length);
                   }),
               IconButton(
                   icon: Icon(Icons.print),
@@ -238,7 +247,8 @@ class _HomeState extends State<Home> {
             onTap: (index) {
               setState(() {
                 if (index == 0) {
-                  Navigator.pushNamed(context, '/favorite');
+                  Navigator.pushNamed(context, '/favorite')
+                      .then((value) => goToMarker(value));
                 }
                 if (index == 1) {
                   Navigator.pushNamed(context, '/filter').then(poppingBack);
