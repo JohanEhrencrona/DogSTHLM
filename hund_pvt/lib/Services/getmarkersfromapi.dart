@@ -7,6 +7,9 @@ import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final FirebaseAuth auth = FirebaseAuth.instance;
 
 List<LocationTrash> trashCanList = [];
 List<LocationPark> parksList = [];
@@ -14,6 +17,7 @@ List<Locations> cafeList = [];
 List<Locations> restaurantList = [];
 List<Locations> petshopList = [];
 List<Locations> vetsList = [];
+List<Locations> favoriteList = [];
 
 CrsCoordinate convertPoint(double lat, double long) {
   return CrsCoordinate.createCoordinate(
@@ -68,6 +72,39 @@ class LocationTrash {
   CrsCoordinate getTrashCoordinate() {
     return wgs84;
   }
+}
+
+Future getFavorites() async {
+  http.Response response = await http.get(Uri.parse(
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json'));
+  if (response.body != 'null') {
+    print('inne i if');
+    return favoriteList =
+        locationListGenerator(Map.from(jsonDecode(response.body)));
+  } else {
+    print('inne i else');
+    return;
+  }
+}
+
+Future<http.Response> postFavorite(LocationsFromDatabase favorite) {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json';
+  final Map<String, dynamic> data = {favorite.name: favorite.toJson()};
+  //final Map<String, dynamic> first = {type: second};
+  //final Map<String, dynamic> data = {auth.currentUser.uid: second};
+  String json = jsonEncode(data);
+
+  return http.patch(Uri.parse(url), body: json);
+}
+
+Future<http.Response> removeFavorite(LocationsFromDatabase favorite) {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/${favorite.name}.json';
+  final Map<String, dynamic> data = {favorite.name: favorite.toJson()};
+  String json = jsonEncode(data);
+
+  return http.delete(Uri.parse(url), body: json);
 }
 //TRASHCAN///////////////////////////////////////////////////////////////////////////////
 

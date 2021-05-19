@@ -6,11 +6,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Pages/filter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:location/location.dart';
 
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 import 'package:custom_info_window/custom_info_window.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 String _mapStyle;
 
@@ -26,8 +26,7 @@ class _HomeState extends State<Home> {
 
   //Google/////////////////////////////////////////////////////////////
   GoogleMapController _controller;
-  Location _location = Location();
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
   //Cluster////////////////////////////////////////////////////////////
   void updateCluster(double zoom) {
     trashCans = fluster
@@ -70,6 +69,11 @@ class _HomeState extends State<Home> {
       showMarkers.addAll(vetsMarkers);
     } else if (showMarkers.containsAll(vetsMarkers)) {
       showMarkers.removeAll(vetsMarkers);
+    }
+    if (checkBoxListTileModel[6].isChecked) {
+      showMarkers.addAll(favoritesMarkers);
+    } else if (showMarkers.containsAll(favoritesMarkers)) {
+      showMarkers.removeAll(favoritesMarkers);
     }
     return showMarkers;
   }
@@ -136,6 +140,8 @@ class _HomeState extends State<Home> {
                     print('cafelist ${cafeList.length}');
                     print('restaurantlist ${restaurantList.length}');
                     print('petshoplist ${petshopList.length}');
+                    print(favoriteList.first.name);
+                    print(favoritesMarkers.length);
                   }),
               IconButton(
                   icon: Icon(Icons.print),

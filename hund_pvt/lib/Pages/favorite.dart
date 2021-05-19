@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 class Favorite extends StatefulWidget {
   @override
   FavoriteState createState() => FavoriteState();
 }
 
-List<String> places = ["Park", "Cafe"];
+//List<String> places = ["Park", "Cafe"];
 
 class FavoriteState extends State<Favorite> {
   @override
@@ -17,18 +18,21 @@ class FavoriteState extends State<Favorite> {
         centerTitle: true,
       ),
       body: ListView.builder(
-          itemCount: places.length,
+          itemCount: favoriteList.length,
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
                 trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                      places.removeAt(index);
+                      favoriteList.removeAt(index);
                       setState(() {});
                     }),
-                onTap: () {},
-                title: Text(places[index]),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                title: Text(favoriteList[index].name),
+                subtitle: Text(favoriteList[index].adress),
               ),
             );
           }),
