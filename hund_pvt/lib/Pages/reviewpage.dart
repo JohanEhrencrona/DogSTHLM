@@ -232,20 +232,10 @@ class ReviewState extends State<ReviewPage> {
 }
 
 showErrorDialog(BuildContext context) {
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-
   // set up the AlertDialog
   AlertDialog dialog = AlertDialog(
     title: Text("Error"),
     content: Text("A review can not be empty"),
-    actions: [
-      okButton,
-    ],
   );
 
   // show the dialog
