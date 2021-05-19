@@ -45,18 +45,6 @@ void addMarkers(List list, sets type, int iconNumber) {
   });
 }
 
-//ClusterTrash/////////////////////////////////////
-
-void addTrashMarkersClusters(double lat, double long) {
-  TrashMarkerCluster mark = TrashMarkerCluster(
-    id: MarkerId('$markCounter'),
-    position: LatLng(lat, long),
-    icon: customIcons.elementAt(4),
-  );
-  markCounter++;
-  trashCanMarkers.add(mark);
-}
-
 void addParkPolygons(List points) {
   parkPolygonsSet.add(Polygon(
     polygonId: PolygonId('$markCounter'),
@@ -66,6 +54,17 @@ void addParkPolygons(List points) {
     strokeWidth: 1,
   ));
   markCounter++;
+}
+
+//ClusterTrash/////////////////////////////////////
+void addTrashMarkersClusters(double lat, double long) {
+  TrashMarkerCluster mark = TrashMarkerCluster(
+    id: MarkerId('$markCounter'),
+    position: LatLng(lat, long),
+    icon: customIcons.elementAt(4),
+  );
+  markCounter++;
+  trashCanMarkers.add(mark);
 }
 
 class TrashMarkerCluster extends Clusterable {
