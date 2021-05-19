@@ -7,6 +7,7 @@ import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
+import 'dart:math';
 
 List<LocationTrash> trashCanList = [];
 List<Locations> parksList = [];
@@ -84,11 +85,33 @@ Future getPark() async {
   FeatureCollectionPark pin = new FeatureCollectionPark.fromJson(jsonResponse);
   //Iterate through and convert coordinates
   pin.features.forEach((element) {
+    double centerY;
+    double centerX;
     List<CrsCoordinate> lista = [];
     element.geometry.getCoordinates().forEach((cord) {
       lista.add(convertPoint(cord.elementAt(1), cord.elementAt(0)));
-      parksList.add(Locations(adress: "", latitude: lista.first.yLatitude, longitude: lista.first.xLongitude, name: element.id, wgs84Points: lista));
+
+      //GETTING THE MIDDLE COORDINATE
+      List<double> testx = [];
+      List<double> testy = [];
+      for (int i = 0; i < lista.length; i++) {
+      testx.add(lista[i].xLongitude);
+      }
+      for (int i = 0; i < lista.length; i++) {
+      testy.add(lista[i].yLatitude);
+      }
+
+      double xMax = testx.reduce(max);
+      double xMin = testx.reduce(min);
+      double yMax = testy.reduce(max);
+      double yMin = testy.reduce(min);
+
+      centerX = xMin + ((xMax - xMin) / 2);
+      centerY = yMin + ((yMax - yMin) / 2);
+      //GETTING THE MIDDLE COORDINATE
+
     });
+    parksList.add(Locations(adress: "", latitude: centerY, longitude: centerX, name: element.id, wgs84Points: lista));
   });
 }
 
