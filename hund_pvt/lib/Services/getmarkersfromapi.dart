@@ -87,24 +87,26 @@ class LocationTrash {
   }
 }
 
-void markFavoritesInLists(Locations fav) {
+void markFavoritesInLists(List list) {
   print('inne i markfavoritesinlists');
   Locations loc;
-  if (cafeList.contains(fav)) {
-    loc = (cafeList.singleWhere((element) => element.name == fav.name));
-    loc.setFavorite();
-  } else if (restaurantList.contains(fav)) {
-    print('inne i rest');
-    loc = (restaurantList.singleWhere((element) => element.name == fav.name));
-    loc.setFavorite();
-  } else if (petshopList.contains(fav)) {
-    print('inne i petshop');
-    loc = (petshopList.singleWhere((element) => element.name == fav.name));
-    loc.setFavorite();
-  } else if (vetsList.contains(fav)) {
-    loc = (vetsList.singleWhere((element) => element.name == fav.name));
-    loc.setFavorite();
-  }
+  list.forEach((fav) {
+    if (cafeList.contains(fav)) {
+      loc = (cafeList.singleWhere((element) => element.name == fav.name));
+      loc.setFavorite();
+    } else if (restaurantList.contains(fav)) {
+      print('inne i rest');
+      loc = (restaurantList.singleWhere((element) => element.name == fav.name));
+      loc.setFavorite();
+    } else if (petshopList.contains(fav)) {
+      print('inne i petshop');
+      loc = (petshopList.singleWhere((element) => element.name == fav.name));
+      loc.setFavorite();
+    } else if (vetsList.contains(fav)) {
+      loc = (vetsList.singleWhere((element) => element.name == fav.name));
+      loc.setFavorite();
+    }
+  });
 }
 
 Future getFavorites() async {
@@ -112,11 +114,8 @@ Future getFavorites() async {
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json'));
   if (response.body != 'null') {
     print('inne i if');
-    favoriteList = locationListGenerator(Map.from(jsonDecode(response.body)));
-    favoriteList.forEach((fav) {
-      markFavoritesInLists(fav);
-    });
-    return favoriteList;
+    return favoriteList =
+        locationListGenerator(Map.from(jsonDecode(response.body)));
   } else {
     print('inne i else');
     return;
