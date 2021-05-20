@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hund_pvt/Services/userdatabase.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -19,227 +20,229 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _emailId;
   String _password;
+  String _dogName;
+  String _dogRace;
+  String _dogAge;
   final _emailIdController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
+  final _stringController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: [
-            // ignore: deprecated_member_use
-            FlatButton(
-              child: Text(
-                'New Account',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white70,
-                ),
+      appBar: AppBar(
+        actions: [
+          // ignore: deprecated_member_use
+          FlatButton(
+            child: Text(
+              'New Account',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white70,
               ),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => RegistrationPage(),
-                  ),
-                );
-              },
             ),
-          ],
-          title: Text(
-            "Dog App",
-            style: TextStyle(letterSpacing: 2.0),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => RegistrationPage(),
+                ),
+              );
+            },
           ),
-          centerTitle: true,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-          ),
+        ],
+        title: Text(
+          "Dog App",
+          style: TextStyle(letterSpacing: 2.0),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Form(
-                      autovalidateMode: AutovalidateMode.always,
-                      key: _formStateKey,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                            child: TextFormField(
-                              validator: validateEmail,
-                              onSaved: (value) {
-                                _emailId = value;
-                              },
-                              keyboardType: TextInputType.emailAddress,
-                              controller: _emailIdController,
-                              decoration: InputDecoration(
-                                focusedBorder: new UnderlineInputBorder(
-                                  borderSide: new BorderSide(
-                                      color: Colors.pinkAccent,
-                                      width: 2,
-                                      style: BorderStyle.solid),
-                                ),
-                                labelText: "Email",
-                                icon: Icon(
-                                  Icons.email,
-                                  color: Colors.pinkAccent,
-                                ),
-                                fillColor: Colors.white,
-                                labelStyle: TextStyle(
-                                  color: Colors.pinkAccent,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                            child: TextFormField(
-                              validator: validatePassword,
-                              onSaved: (value) {
-                                _password = value;
-                              },
-                              controller: _passwordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                focusedBorder: new UnderlineInputBorder(
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+        ),
+      ),
+      body:  Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Card(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Form(
+                        autovalidateMode: AutovalidateMode.always, key: _formStateKey,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                              child: TextFormField(
+                                validator: validateEmail,
+                                onSaved: (value) {
+                                  _emailId = value;
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _emailIdController,
+                                decoration: InputDecoration(
+                                  focusedBorder: new UnderlineInputBorder(
                                     borderSide: new BorderSide(
                                         color: Colors.pinkAccent,
                                         width: 2,
-                                        style: BorderStyle.solid)),
-                                labelText: "Password",
-                                icon: Icon(
-                                  Icons.lock,
-                                  color: Colors.pinkAccent,
-                                ),
-                                fillColor: Colors.white,
-                                labelStyle: TextStyle(
-                                  color: Colors.pinkAccent,
+                                        style: BorderStyle.solid),
+                                  ),
+                                  labelText: "Email",
+                                  icon: Icon(
+                                    Icons.email,
+                                    color: Colors.pinkAccent,
+                                  ),
+                                  fillColor: Colors.white,
+                                  labelStyle: TextStyle(
+                                    color: Colors.pinkAccent,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    (errorMessage != ''
-                        ? Text(
-                            errorMessage,
-                            style: TextStyle(color: Colors.red),
-                          )
-                        : Container()),
-                    ButtonBarTheme(
-                      data: ButtonBarThemeData(
-                          buttonTextTheme: ButtonTextTheme.accent),
-                      child: ButtonBar(
-                        children: <Widget>[
-                          // ignore: deprecated_member_use
-                          FlatButton(
-                            child: Text(
-                              'Sign in',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.pinkAccent,
+
+                            Padding(
+                              padding:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                              child: TextFormField(
+                                validator: validatePassword,
+                                onSaved: (value) {
+                                  _password = value;
+                                },
+                                controller: _passwordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  focusedBorder: new UnderlineInputBorder(
+                                      borderSide: new BorderSide(
+                                          color: Colors.pinkAccent,
+                                          width: 2,
+                                          style: BorderStyle.solid)),
+                                  labelText: "Password",
+                                  icon: Icon(
+                                    Icons.lock,
+                                    color: Colors.pinkAccent,
+                                  ),
+                                  fillColor: Colors.white,
+                                  labelStyle: TextStyle(
+                                    color: Colors.pinkAccent,
+                                  ),
+                                ),
                               ),
                             ),
-                            onPressed: () {
-                              if (_formStateKey.currentState.validate()) {
-                                _formStateKey.currentState.save();
-                                signIn(_emailId, _password).then((user) {
-                                  if (user != null) {
-                                    print('Logged in successfully.');
-                                    setState(() {
-                                      successMessage =
-                                          'Logged in successfully.';
-                                    });
-                                    Navigator.pushReplacementNamed(
-                                        context, '/loading');
-                                  } else {
-                                    setState(() {
-                                      successMessage =
-                                          'Incorrect email or password.';
-                                    });
-                                  }
-                                });
-                              }
-                            },
-                          ),
-                          // ignore: deprecated_member_use
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      (errorMessage != ''
+                          ? Text(
+                        errorMessage,
+                        style: TextStyle(color: Colors.red),
+                      )
+                          : Container()),
+                      ButtonBarTheme(
+                        data: ButtonBarThemeData(buttonTextTheme: ButtonTextTheme.accent),
+                        child: ButtonBar(
+                          children: <Widget>[
+                            // ignore: deprecated_member_use
+                            FlatButton(
+                              child: Text(
+                                'Sign in',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.pinkAccent,
+                                ),
+                              ),
+                              onPressed: () {
+                                if (_formStateKey.currentState.validate()) {
+                                  _formStateKey.currentState.save();
+                                  signIn(_emailId, _password).then((user) {
+                                    if (user != null) {
+                                      print('Logged in successfully.');
+                                      setState(() {
+                                        successMessage =
+                                        'Logged in successfully.';
+                                      });
+                                      Navigator.pushReplacementNamed(context, '/loading');
+                                    } else {
+                                      setState(() {
+                                        successMessage =
+                                        'Incorrect email or password.';
+                                      });
+                                    }
+                                  });
+                                }
+                              },
+                            ),
+                            // ignore: deprecated_member_use
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            (successMessage != ''
-                ? Text(
-                    successMessage,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18, color: Colors.pinkAccent),
-                  )
-                : Container()),
-            (!isGoogleSignIn
-                // ignore: deprecated_member_use
-                ? RaisedButton(
-                    child: Text('Sign in with Google'),
-                    onPressed: () {
-                      googleSignin(context).then((user) {
-                        if (user != null) {
-                          print('Logged in successfully.');
-                          setState(() {
-                            isGoogleSignIn = true;
-                            successMessage =
-                                'Logged in successfully.\nEmail : ${user.email}';
-                          });
-                          Navigator.pushReplacementNamed(context, '/loading');
-                        } else {
-                          print('Error');
-                        }
+              (successMessage != ''
+                  ? Text(
+                successMessage,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18, color: Colors.pinkAccent),
+              )
+                  : Container()),
+              (!isGoogleSignIn
+                  // ignore: deprecated_member_use
+                  ? RaisedButton(
+                child: Text('Sign in with Google'),
+                onPressed: () {
+                  googleSignin(context).then((user) {
+                    if (user != null) {
+                      print('Logged in successfully.');
+                      setState(() {
+                        isGoogleSignIn = true;
+                        successMessage =
+                        'Logged in successfully.\nEmail : ${user.email}';
                       });
-                    },
-                  )
-                // ignore: deprecated_member_use
-                : RaisedButton(
-                    child: Text('Sign out'),
-                    onPressed: () {
-                      googleSignout().then((response) {
-                        if (response) {
-                          setState(() {
-                            isGoogleSignIn = false;
-                            successMessage = '';
-                          });
-                        }
+                      Navigator.pushReplacementNamed(context, '/loading');
+                    } else {
+                      print('Error');
+                    }
+                  });
+                },
+              )
+                  // ignore: deprecated_member_use
+                  : RaisedButton(
+                child: Text('Sign out'),
+                onPressed: () {
+                  googleSignout().then((response) {
+                    if (response) {
+                      setState(() {
+                        isGoogleSignIn = false;
+                        successMessage = '';
                       });
-                    },
-                  )),
-          ],
-        ));
+                    }
+                  });
+                },
+              )),
+            ],
+          ));
   }
 
   Future<User> signIn(String email, String password) async {
     try {
-      User user = (await auth.signInWithEmailAndPassword(
-              //_CastError HERE
-              email: email,
-              password: password))
-          .user;
+      User user = (await auth.signInWithEmailAndPassword( //_CastError HERE
+          email: email, password: password)).user;
       assert(user != null);
       assert(await user.getIdToken() != null);
       final User currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
+      //Push to database
+      await UserDatabaseService(uid: user.uid).pushUserData('null', 'null', '0');
+
       return user;
     } catch (FirebaseAuthException) {
       handleError(FirebaseAuthException);
@@ -251,15 +254,12 @@ class _LoginPageState extends State<LoginPage> {
     User currentUser;
     try {
       final GoogleSignInAccount googleUser = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+        idToken: googleAuth.idToken,);
 
-      final User user =
-          (await auth.signInWithCredential(credential)).user; // _CastError here
+      final User user = (await auth.signInWithCredential(credential)).user; // _CastError here
       assert(user.email != null);
       assert(user.displayName != null);
       assert(!user.isAnonymous);
@@ -267,8 +267,6 @@ class _LoginPageState extends State<LoginPage> {
 
       currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
-      print(currentUser);
-      print("User Name  : ${currentUser.displayName}");
     } catch (FirebaseAuthException) {
       handleError(FirebaseAuthException);
     }
@@ -280,6 +278,9 @@ class _LoginPageState extends State<LoginPage> {
     await googleSignIn.signOut();
     return true;
   }
+
+
+
 
   handleError(FirebaseAuthException error) {
     Future<void> _showMyDialog() async {
@@ -307,8 +308,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
       );
-    }
-  }
+    }  }
 
   String validateEmail(String value) {
     Pattern pattern =
@@ -321,8 +321,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   String validatePassword(String value) {
-    if (value.trim().isEmpty || value.length < 6) {
+    if (value.trim().isEmpty || value.length<6) {
       return 'Enter a valid password';
+    }
+    return null;
+  }
+
+  String validateString(String value) {
+    if (value.trim().isEmpty) {
+      return 'Cant be empty';
     }
     return null;
   }
