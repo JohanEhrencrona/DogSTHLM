@@ -35,7 +35,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pushReplacementNamed(context, '/login')
+          onPressed: () => Navigator.pushReplacementNamed(context, '/')
         ),
         title: Text(
           "Register new account",
