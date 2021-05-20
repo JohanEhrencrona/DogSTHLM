@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/Pages/showreviews.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 import 'package:clippy_flutter/triangle.dart';
@@ -153,7 +154,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                           //lämna en reccension text
                                           padding: EdgeInsets.all(5),
                                           child: InkWell(
-                                            child: Text("Rapportera plats",
+                                            child: Text("Report place",
                                                 style: TextStyle(
                                                     fontSize: 15,
                                                     decoration: TextDecoration
@@ -168,14 +169,14 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                           //rapportera plats text
                                           padding: EdgeInsets.all(5),
                                           child: InkWell(
-                                            child: Text("Lämna en reccension",
+                                            child: Text("Reviews",
                                                 style: TextStyle(
                                                     fontSize: 15,
                                                     decoration: TextDecoration
                                                         .underline,
                                                     color: Colors.white)),
                                             onTap: () {
-                                              print("tiptap");
+                                              Navigator.push(context,MaterialPageRoute(builder: (context) => ShowReviews(widget.currentLocation)));
                                             },
                                           ),
                                         ),

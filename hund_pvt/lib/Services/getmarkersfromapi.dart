@@ -30,6 +30,8 @@ CrsCoordinate convertPoint(double lat, double long) {
 }
 
 class Locations {
+  List<String> reviews = [];
+  List<int> points = [];
   String adress;
   double latitude;
   double longitude;
@@ -51,6 +53,15 @@ class Locations {
     fav = false;
   }
 
+
+  void addReview(String s){
+    reviews.add(s);
+  }
+
+  void addPoints(int i){
+    points.add(i);
+  }
+
   @override
   bool operator ==(other) {
     return (other is Locations) &&
@@ -63,6 +74,7 @@ class Locations {
   @override
   // TODO: implement hashCode
   int get hashCode => super.hashCode;
+
 }
 
 //TRASHCAN///////////////////////////////////////////////////////////////////////////////

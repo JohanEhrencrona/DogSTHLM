@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 class ReviewPage extends StatefulWidget {
+
+  final Locations location;
+
+  ReviewPage(this.location);
+
   @override
-  ReviewState createState() => ReviewState();
+  ReviewState createState() => ReviewState(location);
 }
 
 class ReviewState extends State<ReviewPage> {
   String reviewText;
   int points;
+  Locations location;
+
+  ReviewState(Locations location) {
+    this.location = location;
+  }
 
   var blackPaw = Image.asset(
     'assets/images/fa-solid_paw.png',
@@ -47,7 +58,7 @@ class ReviewState extends State<ReviewPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
-          title: Text("Leave a review"),
+          title: Text(location.name),
           centerTitle: true,
         ),
         body: Padding(
@@ -56,6 +67,10 @@ class ReviewState extends State<ReviewPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text(
+                  "Leave a review for " + location.name,
+                  style: TextStyle(color: Colors.pink, fontSize: 20),
+                ),
                 TextFormField(
                   minLines: 6,
                   keyboardType: TextInputType.multiline,
@@ -81,8 +96,7 @@ class ReviewState extends State<ReviewPage> {
                   onChanged: (T) {
                     reviewText = T;
                     print(reviewText);
-                    setState(() {
-                    });
+                    setState(() {});
                   },
                 ),
                 Row(
@@ -93,12 +107,8 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 1;
                             print(points);
-                            secondPaw = blackPaw;
-                            thirdPaw = blackPaw;
-                            fourthPaw = blackPaw;
-                            fifthPaw = blackPaw;
-                            setState(() {
-                            });
+                            setPaws(points);
+                            setState(() {});
                           },
                           child: pinkPaw,
                         ),
@@ -108,12 +118,8 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 2;
                             print(points);
-                            secondPaw = pinkPaw;
-                            thirdPaw = blackPaw;
-                            fourthPaw = blackPaw;
-                            fifthPaw = blackPaw;
-                            setState(() {
-                            });
+                            setPaws(points);
+                            setState(() {});
                           },
                           child: secondPaw,
                         ),
@@ -123,12 +129,8 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 3;
                             print(points);
-                            secondPaw = pinkPaw;
-                            thirdPaw = pinkPaw;
-                            fourthPaw = blackPaw;
-                            fifthPaw = blackPaw;
-                            setState(() {
-                            });
+                            setPaws(points);
+                            setState(() {});
                           },
                           child: thirdPaw,
                         ),
@@ -138,12 +140,8 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 4;
                             print(points);
-                            secondPaw = pinkPaw;
-                            thirdPaw = pinkPaw;
-                            fourthPaw = pinkPaw;
-                            fifthPaw = blackPaw;
-                            setState(() {
-                            });
+                            setPaws(points);
+                            setState(() {});
                           },
                           child: fourthPaw,
                         ),
@@ -153,12 +151,8 @@ class ReviewState extends State<ReviewPage> {
                           onPressed: () {
                             points = 5;
                             print(points);
-                            secondPaw = pinkPaw;
-                            thirdPaw = pinkPaw;
-                            fourthPaw = pinkPaw;
-                            fifthPaw = pinkPaw;
-                            setState(() {
-                            });
+                            setPaws(points);
+                            setState(() {});
                           },
                           child: fifthPaw,
                         ),
@@ -174,11 +168,81 @@ class ReviewState extends State<ReviewPage> {
                           backgroundColor: Colors.pink,
                         ),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          if (reviewText == null) {
+                            showErrorDialog(context);
+                          } else if (reviewText.isEmpty) {
+                            showErrorDialog(context);
+                          } else if (reviewText.isNotEmpty &&
+                              reviewText != null) {
+                            location.addReview(reviewText);
+                            location.addPoints(points);
+                            Navigator.of(context).pop();
+                          }
                         },
                       )
                     ])
               ]),
         ));
   }
+
+  void setPaws(int points) {
+    switch (points) {
+      case 1:
+        {
+          secondPaw = blackPaw;
+          thirdPaw = blackPaw;
+          fourthPaw = blackPaw;
+          fifthPaw = blackPaw;
+          break;
+        }
+      case 2:
+        {
+          secondPaw = pinkPaw;
+          thirdPaw = blackPaw;
+          fourthPaw = blackPaw;
+          fifthPaw = blackPaw;
+          break;
+        }
+      case 3:
+        {
+          secondPaw = pinkPaw;
+          thirdPaw = pinkPaw;
+          fourthPaw = blackPaw;
+          fifthPaw = blackPaw;
+          break;
+        }
+      case 4:
+        {
+          secondPaw = pinkPaw;
+          thirdPaw = pinkPaw;
+          fourthPaw = pinkPaw;
+          fifthPaw = blackPaw;
+          break;
+        }
+      case 5:
+        {
+          secondPaw = pinkPaw;
+          thirdPaw = pinkPaw;
+          fourthPaw = pinkPaw;
+          fifthPaw = pinkPaw;
+          break;
+        }
+    }
+  }
+}
+
+showErrorDialog(BuildContext context) {
+  // set up the AlertDialog
+  AlertDialog dialog = AlertDialog(
+    title: Text("Error"),
+    content: Text("A review can not be empty"),
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return dialog;
+    },
+  );
 }
