@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hund_pvt/Services/userdatabase.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'login_page.dart';
 
@@ -37,6 +41,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pushReplacementNamed(context, '/')
         ),
+        actions: [
+          // ignore: deprecated_member_use
+          FlatButton(
+            child: Text(
+              'Upload pic',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white70,
+              ),
+            ),
+            onPressed: () {
+                  getImage();
+            },
+          ),
+        ],
         title: Text(
           "Register new account",
           style: TextStyle(letterSpacing: 2.0),
@@ -55,7 +74,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Card(
-              child: Padding(
+              child:
+              Padding(
                 padding: EdgeInsets.all(10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -342,4 +362,34 @@ class _RegistrationPageState extends State<RegistrationPage> {
     }
     return null;
   }
+
+
+
+  // Image Picker
+
+
+
+    File _image; // Used only if you need a single picture
+    FirebaseStorage storage = FirebaseStorage.instance;
+
+    Future getImage() async {
+      ImagePicker picker = ImagePicker();
+      PickedFile pickedFile;
+      // Let user select photo from gallery
+      pickedFile = await picker.getImage(
+          source: ImageSource.gallery,);
+
+      setState(() {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+          var user = auth.currentUser;
+          var storageRef = storage.ref('/profilePicture/' + user.uid);
+          var task = storageRef.putFile(_image);
+          // Use if you only need a single picture
+          return _image;
+        } else {
+          return('No image selected.');
+        }
+      });
+    }
 }
