@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:hund_pvt/JSON/parsejson.dart';
@@ -29,6 +33,48 @@ CrsCoordinate convertPoint(double lat, double long) {
 }
 
 class Locations {
+
+  var whitePaw = Image.asset(
+    'assets/images/fa-solid_paw.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+    color: Colors.white,
+  );
+  var darkPaw = Image.asset(
+    'assets/images/dark-paw_symbol.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+  );
+
+  var secondPaw = Image.asset(
+    'assets/images/fa-solid_paw.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+    color: Colors.white,
+  );
+  var thirdPaw = Image.asset(
+    'assets/images/fa-solid_paw.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+    color: Colors.white,
+  );
+  var fourthPaw = Image.asset(
+    'assets/images/dark-paw_symbol.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+  );
+  var fifthPaw = Image.asset(
+    'assets/images/dark-paw_symbol.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+  );
+
   List<String> reviews = [];
   List<int> points = [];
   String adress;
@@ -60,6 +106,17 @@ class Locations {
     points.add(i);
   }
 
+  double getPoints(){
+
+    int returnValue = 0;
+
+    for (int i in points){
+      returnValue += i;
+    }
+
+    return returnValue / points.length;
+  }
+
   @override
   bool operator ==(other) {
     return (other is Locations) &&
@@ -72,6 +129,56 @@ class Locations {
   @override
   // TODO: implement hashCode
   int get hashCode => super.hashCode;
+
+
+  Image getFirstPaw(){
+    return whitePaw;
+  }
+  Image getSecondPaw(){
+    return secondPaw;
+  }
+  Image getThirdPaw(){
+    return thirdPaw;
+  }
+  Image getFourthPaw(){
+    return fourthPaw;
+  }
+  Image getFifthPaw(){
+    return fifthPaw;
+  }
+
+  void setInfoPaws(double points) {
+    if (points <= 1.5){
+      secondPaw = darkPaw;
+      thirdPaw = darkPaw;
+      fourthPaw = darkPaw;
+      fifthPaw = darkPaw;
+    }
+    if (points > 1.5 && points <= 2.5){
+      secondPaw = whitePaw;
+      thirdPaw = darkPaw;
+      fourthPaw = darkPaw;
+      fifthPaw = darkPaw;
+    }
+    if (points > 2.5 && points <= 3.5){
+      secondPaw = whitePaw;
+      thirdPaw = whitePaw;
+      fourthPaw = darkPaw;
+      fifthPaw = darkPaw;
+    }
+    if (points > 3.5 && points <= 4.5){
+      secondPaw = whitePaw;
+      thirdPaw = whitePaw;
+      fourthPaw = whitePaw;
+      fifthPaw = darkPaw;
+    }
+    if (points > 4.5){
+      secondPaw = whitePaw;
+      thirdPaw = whitePaw;
+      fourthPaw = whitePaw;
+      fifthPaw = whitePaw;
+    }
+  }
 }
 
 //TRASHCAN///////////////////////////////////////////////////////////////////////////////
