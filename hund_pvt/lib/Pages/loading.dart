@@ -24,6 +24,7 @@ class _LoadingState extends State<Loading> {
     ]).then((List _) => {
           createTrashMarkers(),
           createParkMarkers(),
+          addMarkers(parksList, sets.parks, 1),
           addMarkers(cafeList, sets.cafe, 0),
           addMarkers(petshopList, sets.petshop, 3),
           addMarkers(restaurantList, sets.restaurant, 2),
