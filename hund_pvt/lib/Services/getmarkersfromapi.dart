@@ -18,9 +18,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
-
 List<LocationTrash> trashCanList = [];
-List<Locations> parksList = [];
+List<LocationPark> parksList = [];
 List<Locations> cafeList = [];
 List<Locations> restaurantList = [];
 List<Locations> petshopList = [];
@@ -83,13 +82,13 @@ class Locations {
   double longitude;
   String name;
   bool fav = false;
-  List<CrsCoordinate> wgs84Points = [];
 
-  List getParkCoordinate() {
-    return wgs84Points;
-  }
-
-  Locations({this.adress, this.latitude, this.longitude, this.name, this.wgs84Points});
+  Locations({
+    this.adress,
+    this.latitude,
+    this.longitude,
+    this.name,
+  });
 
   void setFavorite() {
     fav = true;
@@ -99,11 +98,11 @@ class Locations {
     fav = false;
   }
 
-  void addReview(String s){
+  void addReview(String s) {
     reviews.add(s);
   }
 
-  void addPoints(int i){
+  void addPoints(int i) {
     points.add(i);
   }
 
@@ -130,6 +129,7 @@ class Locations {
   @override
   // TODO: implement hashCode
   int get hashCode => super.hashCode;
+
 
   Image getFirstPaw(){
     return whitePaw;
@@ -284,10 +284,10 @@ Future getPark() async {
       List<double> testx = [];
       List<double> testy = [];
       for (int i = 0; i < lista.length; i++) {
-      testx.add(lista[i].xLongitude);
+        testx.add(lista[i].xLongitude);
       }
       for (int i = 0; i < lista.length; i++) {
-      testy.add(lista[i].yLatitude);
+        testy.add(lista[i].yLatitude);
       }
 
       double xMax = testx.reduce(max);
@@ -298,9 +298,12 @@ Future getPark() async {
       centerX = xMin + ((xMax - xMin) / 2);
       centerY = yMin + ((yMax - yMin) / 2);
       //GETTING THE MIDDLE COORDINATE
-
     });
-    parksList.add(Locations(adress: "", latitude: centerY, longitude: centerX, name: element.id, wgs84Points: lista));
+    parksList.add(LocationPark(
+        latitude: centerY,
+        longitude: centerX,
+        name: element.id,
+        wgs84Points: lista));
   });
 }
 
@@ -314,15 +317,18 @@ void createParkMarkers() {
   });
 }
 
-/*class LocationPark {
+class LocationPark {
+  String name;
+  double latitude;
+  double longitude;
   List<CrsCoordinate> wgs84Points;
 
-  LocationPark({this.wgs84Points});
+  LocationPark({this.name, this.latitude, this.longitude, this.wgs84Points});
 
   List getParkCoordinate() {
     return wgs84Points;
   }
-}*/
+}
 
 //DOGPARKS///////////////////////////////////////////////////////////////////////////////
 
