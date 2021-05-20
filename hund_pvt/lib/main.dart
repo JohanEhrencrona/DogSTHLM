@@ -21,6 +21,7 @@ void main() async {
       '/settings': (context) => Settings(),
       '/favorite': (context) => Favorite(),
       '/addplace': (context) => AddPlace(),
+      '/login_page': (context) => LoginPage(),
     },
     debugShowCheckedModeBanner: false,
   ));
