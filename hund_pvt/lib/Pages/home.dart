@@ -14,7 +14,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 String _mapStyle;
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -79,7 +78,6 @@ class _HomeState extends State<Home> {
     return showMarkers;
   }
 
-
   Set<Polygon> getPolygon() {
     Set<Polygon> empty = {};
     if (checkBoxListTileModel[1].isChecked) {
@@ -123,6 +121,23 @@ class _HomeState extends State<Home> {
     getMarkers().forEach((element) {
       if (element.markerId.value == loc.name) {
         element.onTap();
+      }
+    });
+  }
+
+  void searchMarker(String loc) {
+    setState(() {
+      checkBoxListTileModel.elementAt(1).isChecked = true;
+      checkBoxListTileModel.elementAt(2).isChecked = true;
+      checkBoxListTileModel.elementAt(3).isChecked = true;
+      checkBoxListTileModel.elementAt(4).isChecked = true;
+      checkBoxListTileModel.elementAt(5).isChecked = true;
+    });
+    getMarkers().forEach((element) {
+      if (element.markerId.value == loc) {
+        element.onTap();
+        _controller.animateCamera(CameraUpdate.newCameraPosition(
+            CameraPosition(target: element.position, zoom: 16.0)));
       }
     });
   }
