@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hund_pvt/Pages/showreviews.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'package:hund_pvt/Services/markersets.dart';
+
+import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 
 class InfoWindowWidget extends StatefulWidget {
   final Locations currentLocation;
@@ -84,12 +87,42 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                           height: 20,
                                           color: Colors.white,
                                         ),
-                                        onPressed: () {
-                                          widget.currentLocation.fav
-                                              ? widget.currentLocation
-                                                  .unFavorite()
-                                              : widget.currentLocation
-                                                  .setFavorite();
+                                        onPressed: () async {
+                                          if (widget.currentLocation.fav) {
+                                            widget.currentLocation.unFavorite();
+                                            LocationsFromDatabase favorite =
+                                                LocationsFromDatabase(
+                                                    adress: widget
+                                                        .currentLocation.adress,
+                                                    name: widget
+                                                        .currentLocation.name,
+                                                    latitude: widget
+                                                        .currentLocation
+                                                        .latitude,
+                                                    longitude: widget
+                                                        .currentLocation
+                                                        .longitude);
+                                            await removeFavorite(favorite);
+                                            favoriteList
+                                                .remove(widget.currentLocation);
+                                          } else {
+                                            widget.currentLocation
+                                                .setFavorite();
+                                            LocationsFromDatabase favorite =
+                                                LocationsFromDatabase(
+                                                    adress: widget
+                                                        .currentLocation.adress,
+                                                    name: widget
+                                                        .currentLocation.name,
+                                                    latitude: widget
+                                                        .currentLocation
+                                                        .latitude,
+                                                    longitude: widget
+                                                        .currentLocation
+                                                        .longitude);
+                                            await postFavorite(favorite);
+                                            await getFavorites();
+                                          }
                                           setState(() {});
                                         },
                                       ))),

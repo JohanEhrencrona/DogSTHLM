@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hund_pvt/Services/userdatabase.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -19,8 +20,12 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _emailId;
   String _password;
+  String _dogName;
+  String _dogRace;
+  String _dogAge;
   final _emailIdController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
+  final _stringController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
+
                             Padding(
                               padding:
                               EdgeInsets.only(left: 10, right: 10, bottom: 5),
@@ -162,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                                         successMessage =
                                         'Logged in successfully.';
                                       });
-                                      Navigator.pushReplacementNamed(context, '/home');
+                                      Navigator.pushReplacementNamed(context, '/loading');
                                     } else {
                                       setState(() {
                                         successMessage =
@@ -201,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                         successMessage =
                         'Logged in successfully.\nEmail : ${user.email}';
                       });
-                      Navigator.pushReplacementNamed(context, '/home');
+                      Navigator.pushReplacementNamed(context, '/loading');
                     } else {
                       print('Error');
                     }
@@ -234,6 +240,9 @@ class _LoginPageState extends State<LoginPage> {
       assert(await user.getIdToken() != null);
       final User currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
+      //Push to database
+      await UserDatabaseService(uid: user.uid).pushUserData('null', 'null', '0');
+
       return user;
     } catch (FirebaseAuthException) {
       handleError(FirebaseAuthException);
@@ -258,8 +267,6 @@ class _LoginPageState extends State<LoginPage> {
 
       currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
-      print(currentUser);
-      print("User Name  : ${currentUser.displayName}");
     } catch (FirebaseAuthException) {
       handleError(FirebaseAuthException);
     }
@@ -271,6 +278,9 @@ class _LoginPageState extends State<LoginPage> {
     await googleSignIn.signOut();
     return true;
   }
+
+
+
 
   handleError(FirebaseAuthException error) {
     Future<void> _showMyDialog() async {
@@ -313,6 +323,13 @@ class _LoginPageState extends State<LoginPage> {
   String validatePassword(String value) {
     if (value.trim().isEmpty || value.length<6) {
       return 'Enter a valid password';
+    }
+    return null;
+  }
+
+  String validateString(String value) {
+    if (value.trim().isEmpty) {
+      return 'Cant be empty';
     }
     return null;
   }

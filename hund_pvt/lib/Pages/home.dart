@@ -6,13 +6,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Pages/filter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:location/location.dart';
 
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 import 'package:custom_info_window/custom_info_window.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 String _mapStyle;
+
 
 class Home extends StatefulWidget {
   @override
@@ -26,8 +27,7 @@ class _HomeState extends State<Home> {
 
   //Google/////////////////////////////////////////////////////////////
   GoogleMapController _controller;
-  Location _location = Location();
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
   //Cluster////////////////////////////////////////////////////////////
   void updateCluster(double zoom) {
     trashCans = fluster
@@ -51,6 +51,11 @@ class _HomeState extends State<Home> {
     } else if (showMarkers.containsAll(trashMarkers)) {
       showMarkers.removeAll(trashMarkers);
     }
+    if (checkBoxListTileModel[1].isChecked) {
+      showMarkers.addAll(parkMarkers);
+    } else if (showMarkers.containsAll(parkMarkers)) {
+      showMarkers.removeAll(parkMarkers);
+    }
     if (checkBoxListTileModel[3].isChecked) {
       showMarkers.addAll(cafeMarkers);
     } else if (showMarkers.containsAll(cafeMarkers)) {
@@ -73,6 +78,7 @@ class _HomeState extends State<Home> {
     }
     return showMarkers;
   }
+
 
   Set<Polygon> getPolygon() {
     Set<Polygon> empty = {};
@@ -106,6 +112,21 @@ class _HomeState extends State<Home> {
     setState(() {}); //Updates google map when returning from filterScreen.
   }
 
+  void goToMarker(Locations loc) {
+    setState(() {
+      checkBoxListTileModel.elementAt(1).isChecked = true;
+      checkBoxListTileModel.elementAt(2).isChecked = true;
+      checkBoxListTileModel.elementAt(3).isChecked = true;
+      checkBoxListTileModel.elementAt(4).isChecked = true;
+      checkBoxListTileModel.elementAt(5).isChecked = true;
+    });
+    getMarkers().forEach((element) {
+      if (element.markerId.value == loc.name) {
+        element.onTap();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -136,6 +157,7 @@ class _HomeState extends State<Home> {
                     print('cafelist ${cafeList.length}');
                     print('restaurantlist ${restaurantList.length}');
                     print('petshoplist ${petshopList.length}');
+                    print(favoriteList.first.name);
                   }),
               IconButton(
                   icon: Icon(Icons.print),
@@ -232,7 +254,8 @@ class _HomeState extends State<Home> {
             onTap: (index) {
               setState(() {
                 if (index == 0) {
-                  Navigator.pushNamed(context, '/favorite');
+                  Navigator.pushNamed(context, '/favorite')
+                      .then((value) => goToMarker(value));
                 }
                 if (index == 1) {
                   Navigator.pushNamed(context, '/filter').then(poppingBack);

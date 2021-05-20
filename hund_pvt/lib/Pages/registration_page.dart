@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hund_pvt/Services/userdatabase.dart';
 
 import 'login_page.dart';
 
@@ -17,9 +18,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _emailId;
   String _password;
+  String _dogName;
+  String _dogRace;
+  String _dogAge;
   final _emailIdController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
   final _confirmPasswordController = TextEditingController(text: '');
+  final _dogNameController = TextEditingController(text: '');
+  final _dogRaceController = TextEditingController(text: '');
+  final _dogAgeController = TextEditingController(text: '');
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +83,91 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       style: BorderStyle.solid),
                                 ),
                                 // hintText: "Company Name",
-                                labelText: "Email",
+                                labelText: "Email"
+                                    "",
                                 icon: Icon(
                                   Icons.email,
+                                  color: Colors.pinkAccent,
+                                ),
+                                fillColor: Colors.white,
+                                labelStyle: TextStyle(
+                                  color: Colors.pinkAccent,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                            child: TextFormField(
+                              validator: validateString,
+                              onSaved: (value) {
+                                _dogName = value;
+                              },
+                              controller: _dogNameController,
+                              decoration: InputDecoration(
+                                focusedBorder: new UnderlineInputBorder(
+                                    borderSide: new BorderSide(
+                                        color: Colors.pinkAccent,
+                                        width: 2,
+                                        style: BorderStyle.solid)),
+                                labelText: "Dog name",
+                                icon: Icon(
+                                  Icons.pets,
+                                  color: Colors.pinkAccent,
+                                ),
+                                fillColor: Colors.white,
+                                labelStyle: TextStyle(
+                                  color: Colors.pinkAccent,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                            child: TextFormField(
+                              validator: validateString,
+                              onSaved: (value) {
+                                _dogRace = value;
+                              },
+                              controller: _dogRaceController,
+                              decoration: InputDecoration(
+                                focusedBorder: new UnderlineInputBorder(
+                                    borderSide: new BorderSide(
+                                        color: Colors.pinkAccent,
+                                        width: 2,
+                                        style: BorderStyle.solid)),
+                                labelText: "Dog race",
+                                icon: Icon(
+                                  Icons.pets,
+                                  color: Colors.pinkAccent,
+                                ),
+                                fillColor: Colors.white,
+                                labelStyle: TextStyle(
+                                  color: Colors.pinkAccent,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                            child: TextFormField(
+                              validator: validateString,
+                              onSaved: (value) {
+                                _dogAge = value;
+                              },
+                              controller: _dogAgeController,
+                              decoration: InputDecoration(
+                                focusedBorder: new UnderlineInputBorder(
+                                    borderSide: new BorderSide(
+                                        color: Colors.pinkAccent,
+                                        width: 2,
+                                        style: BorderStyle.solid)),
+                                labelText: "Dog age",
+                                icon: Icon(
+                                  Icons.pets,
                                   color: Colors.pinkAccent,
                                 ),
                                 fillColor: Colors.white,
@@ -172,7 +262,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   if (user != null) { //Successfully registered
                                     setState(() {
                                       successMessage =
-                                      'Registered Successfully.\nYou can now navigate to Login Page.';
+                                      'Registered Successfully.';
                                     });
                                   }
                                 });
@@ -200,10 +290,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Future<User> signUp(email, password) async {
     try {
-      User user = (await auth.createUserWithEmailAndPassword(
-          email: email, password: password)) as User;
+      User user = (await FirebaseAuth.instance.
+      createUserWithEmailAndPassword(email: email, password: password))
+          .user;
       assert(user != null);
+
       assert(await user.getIdToken() != null);
+
+      await UserDatabaseService(uid: user.uid).pushUserData(_dogName, _dogRace, _dogAge);
       return user;
     } catch (e) {
       handleError(e);
@@ -238,6 +332,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String validateConfirmPassword(String value) {
     if (value.trim() != _passwordController.text.trim()) {
       return 'The passwords are not matching';
+    }
+    return null;
+  }
+
+  String validateString(String value) {
+    if (value.trim().isEmpty) {
+      return 'Cant be empty';
     }
     return null;
   }
