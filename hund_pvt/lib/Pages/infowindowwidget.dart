@@ -141,7 +141,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                         Padding(
                                           //platsens namn
                                           padding: EdgeInsets.only(
-                                              left: 3, bottom: 5,top: 0),
+                                              left: 2, bottom: 5),
                                           child: Text(
                                               widget.currentLocation.name,
                                               style: TextStyle(
