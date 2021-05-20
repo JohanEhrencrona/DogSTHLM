@@ -141,7 +141,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                         Padding(
                                           //platsens namn
                                           padding: EdgeInsets.only(
-                                              left: 3, bottom: 3,top: 0),
+                                              left: 3, bottom: 5,top: 0),
                                           child: Text(
                                               widget.currentLocation.name,
                                               style: TextStyle(
@@ -209,7 +209,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                         ),
                                         Padding(
                                           //rapportera plats text
-                                          padding: EdgeInsets.all(2),
+                                          padding: EdgeInsets.only(bottom: 5, left: 2),
                                           child: InkWell(
                                             child: Text("Report place",
                                                 style: TextStyle(
