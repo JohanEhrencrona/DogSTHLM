@@ -18,6 +18,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
+//enum locationtype { cafe, petshop, restaurant, vets }
+
 List<LocationTrash> trashCanList = [];
 List<LocationPark> parksList = [];
 List<Locations> cafeList = [];
@@ -81,13 +83,17 @@ class Locations {
   double latitude;
   double longitude;
   String name;
+  String type;
   bool fav = false;
+  Map<String, int> reviewsandpoints = {};
 
   Locations({
     this.adress,
     this.latitude,
     this.longitude,
     this.name,
+    this.reviewsandpoints,
+    this.type,
   });
 
   void setFavorite() {
@@ -96,6 +102,11 @@ class Locations {
 
   void unFavorite() {
     fav = false;
+  }
+
+  void addReviewAndPoints(String review, int point) {
+    //reviewsandpoints[review] = point;
+    reviewsandpoints.putIfAbsent(review, () => point);
   }
 
   void addReview(String s) {
@@ -240,7 +251,7 @@ Future getFavorites() async {
   if (response.body != 'null') {
     print('inne i if');
     return favoriteList =
-        locationListGenerator(Map.from(jsonDecode(response.body)));
+        locationListGenerator(Map.from(jsonDecode(response.body)), '');
   } else {
     print('inne i else');
     return;
@@ -317,7 +328,7 @@ void createParkMarkers() {
   });
 }
 
-class LocationPark {
+class LocationPark extends Locations {
   String name;
   double latitude;
   double longitude;
@@ -332,7 +343,7 @@ class LocationPark {
 
 //DOGPARKS///////////////////////////////////////////////////////////////////////////////
 
-List<Locations> locationListGenerator(Map data) {
+List<Locations> locationListGenerator(Map data, String type) {
   List<Locations> list = [];
   data.forEach((key, value) {
     LocationsFromDatabase locationObject =
@@ -341,9 +352,19 @@ List<Locations> locationListGenerator(Map data) {
         adress: locationObject.adress,
         latitude: locationObject.latitude,
         longitude: locationObject.longitude,
-        name: locationObject.name));
+        name: locationObject.name,
+        type: type,
+        reviewsandpoints: locationObject.reviews));
   });
   return list;
+}
+
+Future postReview(Locations loc) async {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/${loc.type}/${loc.name}/Reviews/.json';
+  print(Uri.parse(url));
+  String json = jsonEncode(loc.reviewsandpoints);
+  return http.patch(Uri.parse(url), body: json);
 }
 
 //CAFES///////////////////////////////////////////////////////////////////////////////
@@ -352,7 +373,7 @@ Future getCafes() async {
       .get(Uri.parse(
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'))
       .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => cafeList = locationListGenerator(data));
+      .then((data) => cafeList = locationListGenerator(data, 'cafes'));
 
   /* return await http
       .get(Uri.parse(
@@ -381,7 +402,7 @@ Future getPetshops() async {
       .get(Uri.parse(
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/petshops/.json'))
       .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => petshopList = locationListGenerator(data));
+      .then((data) => petshopList = locationListGenerator(data, 'petshops'));
 }
 
 Future<http.Response> postPetShops(LocationsFromDatabase petshop) {
@@ -406,7 +427,8 @@ Future getRestaurants() async {
       .get(Uri.parse(
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/restaurants/.json'))
       .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => restaurantList = locationListGenerator(data));
+      .then((data) =>
+          restaurantList = locationListGenerator(data, 'restaurants'));
 }
 
 Future<http.Response> postRestaurant(LocationsFromDatabase restaurant) {
@@ -432,7 +454,7 @@ Future getVets() async {
       .get(Uri.parse(
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/vets/.json'))
       .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => vetsList = locationListGenerator(data));
+      .then((data) => vetsList = locationListGenerator(data, 'vets'));
 }
 
 
