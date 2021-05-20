@@ -150,7 +150,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                         ),
                                         Padding(
                                           //lämna en reccension text
-                                          padding: EdgeInsets.all(3),
+                                          padding: EdgeInsets.all(2),
                                           child: InkWell(
                                             child: Text(
                                               widget.currentLocation.adress,
@@ -161,7 +161,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                         ),
                                         Padding(
                                           //rapportera plats text
-                                          padding: EdgeInsets.all(3),
+                                          padding: EdgeInsets.all(2),
                                           child: InkWell(
                                             child: Text("Reviews",
                                                 style: TextStyle(
@@ -183,25 +183,25 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                           //some paws
                                           children: <Widget>[
                                             Padding(
-                                              padding: EdgeInsets.all(3),
+                                              padding: EdgeInsets.all(2),
                                               child: widget.currentLocation
                                                   .getFirstPaw(),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.all(3),
+                                              padding: EdgeInsets.all(2),
                                               child: widget.currentLocation
                                                   .getSecondPaw(),
                                             ),
                                             Padding(
-                                                padding: EdgeInsets.all(3),
+                                                padding: EdgeInsets.all(2),
                                                 child: widget.currentLocation
                                                     .getThirdPaw()),
                                             Padding(
-                                                padding: EdgeInsets.all(3),
+                                                padding: EdgeInsets.all(2),
                                                 child: widget.currentLocation
                                                     .getFourthPaw()),
                                             Padding(
-                                              padding: EdgeInsets.all(3),
+                                              padding: EdgeInsets.all(2),
                                               child: widget.currentLocation
                                                   .getFifthPaw(),
                                             ),
@@ -209,7 +209,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                         ),
                                         Padding(
                                           //rapportera plats text
-                                          padding: EdgeInsets.all(5),
+                                          padding: EdgeInsets.all(2),
                                           child: InkWell(
                                             child: Text("Report place",
                                                 style: TextStyle(
