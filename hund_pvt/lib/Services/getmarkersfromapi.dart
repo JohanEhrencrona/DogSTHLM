@@ -8,12 +8,20 @@ import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+
 List<LocationTrash> trashCanList = [];
-List<LocationPark> parksList = [];
+List<Locations> parksList = [];
 List<Locations> cafeList = [];
 List<Locations> restaurantList = [];
 List<Locations> petshopList = [];
 List<Locations> vetsList = [];
+List<Locations> favoriteList = [];
 
 CrsCoordinate convertPoint(double lat, double long) {
   return CrsCoordinate.createCoordinate(
@@ -27,8 +35,13 @@ class Locations {
   double longitude;
   String name;
   bool fav = false;
+  List<CrsCoordinate> wgs84Points = [];
 
-  Locations({this.adress, this.latitude, this.longitude, this.name});
+  List getParkCoordinate() {
+    return wgs84Points;
+  }
+
+  Locations({this.adress, this.latitude, this.longitude, this.name, this.wgs84Points});
 
   void setFavorite() {
     fav = true;
@@ -37,6 +50,19 @@ class Locations {
   void unFavorite() {
     fav = false;
   }
+
+  @override
+  bool operator ==(other) {
+    return (other is Locations) &&
+        other.name == name &&
+        other.adress == adress &&
+        other.latitude == latitude &&
+        other.longitude == longitude;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
 }
 
 //TRASHCAN///////////////////////////////////////////////////////////////////////////////
@@ -69,6 +95,59 @@ class LocationTrash {
     return wgs84;
   }
 }
+
+void markFavoritesInLists(List list) {
+  print('inne i markfavoritesinlists');
+  Locations loc;
+  list.forEach((fav) {
+    if (cafeList.contains(fav)) {
+      loc = (cafeList.singleWhere((element) => element.name == fav.name));
+      loc.setFavorite();
+    } else if (restaurantList.contains(fav)) {
+      print('inne i rest');
+      loc = (restaurantList.singleWhere((element) => element.name == fav.name));
+      loc.setFavorite();
+    } else if (petshopList.contains(fav)) {
+      print('inne i petshop');
+      loc = (petshopList.singleWhere((element) => element.name == fav.name));
+      loc.setFavorite();
+    } else if (vetsList.contains(fav)) {
+      loc = (vetsList.singleWhere((element) => element.name == fav.name));
+      loc.setFavorite();
+    }
+  });
+}
+
+Future getFavorites() async {
+  http.Response response = await http.get(Uri.parse(
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json'));
+  if (response.body != 'null') {
+    print('inne i if');
+    return favoriteList =
+        locationListGenerator(Map.from(jsonDecode(response.body)));
+  } else {
+    print('inne i else');
+    return;
+  }
+}
+
+Future<http.Response> postFavorite(LocationsFromDatabase favorite) {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json';
+  final Map<String, dynamic> data = {favorite.name: favorite.toJson()};
+  String json = jsonEncode(data);
+
+  return http.patch(Uri.parse(url), body: json);
+}
+
+Future<http.Response> removeFavorite(LocationsFromDatabase favorite) {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/${favorite.name}.json';
+  final Map<String, dynamic> data = {favorite.name: favorite.toJson()};
+  String json = jsonEncode(data);
+
+  return http.delete(Uri.parse(url), body: json);
+}
 //TRASHCAN///////////////////////////////////////////////////////////////////////////////
 
 //DOGPARKS///////////////////////////////////////////////////////////////////////////////
@@ -79,11 +158,33 @@ Future getPark() async {
   FeatureCollectionPark pin = new FeatureCollectionPark.fromJson(jsonResponse);
   //Iterate through and convert coordinates
   pin.features.forEach((element) {
+    double centerY;
+    double centerX;
     List<CrsCoordinate> lista = [];
     element.geometry.getCoordinates().forEach((cord) {
       lista.add(convertPoint(cord.elementAt(1), cord.elementAt(0)));
-      parksList.add(LocationPark(wgs84Points: lista));
+
+      //GETTING THE MIDDLE COORDINATE
+      List<double> testx = [];
+      List<double> testy = [];
+      for (int i = 0; i < lista.length; i++) {
+      testx.add(lista[i].xLongitude);
+      }
+      for (int i = 0; i < lista.length; i++) {
+      testy.add(lista[i].yLatitude);
+      }
+
+      double xMax = testx.reduce(max);
+      double xMin = testx.reduce(min);
+      double yMax = testy.reduce(max);
+      double yMin = testy.reduce(min);
+
+      centerX = xMin + ((xMax - xMin) / 2);
+      centerY = yMin + ((yMax - yMin) / 2);
+      //GETTING THE MIDDLE COORDINATE
+
     });
+    parksList.add(Locations(adress: "", latitude: centerY, longitude: centerX, name: element.id, wgs84Points: lista));
   });
 }
 
@@ -97,7 +198,7 @@ void createParkMarkers() {
   });
 }
 
-class LocationPark {
+/*class LocationPark {
   List<CrsCoordinate> wgs84Points;
 
   LocationPark({this.wgs84Points});
@@ -105,7 +206,8 @@ class LocationPark {
   List getParkCoordinate() {
     return wgs84Points;
   }
-}
+}*/
+
 //DOGPARKS///////////////////////////////////////////////////////////////////////////////
 
 List<Locations> locationListGenerator(Map data) {

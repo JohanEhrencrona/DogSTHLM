@@ -20,13 +20,16 @@ class _LoadingState extends State<Loading> {
       getPetshops(),
       getRestaurants(),
       getVets(),
+      getFavorites(),
     ]).then((List _) => {
           createTrashMarkers(),
           createParkMarkers(),
+          addMarkers(parksList, sets.parks, 1),
           addMarkers(cafeList, sets.cafe, 0),
           addMarkers(petshopList, sets.petshop, 3),
           addMarkers(restaurantList, sets.restaurant, 2),
           addMarkers(vetsList, sets.vets, 5),
+          markFavoritesInLists(favoriteList),
           Navigator.pushReplacementNamed(context, '/home'),
         });
 
@@ -59,16 +62,26 @@ class _LoadingState extends State<Loading> {
     final vetIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(0, 0)), 'assets/images/Vet.png');
     customIcons.add(vetIcon);
+    final favoriteIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)),
+        'assets/images/favourites_symbol.png');
+    customIcons.add(favoriteIcon);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.pink,
-        body: Center(
-            child: SpinKitChasingDots(
-          color: Colors.white,
-          size: 50.0,
-        )));
+    return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+                child: SpinKitChasingDots(
+              color: Colors.white,
+              size: 50.0,
+            ))));
   }
 }

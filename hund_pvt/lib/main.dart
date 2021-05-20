@@ -15,13 +15,13 @@ void main() async {
   runApp(MaterialApp(
     initialRoute: '/', //Create loadingscreen
     routes: {
-      '/': (context) => Loading(),
+      '/': (context) => LoginPage(),
+      '/loading': (context) => Loading(),
       '/home': (context) => Home(),
       '/filter': (context) => FilterScreen(),
       '/settings': (context) => ReviewPage(),
       '/favorite': (context) => Favorite(),
       '/addplace': (context) => AddPlace(),
-      //'/login': (context) => LoginPage()
     },
     debugShowCheckedModeBanner: false,
   ));

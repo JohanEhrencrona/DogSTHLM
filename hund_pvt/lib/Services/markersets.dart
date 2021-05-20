@@ -8,7 +8,7 @@ import 'package:hund_pvt/Pages/loading.dart';
 
 int markCounter = 1;
 
-enum sets { cafe, petshop, restaurant, vets }
+enum sets { cafe, petshop, restaurant, vets, parks }
 
 List<TrashMarkerCluster> trashCanMarkers = [];
 Set<Polygon> parkPolygonsSet = {};
@@ -16,8 +16,10 @@ Set<Marker> restaurantMarkers = {};
 Set<Marker> cafeMarkers = {};
 Set<Marker> petshopMarkers = {};
 Set<Marker> vetsMarkers = {};
+Set<Marker> parkMarkers = {};
 
 CustomInfoWindowController infoWindowController = CustomInfoWindowController();
+
 
 void addMarkers(List list, sets type, int iconNumber) {
   list.forEach((element) {
@@ -37,24 +39,14 @@ void addMarkers(List list, sets type, int iconNumber) {
       cafeMarkers.add(mark);
     } else if (type == sets.petshop) {
       petshopMarkers.add(mark);
+    } else if (type == sets.parks) {
+      parkMarkers.add(mark);
     } else if (type == sets.vets) {
       vetsMarkers.add(mark);
     } else {
       restaurantMarkers.add(mark);
     }
   });
-}
-
-//ClusterTrash/////////////////////////////////////
-
-void addTrashMarkersClusters(double lat, double long) {
-  TrashMarkerCluster mark = TrashMarkerCluster(
-    id: MarkerId('$markCounter'),
-    position: LatLng(lat, long),
-    icon: customIcons.elementAt(4),
-  );
-  markCounter++;
-  trashCanMarkers.add(mark);
 }
 
 void addParkPolygons(List points) {
@@ -66,6 +58,17 @@ void addParkPolygons(List points) {
     strokeWidth: 1,
   ));
   markCounter++;
+}
+
+//ClusterTrash/////////////////////////////////////
+void addTrashMarkersClusters(double lat, double long) {
+  TrashMarkerCluster mark = TrashMarkerCluster(
+    id: MarkerId('$markCounter'),
+    position: LatLng(lat, long),
+    icon: customIcons.elementAt(4),
+  );
+  markCounter++;
+  trashCanMarkers.add(mark);
 }
 
 class TrashMarkerCluster extends Clusterable {
