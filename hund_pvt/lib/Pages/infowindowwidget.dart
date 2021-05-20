@@ -130,12 +130,10 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                             Expanded(
                                 child: Container(
                                     margin:
-                                        EdgeInsets.only(left: 10, bottom: 10),
+                                        EdgeInsets.only(left: 10, bottom: 0),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         Align(
                                           alignment: Alignment.bottomLeft,
@@ -143,7 +141,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                         Padding(
                                           //platsens namn
                                           padding: EdgeInsets.only(
-                                              left: 5, bottom: 10),
+                                              left: 3, bottom: 3,top: 0),
                                           child: Text(
                                               widget.currentLocation.name,
                                               style: TextStyle(
@@ -152,6 +150,65 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                         ),
                                         Padding(
                                           //lämna en reccension text
+                                          padding: EdgeInsets.all(3),
+                                          child: InkWell(
+                                            child: Text(
+                                              widget.currentLocation.adress,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          //rapportera plats text
+                                          padding: EdgeInsets.all(3),
+                                          child: InkWell(
+                                            child: Text("Reviews",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                    color: Colors.white)),
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ShowReviews(widget
+                                                              .currentLocation)));
+                                            },
+                                          ),
+                                        ),
+                                        Row(
+                                          //some paws
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(3),
+                                              child: widget.currentLocation
+                                                  .getFirstPaw(),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(3),
+                                              child: widget.currentLocation
+                                                  .getSecondPaw(),
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.all(3),
+                                                child: widget.currentLocation
+                                                    .getThirdPaw()),
+                                            Padding(
+                                                padding: EdgeInsets.all(3),
+                                                child: widget.currentLocation
+                                                    .getFourthPaw()),
+                                            Padding(
+                                              padding: EdgeInsets.all(3),
+                                              child: widget.currentLocation
+                                                  .getFifthPaw(),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          //rapportera plats text
                                           padding: EdgeInsets.all(5),
                                           child: InkWell(
                                             child: Text("Report place",
@@ -161,70 +218,10 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                         .underline,
                                                     color: Colors.white)),
                                             onTap: () {
-                                              print("taptap");
+                                              print('report');
                                             },
                                           ),
                                         ),
-                                        Padding(
-                                          //rapportera plats text
-                                          padding: EdgeInsets.all(5),
-                                          child: InkWell(
-                                            child: Text("Reviews",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    decoration: TextDecoration
-                                                        .underline,
-                                                    color: Colors.white)),
-                                            onTap: () {
-                                              Navigator.push(context,MaterialPageRoute(builder: (context) => ShowReviews(widget.currentLocation)));
-                                            },
-                                          ),
-                                        ),
-                                        Row(
-                                          //some paws
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child: Image.asset(
-                                                "assets/images/white-paw_symbol.png",
-                                                width: 18,
-                                                height: 18,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child: Image.asset(
-                                                "assets/images/white-paw_symbol.png",
-                                                width: 18,
-                                                height: 18,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child: Image.asset(
-                                                "assets/images/white-paw_symbol.png",
-                                                width: 18,
-                                                height: 18,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child: Image.asset(
-                                                "assets/images/dark-paw_symbol.png",
-                                                width: 20.5,
-                                                height: 20.5,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child: Image.asset(
-                                                "assets/images/dark-paw_symbol.png",
-                                                width: 20.5,
-                                                height: 20.5,
-                                              ),
-                                            ),
-                                          ],
-                                        )
                                       ],
                                     ))),
                           ]),
