@@ -70,12 +70,18 @@ class _LoadingState extends State<Loading> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.pink,
-        body: Center(
-            child: SpinKitChasingDots(
-          color: Colors.white,
-          size: 50.0,
-        )));
+    return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+                child: SpinKitChasingDots(
+              color: Colors.white,
+              size: 50.0,
+            ))));
   }
 }
