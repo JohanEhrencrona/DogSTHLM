@@ -64,6 +64,8 @@ flutter:
     - assets/images/Cafe@2x.png
     - assets/images/Cafe@3x.png
     - assets/images/Dog_Park.png
+    - assets/images/Dog_Park@2x.png
+    - assets/images/Dog_Park@3x.png
     - assets/images/Restaurants.png
     - assets/images/Restaurants@2x.png
     - assets/images/Restaurants@3x.png
