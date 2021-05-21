@@ -23,6 +23,7 @@ class FilterScreenState extends State<FilterScreen> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          centerTitle: true,
           title: Text('Filter'),
         ),
         body: ListView.builder(
