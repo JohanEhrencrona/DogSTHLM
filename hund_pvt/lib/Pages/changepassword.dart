@@ -19,6 +19,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _emailId;
   String _password;
+  String _newPassword;
   final _emailIdController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
   final _newPasswordController = TextEditingController(text: '');
@@ -159,7 +160,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     validator: validatePassword,
                                     style: TextStyle(color: Colors.white),
                                     onSaved: (value) {
-                                      _password = value;
+                                      _newPassword = value;
                                     },
                                     controller: _newPasswordController,
                                     obscureText: true,
@@ -204,11 +205,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 child: Container(
                                   width: 320,
                                   child: TextFormField(
-                                    validator: validatePassword,
+                                    validator: validateConfirmPassword,
                                     style: TextStyle(color: Colors.white),
-                                    onSaved: (value) {
-                                      _password = value;
-                                    },
                                     controller: _confirmNewPasswordController,
                                     obscureText: true,
                                     decoration: InputDecoration(
@@ -289,13 +287,15 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     if (_formStateKey.currentState.validate()) {
                                       _formStateKey.currentState.save();
                                       signIn(_emailId, _password).then((user) {
+                                        user.updatePassword(_newPassword);
                                         if (user != null) {
                                           print('Password changed');
                                           setState(() {
                                             successMessage =
-                                            'Password change';
+                                            'Password changed';
                                           });
-                                          Navigator.pushReplacementNamed(context, '/loading');
+
+                                          PasswordChangedAlert();
                                         } else {
                                           setState(() {
                                             successMessage =
@@ -379,6 +379,13 @@ class _ChangePasswordState extends State<ChangePassword> {
       );
     }  }
 
+  String validateConfirmPassword(String value) {
+    if (value.trim() != _newPasswordController.text.trim()) {
+      return 'The passwords are not matching';
+    }
+    return null;
+  }
+
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -396,5 +403,30 @@ class _ChangePasswordState extends State<ChangePassword> {
     return null;
   }
 
-
+  Future<void> PasswordChangedAlert() async {
+    return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+    return AlertDialog(
+    title: const Text('Account'),
+    content: SingleChildScrollView(
+    child: ListBody(
+    children: const <Widget>[
+    Text('Password has been changed'),
+    ],
+    ),
+    ),
+    actions: <Widget>[
+    TextButton(
+    child: const Text('OK'),
+    onPressed: () {
+    Navigator.pushReplacementNamed(context, '/home');
+    },
+    ),
+    ],
+    );
+    },
+    );
+  }
 }
