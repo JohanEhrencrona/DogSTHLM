@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:hund_pvt/JSON/parsejson.dart';
@@ -14,9 +18,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
+//enum locationtype { cafe, petshop, restaurant, vets }
 
 List<LocationTrash> trashCanList = [];
-List<Locations> parksList = [];
+List<LocationPark> parksList = [];
 List<Locations> cafeList = [];
 List<Locations> restaurantList = [];
 List<Locations> petshopList = [];
@@ -30,20 +35,66 @@ CrsCoordinate convertPoint(double lat, double long) {
 }
 
 class Locations {
+
+  var whitePaw = Image.asset(
+    'assets/images/fa-solid_paw.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+    color: Colors.white,
+  );
+  var darkPaw = Image.asset(
+    'assets/images/dark-paw_symbol.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+  );
+
+  var secondPaw = Image.asset(
+    'assets/images/fa-solid_paw.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+    color: Colors.white,
+  );
+  var thirdPaw = Image.asset(
+    'assets/images/fa-solid_paw.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+    color: Colors.white,
+  );
+  var fourthPaw = Image.asset(
+    'assets/images/dark-paw_symbol.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+  );
+  var fifthPaw = Image.asset(
+    'assets/images/dark-paw_symbol.png',
+    width: 18,
+    height: 18,
+    fit: BoxFit.cover,
+  );
+
   List<String> reviews = [];
   List<int> points = [];
   String adress;
   double latitude;
   double longitude;
   String name;
+  String type;
   bool fav = false;
-  List<CrsCoordinate> wgs84Points = [];
+  Map<String, int> reviewsandpoints = {};
 
-  List getParkCoordinate() {
-    return wgs84Points;
-  }
-
-  Locations({this.adress, this.latitude, this.longitude, this.name, this.wgs84Points});
+  Locations({
+    this.adress,
+    this.latitude,
+    this.longitude,
+    this.name,
+    this.reviewsandpoints,
+    this.type,
+  });
 
   void setFavorite() {
     fav = true;
@@ -53,13 +104,28 @@ class Locations {
     fav = false;
   }
 
+  void addReviewAndPoints(String review, int point) {
+    //reviewsandpoints[review] = point;
+    reviewsandpoints.putIfAbsent(review, () => point);
+  }
 
-  void addReview(String s){
+  void addReview(String s) {
     reviews.add(s);
   }
 
-  void addPoints(int i){
+  void addPoints(int i) {
     points.add(i);
+  }
+
+  double getPoints(){
+
+    int returnValue = 0;
+
+    for (int i in points){
+      returnValue += i;
+    }
+
+    return returnValue / points.length;
   }
 
   @override
@@ -75,6 +141,55 @@ class Locations {
   // TODO: implement hashCode
   int get hashCode => super.hashCode;
 
+
+  Image getFirstPaw(){
+    return whitePaw;
+  }
+  Image getSecondPaw(){
+    return secondPaw;
+  }
+  Image getThirdPaw(){
+    return thirdPaw;
+  }
+  Image getFourthPaw(){
+    return fourthPaw;
+  }
+  Image getFifthPaw(){
+    return fifthPaw;
+  }
+
+  void setInfoPaws(double points) {
+    if (points <= 1.5){
+      secondPaw = darkPaw;
+      thirdPaw = darkPaw;
+      fourthPaw = darkPaw;
+      fifthPaw = darkPaw;
+    }
+    if (points > 1.5 && points <= 2.5){
+      secondPaw = whitePaw;
+      thirdPaw = darkPaw;
+      fourthPaw = darkPaw;
+      fifthPaw = darkPaw;
+    }
+    if (points > 2.5 && points <= 3.5){
+      secondPaw = whitePaw;
+      thirdPaw = whitePaw;
+      fourthPaw = darkPaw;
+      fifthPaw = darkPaw;
+    }
+    if (points > 3.5 && points <= 4.5){
+      secondPaw = whitePaw;
+      thirdPaw = whitePaw;
+      fourthPaw = whitePaw;
+      fifthPaw = darkPaw;
+    }
+    if (points > 4.5){
+      secondPaw = whitePaw;
+      thirdPaw = whitePaw;
+      fourthPaw = whitePaw;
+      fifthPaw = whitePaw;
+    }
+  }
 }
 
 //TRASHCAN///////////////////////////////////////////////////////////////////////////////
@@ -136,7 +251,7 @@ Future getFavorites() async {
   if (response.body != 'null') {
     print('inne i if');
     return favoriteList =
-        locationListGenerator(Map.from(jsonDecode(response.body)));
+        locationListGenerator(Map.from(jsonDecode(response.body)), '');
   } else {
     print('inne i else');
     return;
@@ -180,10 +295,10 @@ Future getPark() async {
       List<double> testx = [];
       List<double> testy = [];
       for (int i = 0; i < lista.length; i++) {
-      testx.add(lista[i].xLongitude);
+        testx.add(lista[i].xLongitude);
       }
       for (int i = 0; i < lista.length; i++) {
-      testy.add(lista[i].yLatitude);
+        testy.add(lista[i].yLatitude);
       }
 
       double xMax = testx.reduce(max);
@@ -194,9 +309,12 @@ Future getPark() async {
       centerX = xMin + ((xMax - xMin) / 2);
       centerY = yMin + ((yMax - yMin) / 2);
       //GETTING THE MIDDLE COORDINATE
-
     });
-    parksList.add(Locations(adress: "", latitude: centerY, longitude: centerX, name: element.id, wgs84Points: lista));
+    parksList.add(LocationPark(
+        latitude: centerY,
+        longitude: centerX,
+        name: element.id,
+        wgs84Points: lista));
   });
 }
 
@@ -210,19 +328,22 @@ void createParkMarkers() {
   });
 }
 
-/*class LocationPark {
+class LocationPark extends Locations {
+  String name;
+  double latitude;
+  double longitude;
   List<CrsCoordinate> wgs84Points;
 
-  LocationPark({this.wgs84Points});
+  LocationPark({this.name, this.latitude, this.longitude, this.wgs84Points});
 
   List getParkCoordinate() {
     return wgs84Points;
   }
-}*/
+}
 
 //DOGPARKS///////////////////////////////////////////////////////////////////////////////
 
-List<Locations> locationListGenerator(Map data) {
+List<Locations> locationListGenerator(Map data, String type) {
   List<Locations> list = [];
   data.forEach((key, value) {
     LocationsFromDatabase locationObject =
@@ -231,9 +352,19 @@ List<Locations> locationListGenerator(Map data) {
         adress: locationObject.adress,
         latitude: locationObject.latitude,
         longitude: locationObject.longitude,
-        name: locationObject.name));
+        name: locationObject.name,
+        type: type,
+        reviewsandpoints: locationObject.reviews));
   });
   return list;
+}
+
+Future postReview(Locations loc) async {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/${loc.type}/${loc.name}/Reviews/.json';
+  print(Uri.parse(url));
+  String json = jsonEncode(loc.reviewsandpoints);
+  return http.patch(Uri.parse(url), body: json);
 }
 
 //CAFES///////////////////////////////////////////////////////////////////////////////
@@ -242,7 +373,7 @@ Future getCafes() async {
       .get(Uri.parse(
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'))
       .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => cafeList = locationListGenerator(data));
+      .then((data) => cafeList = locationListGenerator(data, 'cafes'));
 
   /* return await http
       .get(Uri.parse(
@@ -271,7 +402,7 @@ Future getPetshops() async {
       .get(Uri.parse(
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/petshops/.json'))
       .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => petshopList = locationListGenerator(data));
+      .then((data) => petshopList = locationListGenerator(data, 'petshops'));
 }
 
 Future<http.Response> postPetShops(LocationsFromDatabase petshop) {
@@ -296,7 +427,8 @@ Future getRestaurants() async {
       .get(Uri.parse(
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/restaurants/.json'))
       .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => restaurantList = locationListGenerator(data));
+      .then((data) =>
+          restaurantList = locationListGenerator(data, 'restaurants'));
 }
 
 Future<http.Response> postRestaurant(LocationsFromDatabase restaurant) {
@@ -322,7 +454,7 @@ Future getVets() async {
       .get(Uri.parse(
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/vets/.json'))
       .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => vetsList = locationListGenerator(data));
+      .then((data) => vetsList = locationListGenerator(data, 'vets'));
 }
 
 

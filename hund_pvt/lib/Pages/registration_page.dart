@@ -31,51 +31,46 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final _dogNameController = TextEditingController(text: '');
   final _dogRaceController = TextEditingController(text: '');
   final _dogAgeController = TextEditingController(text: '');
-
+  InputBorder _inputBorder = OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.all(Radius.circular(20)));
+  //BorderSide _borderSide = BorderSide(color: Colors.transparent);
+  //BorderRadius _borderRadius = BorderRadius.all(Radius.circular(20));
+  TextStyle _style = TextStyle(color: Colors.white);
+  Color _fillColor = Color(0x22000000);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pushReplacementNamed(context, '/')
-        ),
-        actions: [
-          // ignore: deprecated_member_use
-          FlatButton(
-            child: Text(
-              'Upload pic',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white70,
-              ),
-            ),
-            onPressed: () {
-                  getImage();
-            },
-          ),
-        ],
-        title: Text(
-          "Register new account",
-          style: TextStyle(letterSpacing: 2.0),
-        ),
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-        ),
-      ),
-      body: Column(
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+                child: SingleChildScrollView(
+                  child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Card(
-              child:
-              Padding(
+            Padding(
+              padding: EdgeInsets.only(top: 80),
+              child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 10, bottom: 30, top: 40),
+                  child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () => Navigator.pushReplacementNamed(context, '/login_page')
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 80, bottom: 30, top: 40),
+                  child: Text("Register", style: TextStyle(color: Colors.white, fontSize: 25, letterSpacing: 5)),
+                ),
+              ],
+            ),
+              ),
+            Container(
+              child: Padding(
                 padding: EdgeInsets.all(10),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -89,6 +84,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             padding:
                             EdgeInsets.only(left: 10, right: 10, bottom: 5),
                             child: TextFormField(
+                              style: _style,
                               validator: validateEmail,
                               onSaved: (value) {
                                 _emailId = value;
@@ -96,22 +92,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               keyboardType: TextInputType.emailAddress,
                               controller: _emailIdController,
                               decoration: InputDecoration(
-                                focusedBorder: new UnderlineInputBorder(
-                                  borderSide: new BorderSide(
-                                      color: Colors.pinkAccent,
-                                      width: 2,
-                                      style: BorderStyle.solid),
-                                ),
+                                errorStyle: _style,
+                                errorBorder: _inputBorder,
+                                focusedErrorBorder: _inputBorder,
+                                enabledBorder: _inputBorder,
+                                focusedBorder: _inputBorder,
                                 // hintText: "Company Name",
                                 labelText: "Email"
                                     "",
                                 icon: Icon(
                                   Icons.email,
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
-                                fillColor: Colors.white,
+                                fillColor: _fillColor,
+                                filled: true,
                                 labelStyle: TextStyle(
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -120,25 +116,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             padding:
                             EdgeInsets.only(left: 10, right: 10, bottom: 5),
                             child: TextFormField(
+                              style: _style,
                               validator: validateString,
                               onSaved: (value) {
                                 _dogName = value;
                               },
                               controller: _dogNameController,
                               decoration: InputDecoration(
-                                focusedBorder: new UnderlineInputBorder(
-                                    borderSide: new BorderSide(
-                                        color: Colors.pinkAccent,
-                                        width: 2,
-                                        style: BorderStyle.solid)),
+                                errorStyle: _style,
+                                errorBorder: _inputBorder,
+                                focusedErrorBorder: _inputBorder,
+                                enabledBorder: _inputBorder,
+                                focusedBorder: _inputBorder,
                                 labelText: "Dog name",
                                 icon: Icon(
                                   Icons.pets,
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
-                                fillColor: Colors.white,
+                                fillColor: _fillColor,
+                                filled: true,
                                 labelStyle: TextStyle(
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -147,25 +145,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             padding:
                             EdgeInsets.only(left: 10, right: 10, bottom: 5),
                             child: TextFormField(
+                              style: _style,
                               validator: validateString,
                               onSaved: (value) {
                                 _dogRace = value;
                               },
                               controller: _dogRaceController,
                               decoration: InputDecoration(
-                                focusedBorder: new UnderlineInputBorder(
-                                    borderSide: new BorderSide(
-                                        color: Colors.pinkAccent,
-                                        width: 2,
-                                        style: BorderStyle.solid)),
+                                errorStyle: _style,
+                                errorBorder: _inputBorder,
+                                focusedErrorBorder: _inputBorder,
+                                enabledBorder: _inputBorder,
+                                focusedBorder: _inputBorder,
                                 labelText: "Dog race",
                                 icon: Icon(
                                   Icons.pets,
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
-                                fillColor: Colors.white,
+                                fillColor: _fillColor,
+                                filled: true,
                                 labelStyle: TextStyle(
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -174,25 +174,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             padding:
                             EdgeInsets.only(left: 10, right: 10, bottom: 5),
                             child: TextFormField(
+                              style: _style,
                               validator: validateString,
                               onSaved: (value) {
                                 _dogAge = value;
                               },
                               controller: _dogAgeController,
                               decoration: InputDecoration(
-                                focusedBorder: new UnderlineInputBorder(
-                                    borderSide: new BorderSide(
-                                        color: Colors.pinkAccent,
-                                        width: 2,
-                                        style: BorderStyle.solid)),
+                                errorStyle: _style,
+                                errorBorder: _inputBorder,
+                                focusedErrorBorder: _inputBorder,
+                                enabledBorder: _inputBorder,
+                                focusedBorder: _inputBorder,
                                 labelText: "Dog age",
                                 icon: Icon(
                                   Icons.pets,
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
-                                fillColor: Colors.white,
+                                fillColor: _fillColor,
+                                filled: true,
                                 labelStyle: TextStyle(
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -201,6 +203,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             padding:
                             EdgeInsets.only(left: 10, right: 10, bottom: 5),
                             child: TextFormField(
+                              style: _style,
                               validator: validatePassword,
                               onSaved: (value) {
                                 _password = value;
@@ -208,20 +211,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               controller: _passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
-                                focusedBorder: new UnderlineInputBorder(
-                                    borderSide: new BorderSide(
-                                        color: Colors.green,
-                                        width: 2,
-                                        style: BorderStyle.solid)),
+                                errorStyle: _style,
+                                errorBorder: _inputBorder,
+                                focusedErrorBorder: _inputBorder,
+                                enabledBorder: _inputBorder,
+                                focusedBorder: _inputBorder,
                                 // hintText: "Company Name",
                                 labelText: "Password",
                                 icon: Icon(
                                   Icons.lock,
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
-                                fillColor: Colors.white,
+                                fillColor: _fillColor,
+                                filled: true,
                                 labelStyle: TextStyle(
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -230,24 +234,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             padding:
                             EdgeInsets.only(left: 10, right: 10, bottom: 5),
                             child: TextFormField(
+                              style: _style,
                               validator: validateConfirmPassword,
                               controller: _confirmPasswordController,
                               obscureText: true,
                               decoration: InputDecoration(
-                                focusedBorder: new UnderlineInputBorder(
-                                    borderSide: new BorderSide(
-                                        color: Colors.pinkAccent,
-                                        width: 2,
-                                        style: BorderStyle.solid)),
+                                errorStyle: _style,
+                                errorBorder: _inputBorder,
+                                focusedErrorBorder: _inputBorder,
+                                enabledBorder: _inputBorder,
+                                focusedBorder: _inputBorder,
                                 // hintText: "Company Name",
                                 labelText: "Confirm Password",
                                 icon: Icon(
                                   Icons.lock,
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
-                                fillColor: Colors.white,
+                                fillColor: _fillColor,
+                                filled: true,
                                 labelStyle: TextStyle(
-                                  color: Colors.pinkAccent,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -266,17 +272,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       data: ButtonBarThemeData(buttonTextTheme: ButtonTextTheme.accent),
                       child: ButtonBar(
                         children: <Widget>[
-                          // ignore: deprecated_member_use
-                          FlatButton(
-                            child: Text(
-                              'Register',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.pinkAccent,
+                          SizedBox(
+                    height: 40,
+                              width: 100,
+                              child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Color(0x22000000),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
                               ),
-                            ),
-                            onPressed: () {
-                              if (_formStateKey.currentState.validate()) {
+                              child: Text(
+                                "Register",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                )),
+                              onPressed: () { 
+                                if (_formStateKey.currentState.validate()) {
                                 _formStateKey.currentState.save();
                                 signUp(_emailId, _password).then((user) {
                                   if (user != null) { //Successfully registered
@@ -287,8 +300,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   }
                                 });
                               }
-                            },
-                          ),
+                              },
+                            ),
+                  ),
+                          // ignore: deprecated_member_use
+                          
                         ],
                       ),
                     ),
@@ -303,8 +319,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
               style: TextStyle(fontSize: 24, color: Colors.green),
             )
                 : Container()),
+
+            Container(height: 100),
           ],
         ),
+                ),
+      ),
       );
   }
 
@@ -364,32 +384,4 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
 
-
-  // Image Picker
-
-
-
-    File _image; // Used only if you need a single picture
-    FirebaseStorage storage = FirebaseStorage.instance;
-
-    Future getImage() async {
-      ImagePicker picker = ImagePicker();
-      PickedFile pickedFile;
-      // Let user select photo from gallery
-      pickedFile = await picker.getImage(
-          source: ImageSource.gallery,);
-
-      setState(() {
-        if (pickedFile != null) {
-          _image = File(pickedFile.path);
-          var user = auth.currentUser;
-          var storageRef = storage.ref('/profilePicture/' + user.uid);
-          var task = storageRef.putFile(_image);
-          // Use if you only need a single picture
-          return _image;
-        } else {
-          return('No image selected.');
-        }
-      });
-    }
 }

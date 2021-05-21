@@ -30,45 +30,26 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          // ignore: deprecated_member_use
-          FlatButton(
-            child: Text(
-              'New Account',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white70,
-              ),
-            ),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => RegistrationPage(),
-                ),
-              );
-            },
-          ),
-        ],
-        title: Text(
-          "Dog App",
-          style: TextStyle(letterSpacing: 2.0),
-        ),
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-        ),
-      ),
-      body:  Column(
+      //resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+        child: SingleChildScrollView(
+          child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Card(
+              Padding(
+                padding: EdgeInsets.only(bottom: 70, top: 171),
+                child: Text("Welcome!", style: TextStyle(letterSpacing: 5, color: Colors.white, fontSize: 25))),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Image.asset("assets/images/Dog_siluette.png", height: 150),
+                ),
+              Container(
                 child: Padding(
                   padding: EdgeInsets.all(10),
                   child: Column(
@@ -78,64 +59,107 @@ class _LoginPageState extends State<LoginPage> {
                         autovalidateMode: AutovalidateMode.always, key: _formStateKey,
                         child: Column(
                           children: <Widget>[
+//--------------------------------------------FIRST-----------------------------------------------------------
                             Padding(
                               padding:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                              child: TextFormField(
+                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                              child: Container(
+                                width: 320,
+                                child: TextFormField(
+                                style: TextStyle(color: Colors.white),
                                 validator: validateEmail,
                                 onSaved: (value) {
                                   _emailId = value;
                                 },
                                 keyboardType: TextInputType.emailAddress,
                                 controller: _emailIdController,
+                                
                                 decoration: InputDecoration(
-                                  focusedBorder: new UnderlineInputBorder(
-                                    borderSide: new BorderSide(
-                                        color: Colors.pinkAccent,
-                                        width: 2,
-                                        style: BorderStyle.solid),
+                                  fillColor: Color(0x22000000),
+                                  filled: true,
+                                  errorStyle: TextStyle(color: Colors.white),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+                                  
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+                                  
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
                                   ),
                                   labelText: "Email",
                                   icon: Icon(
                                     Icons.email,
-                                    color: Colors.pinkAccent,
+                                    color: Colors.white,
                                   ),
-                                  fillColor: Colors.white,
+                                  //fillColor: Colors.white,
                                   labelStyle: TextStyle(
-                                    color: Colors.pinkAccent,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
+                              ),
                             ),
-
+//--------------------------------------------------SECOND-------------------------------------------------------------
                             Padding(
                               padding:
                               EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                              child: TextFormField(
+                              child: Container(
+                                width: 320,
+                                child: TextFormField(
                                 validator: validatePassword,
+                                style: TextStyle(color: Colors.white),
                                 onSaved: (value) {
                                   _password = value;
                                 },
                                 controller: _passwordController,
                                 obscureText: true,
                                 decoration: InputDecoration(
-                                  focusedBorder: new UnderlineInputBorder(
-                                      borderSide: new BorderSide(
-                                          color: Colors.pinkAccent,
-                                          width: 2,
-                                          style: BorderStyle.solid)),
+                                  fillColor: Color(0x22000000),
+                                  filled: true,
+                                  errorStyle: TextStyle(color: Colors.white),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+                                  
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+                                    
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+                                  
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.transparent),
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+                                  ),
                                   labelText: "Password",
                                   icon: Icon(
                                     Icons.lock,
-                                    color: Colors.pinkAccent,
+                                    color: Colors.white,
                                   ),
-                                  fillColor: Colors.white,
                                   labelStyle: TextStyle(
-                                    color: Colors.pinkAccent,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
+                              ),
                             ),
+//-------------------------------------------------------ENDS OF FIELDS---------------------------------------------------------
                           ],
                         ),
                       ),
@@ -148,14 +172,30 @@ class _LoginPageState extends State<LoginPage> {
                       ButtonBarTheme(
                         data: ButtonBarThemeData(buttonTextTheme: ButtonTextTheme.accent),
                         child: ButtonBar(
+
+                          alignment: MainAxisAlignment.start,
                           children: <Widget>[
+//---------------------------------------------CREATING SOME ROOM------------------------------------------------------
+                            Container(
+                              width: 50,
+                            ),
                             // ignore: deprecated_member_use
-                            FlatButton(
+//-----------------------------------------SIGN IN BUTTON----------------------------------------------------------------
+                            SizedBox(
+                              height: 40, 
+                              width: 100,
+                              child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Color(0x22000000),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
                               child: Text(
                                 'Sign in',
                                 style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.pinkAccent,
+                                  fontSize: 15,
+                                  color: Colors.white,
                                 ),
                               ),
                               onPressed: () {
@@ -179,6 +219,41 @@ class _LoginPageState extends State<LoginPage> {
                                 }
                               },
                             ),
+                            ),
+                           
+//---------------------------------------CREATING SOME ROOM------------------------------------------------------------
+                            Container(
+                              width: 65,
+                            ),
+//---------------------------------------REGISTER BUTTON-----------------------------------------------
+                            SizedBox(
+                              height: 40,
+                              width: 100,
+                              child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Color(0x22000000),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                "Register",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                )),
+                              onPressed: () { 
+                                Navigator.pushReplacement(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => RegistrationPage(),
+                                ),
+                              );
+                               },
+                            ),
+                            ),
+                            
+//-------------------------------------------END OF REGISTER BUTTON-------------------------------------------------
                             // ignore: deprecated_member_use
                           ],
                         ),
@@ -191,13 +266,20 @@ class _LoginPageState extends State<LoginPage> {
                   ? Text(
                 successMessage,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, color: Colors.pinkAccent),
+                style: TextStyle(fontSize: 18, color: Colors.white),
               )
                   : Container()),
               (!isGoogleSignIn
                   // ignore: deprecated_member_use
-                  ? RaisedButton(
-                child: Text('Sign in with Google'),
+                  ? TextButton(
+                    
+                child: Text('Sign in with Google', style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(
+                  backgroundColor: Color(0x22000000),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
                 onPressed: () {
                   googleSignin(context).then((user) {
                     if (user != null) {
@@ -228,8 +310,14 @@ class _LoginPageState extends State<LoginPage> {
                   });
                 },
               )),
+              Container(
+                height: 94,
+              ),
             ],
-          ));
+          )
+        ),
+      ),
+      );
   }
 
   Future<User> signIn(String email, String password) async {

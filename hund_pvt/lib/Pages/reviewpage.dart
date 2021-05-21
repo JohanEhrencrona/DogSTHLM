@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/Pages/infowindowwidget.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 class ReviewPage extends StatefulWidget {
-
   final Locations location;
 
   ReviewPage(this.location);
@@ -13,7 +13,7 @@ class ReviewPage extends StatefulWidget {
 
 class ReviewState extends State<ReviewPage> {
   String reviewText;
-  int points;
+  int points = 1;
   Locations location;
 
   ReviewState(Locations location) {
@@ -176,6 +176,12 @@ class ReviewState extends State<ReviewPage> {
                               reviewText != null) {
                             location.addReview(reviewText);
                             location.addPoints(points);
+
+                            location.addReviewAndPoints(reviewText, points);
+                            postReview(location);
+
+                            location.setInfoPaws(location.getPoints());
+
                             Navigator.of(context).pop();
                           }
                         },
