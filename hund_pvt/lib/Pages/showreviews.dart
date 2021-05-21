@@ -29,18 +29,25 @@ class ShowReviewState extends State<ShowReviews> {
       ),
       body: Center(
           child: ListView.builder(
-              itemCount: location.reviews.length,
+              itemCount: location.reviewsandpoints.length,
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
                     onTap: () {},
-                    title: Text(location.reviews[index]),
+                    // TODO: Kolla över
+                    title:
+                        Text(location.reviewsandpoints.keys.elementAt(index)),
+                    subtitle: Text(location.reviewsandpoints.values
+                        .elementAt(index)
+                        .toString()),
                   ),
                 );
               })),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(context,MaterialPageRoute(builder: (context) => ReviewPage(location))).then((value) => setState((){}));
+          Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ReviewPage(location)))
+              .then((value) => setState(() {}));
         },
         label: Text('Leave a review'),
         icon: Icon(Icons.rate_review),

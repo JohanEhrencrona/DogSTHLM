@@ -20,7 +20,6 @@ Set<Marker> parkMarkers = {};
 
 CustomInfoWindowController infoWindowController = CustomInfoWindowController();
 
-
 void addMarkers(List list, sets type, int iconNumber) {
   list.forEach((element) {
     Marker mark = Marker(
@@ -28,11 +27,23 @@ void addMarkers(List list, sets type, int iconNumber) {
         position: LatLng(element.latitude, element.longitude),
         icon: customIcons.elementAt(iconNumber),
         onTap: () {
-          infoWindowController.addInfoWindow(
-              InfoWindowWidget(
-                currentLocation: element,
-              ),
-              LatLng(element.latitude, element.longitude));
+          if (element.type == 'cafes' ||
+              element.type == 'restaurants' ||
+              element.type == 'petshops' ||
+              element.type == 'vets') {
+            element.setInfoPaws(element.getPoints());
+            infoWindowController.addInfoWindow(
+                InfoWindowWidget(
+                  currentLocation: element,
+                ),
+                LatLng(element.latitude, element.longitude));
+          } else {
+            infoWindowController.addInfoWindow(
+                InfoWindowWidget(
+                  currentParkLocation: element,
+                ),
+                LatLng(element.latitude, element.longitude));
+          }
         });
     markCounter++;
     if (type == sets.cafe) {

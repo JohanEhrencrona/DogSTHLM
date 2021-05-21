@@ -167,18 +167,15 @@ class ReviewState extends State<ReviewPage> {
                           primary: Colors.white,
                           backgroundColor: Colors.pink,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (reviewText == null) {
                             showErrorDialog(context);
                           } else if (reviewText.isEmpty) {
                             showErrorDialog(context);
                           } else if (reviewText.isNotEmpty &&
                               reviewText != null) {
-                            location.addReview(reviewText);
-                            location.addPoints(points);
-
                             location.addReviewAndPoints(reviewText, points);
-                            postReview(location);
+                            await postReview(location);
 
                             location.setInfoPaws(location.getPoints());
 
