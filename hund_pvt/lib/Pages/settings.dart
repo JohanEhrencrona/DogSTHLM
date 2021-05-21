@@ -5,6 +5,7 @@ class Settings extends StatelessWidget {
  static final String path = "lib/src/pages/settings.dart";
  @override
   Widget build(BuildContext context) {
+
   return Scaffold(
     appBar: AppBar(
       centerTitle: true,
@@ -154,6 +155,7 @@ class Settings extends StatelessWidget {
  ),
   );
   
+
   }
 }
 

@@ -1,50 +1,48 @@
-class Cafe {
+class LocationsFromDatabase {
   String adress;
   double latitude;
   double longitude;
   String name;
+  /* List<int> points;
+  List<String> reviews; */
+  Map<String, int> reviews = {};
 
-  Cafe({this.adress, this.latitude, this.longitude, this.name});
+  LocationsFromDatabase({
+    this.adress,
+    this.latitude,
+    this.longitude,
+    this.name,
+    this.reviews,
+  });
 
-  factory Cafe.fromJson(Map<String, dynamic> parsedJson) {
-    return Cafe(
+  factory LocationsFromDatabase.fromJson(Map<String, dynamic> parsedJson) {
+    String parsed = parsedJson.toString();
+    if (parsed.contains('Reviews')) {
+      print('true');
+      return LocationsFromDatabase(
         adress: parsedJson['Adress'],
         latitude: parsedJson['latitude'],
         longitude: parsedJson['longitude'],
-        name: parsedJson['Namn']);
-  }
-}
-
-class Petshop {
-  String adress;
-  double latitude;
-  double longitude;
-  String name;
-
-  Petshop({this.adress, this.latitude, this.longitude, this.name});
-
-  factory Petshop.fromJson(Map<String, dynamic> parsedJson) {
-    return Petshop(
+        name: parsedJson['Namn'],
+        reviews: Map<String, int>.from(parsedJson['Reviews']),
+      );
+    } else {
+      print('not found');
+      return LocationsFromDatabase(
         adress: parsedJson['Adress'],
         latitude: parsedJson['latitude'],
         longitude: parsedJson['longitude'],
-        name: parsedJson['Namn']);
+        name: parsedJson['Namn'],
+        reviews: Map<String, int>(),
+      );
+    }
   }
-}
 
-class Restaurant {
-  String adress;
-  double latitude;
-  double longitude;
-  String name;
-
-  Restaurant({this.adress, this.latitude, this.longitude, this.name});
-
-  factory Restaurant.fromJson(Map<String, dynamic> parsedJson) {
-    return Restaurant(
-        adress: parsedJson['Adress'],
-        latitude: parsedJson['latitude'],
-        longitude: parsedJson['longitude'],
-        name: parsedJson['Namn']);
-  }
+  Map<String, dynamic> toJson() => {
+        "Adress": adress,
+        "latitude": latitude,
+        "longitude": longitude,
+        "Namn": name,
+        "Review": reviews,
+      };
 }

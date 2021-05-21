@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hund_pvt/Services/getmarkersapi.dart';
-import 'package:hund_pvt/Services/markersets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hund_pvt/Services/getmarkersfromapi.dart';
+import 'package:hund_pvt/Services/markersets.dart';
+
+List<BitmapDescriptor> customIcons = <BitmapDescriptor>[];
 
 class Loading extends StatefulWidget {
   @override
@@ -11,31 +13,27 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   void collectApi() async {
-    await getTrashCan();
-    trashCanList.forEach((element) {
-      addTrashMarkers(element.wgs84.yLatitude, element.wgs84.xLongitude);
-    });
-    await getPark();
-    parksList.forEach((element) {
-      List<LatLng> coord = [];
-      element.wgs84Points.forEach((element) {
-        coord.add(LatLng(element.yLatitude, element.xLongitude));
-      });
-      addParkPolygons(coord);
-    });
-    await getCafes();
-    cafesList.forEach((element) {
-      addCafeMarkers(element.latitude, element.longitude);
-    });
-    await getPetshops();
-    petshopsList.forEach((element) {
-      addPetshopMarkers(element.latitude, element.longitude);
-    });
-    await getRestaurants();
-    restaurantsList.forEach((element) {
-      addRestaurantMarkers(element.latitude, element.longitude);
-    });
-    Navigator.pushReplacementNamed(context, '/home');
+    return Future.wait([
+      getTrashCan(),
+      getPark(),
+      getCafes(),
+      getPetshops(),
+      getRestaurants(),
+      getVets(),
+      getFavorites(),
+    ]).then((List _) => {
+          createTrashMarkers(),
+          createParkMarkers(),
+          addMarkers(parksList, sets.parks, 1),
+          addMarkers(cafeList, sets.cafe, 0),
+          addMarkers(petshopList, sets.petshop, 3),
+          addMarkers(restaurantList, sets.restaurant, 2),
+          addMarkers(vetsList, sets.vets, 5),
+          markFavoritesInLists(favoriteList),
+          Navigator.pushReplacementNamed(context, '/home'),
+        });
+
+    //Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override
@@ -45,14 +43,45 @@ class _LoadingState extends State<Loading> {
     collectApi();
   }
 
+  void getIcons() async {
+    final cafeIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Cafe.png');
+    customIcons.add(cafeIcon);
+    final parkIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Dog_Park.png');
+    customIcons.add(parkIcon);
+    final restaurantIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Restaurants.png');
+    customIcons.add(restaurantIcon);
+    final shopIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Shop.png');
+    customIcons.add(shopIcon);
+    final trashIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Trash_Cans.png');
+    customIcons.add(trashIcon);
+    final vetIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)), 'assets/images/Vet.png');
+    customIcons.add(vetIcon);
+    final favoriteIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(0, 0)),
+        'assets/images/favourites_symbol.png');
+    customIcons.add(favoriteIcon);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.pink,
-        body: Center(
-            child: SpinKitChasingDots(
-          color: Colors.white,
-          size: 50.0,
-        )));
+    return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+                child: SpinKitChasingDots(
+              color: Colors.white,
+              size: 50.0,
+            ))));
   }
 }
