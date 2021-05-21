@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Settings extends StatelessWidget {
@@ -70,14 +71,14 @@ class Settings extends StatelessWidget {
                title: Text("Change password"),
                trailing: Icon(Icons.keyboard_arrow_right), //add lock button icon
                onTap: (){
-                 //Open change password
+                 Navigator.of(context).pushNamed('/changepassword');
                }
              ),
              
              SwitchListTile(
               activeColor: Colors.grey, //white later
               value: true,
-              title: Text("Notifications?"),
+              title: Text("Notifications"),
               onChanged: (val){
                 //Activate Notifications
               },
@@ -139,7 +140,8 @@ class Settings extends StatelessWidget {
                title: Text("Log out"),
                trailing: Icon(Icons.keyboard_arrow_right), //add lock button icon
                onTap: (){
-                 //Log out!
+                 signOut();
+                 Navigator.pushReplacementNamed(context, '/loginpage');
                }
              ),
     
@@ -157,6 +159,16 @@ class Settings extends StatelessWidget {
   
 
   }
+
+  Future <bool> signOut () async {
+   try {
+     await auth.signOut();
+     return true;
+   } catch (FireBaseAuthException){
+     return false;
+   }
+ }
+
 }
 
 //Settings colors (need to fix topBar)
