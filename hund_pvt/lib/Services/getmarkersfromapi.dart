@@ -35,7 +35,6 @@ CrsCoordinate convertPoint(double lat, double long) {
 }
 
 class Locations {
-
   var whitePaw = Image.asset(
     'assets/images/fa-solid_paw.png',
     width: 18,
@@ -77,8 +76,6 @@ class Locations {
     fit: BoxFit.cover,
   );
 
-  List<String> reviews = [];
-  List<int> points = [];
   String adress;
   double latitude;
   double longitude;
@@ -109,23 +106,20 @@ class Locations {
     reviewsandpoints.putIfAbsent(review, () => point);
   }
 
-  void addReview(String s) {
-    reviews.add(s);
-  }
-
-  void addPoints(int i) {
-    points.add(i);
-  }
-
-  double getPoints(){
-
+  double getPoints() {
     int returnValue = 0;
 
-    for (int i in points){
+    reviewsandpoints.forEach((key, value) {
+      returnValue += value;
+    });
+    /* for (int i in points) {
       returnValue += i;
-    }
+    } */
 
-    return returnValue / points.length;
+    double test = returnValue / reviewsandpoints.length;
+    print(test);
+
+    return returnValue / reviewsandpoints.length;
   }
 
   @override
@@ -141,49 +135,52 @@ class Locations {
   // TODO: implement hashCode
   int get hashCode => super.hashCode;
 
-
-  Image getFirstPaw(){
+  Image getFirstPaw() {
     return whitePaw;
   }
-  Image getSecondPaw(){
+
+  Image getSecondPaw() {
     return secondPaw;
   }
-  Image getThirdPaw(){
+
+  Image getThirdPaw() {
     return thirdPaw;
   }
-  Image getFourthPaw(){
+
+  Image getFourthPaw() {
     return fourthPaw;
   }
-  Image getFifthPaw(){
+
+  Image getFifthPaw() {
     return fifthPaw;
   }
 
   void setInfoPaws(double points) {
-    if (points <= 1.5){
+    if (points <= 1.5) {
       secondPaw = darkPaw;
       thirdPaw = darkPaw;
       fourthPaw = darkPaw;
       fifthPaw = darkPaw;
     }
-    if (points > 1.5 && points <= 2.5){
+    if (points > 1.5 && points <= 2.5) {
       secondPaw = whitePaw;
       thirdPaw = darkPaw;
       fourthPaw = darkPaw;
       fifthPaw = darkPaw;
     }
-    if (points > 2.5 && points <= 3.5){
+    if (points > 2.5 && points <= 3.5) {
       secondPaw = whitePaw;
       thirdPaw = whitePaw;
       fourthPaw = darkPaw;
       fifthPaw = darkPaw;
     }
-    if (points > 3.5 && points <= 4.5){
+    if (points > 3.5 && points <= 4.5) {
       secondPaw = whitePaw;
       thirdPaw = whitePaw;
       fourthPaw = whitePaw;
       fifthPaw = darkPaw;
     }
-    if (points > 4.5){
+    if (points > 4.5) {
       secondPaw = whitePaw;
       thirdPaw = whitePaw;
       fourthPaw = whitePaw;
@@ -328,16 +325,50 @@ void createParkMarkers() {
   });
 }
 
-class LocationPark extends Locations {
+//TESTUSER//
+class User {
+  String name;
+  User({this.name});
+}
+
+class LocationPark {
   String name;
   double latitude;
   double longitude;
   List<CrsCoordinate> wgs84Points;
+  bool fav = false;
+  String type = 'parks';
+  List<User> users = [];
 
   LocationPark({this.name, this.latitude, this.longitude, this.wgs84Points});
 
   List getParkCoordinate() {
     return wgs84Points;
+  }
+
+  void setFavorite() {
+    fav = true;
+  }
+
+  void unFavorite() {
+    fav = false;
+  }
+
+  void addUser(User user) {
+    users.add(user);
+  }
+
+  String getUsers() {
+    print('get users körde');
+    String names = ' ';
+    if (users.isEmpty) {
+      return names;
+    } else
+      users.forEach((element) {
+        print('foreach körde');
+        print(element.name);
+        return element.name;
+      });
   }
 }
 
