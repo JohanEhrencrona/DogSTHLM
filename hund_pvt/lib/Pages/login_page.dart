@@ -328,8 +328,6 @@ class _LoginPageState extends State<LoginPage> {
       assert(await user.getIdToken() != null);
       final User currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
-      //Push to database
-      await UserDatabaseService(uid: user.uid).pushUserData('null', 'null', '0');
 
       return user;
     } catch (FirebaseAuthException) {
