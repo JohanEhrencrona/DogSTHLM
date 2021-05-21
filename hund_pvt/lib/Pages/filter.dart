@@ -12,6 +12,7 @@ class FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -61,6 +62,7 @@ class FilterScreenState extends State<FilterScreen> {
                     ));
               },
             )));
+
   }
 
   void itemChange(bool val, int index) {
