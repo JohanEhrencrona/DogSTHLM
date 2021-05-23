@@ -81,9 +81,7 @@ class _SettingsState extends State<Settings> {
             ),
            onTap: (){
              new PicPicker(uid: auth.currentUser.uid).getImage();
-             setState(() {
-             });
-           },
+             WidgetsBinding.instance.addPostFrameCallback((_) => setState);},
          ),
        const SizedBox(height: 50.0),
        Text("Profile", style: TextStyle(
