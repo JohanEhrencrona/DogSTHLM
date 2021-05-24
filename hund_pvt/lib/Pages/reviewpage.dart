@@ -84,7 +84,7 @@ class ReviewState extends State<ReviewPage> {
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: Text(
-                  "Lämna en recension till " + location.name,
+                  "Leave a review for " + location.name,
                   style: TextStyle(color: Colors.white, fontSize: 18),
                   textAlign: TextAlign.center,
                   ),
@@ -99,7 +99,7 @@ class ReviewState extends State<ReviewPage> {
                   decoration: InputDecoration(
                     alignLabelWithHint: true,
                     labelStyle: TextStyle(color: Color(0xaaffffff)),
-                    labelText: "Lämna en kommentar...",
+                    labelText: "Leave a comment...",
                     fillColor: Color(0x22000000),
                     filled: true,
                     focusedBorder: _outlineInputBorder,
@@ -116,7 +116,7 @@ class ReviewState extends State<ReviewPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Välj ditt betyg: ",
+                        "Your rating: ",
                         style: _style,
                       ),
                       SizedBox(
@@ -196,7 +196,7 @@ class ReviewState extends State<ReviewPage> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                        child: Text("Skicka", style: _style),
+                        child: Text("Send", style: _style),
                         onPressed: () async {
                           if (reviewText == null) {
                             showErrorDialog(context);

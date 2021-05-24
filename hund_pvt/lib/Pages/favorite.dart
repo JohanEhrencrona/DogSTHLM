@@ -23,7 +23,7 @@ class FavoriteState extends State<Favorite> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent,
-              title: Text("Favorites", style: TextStyle(letterSpacing: 2)),
+              title: Text("Favourites", style: TextStyle(letterSpacing: 2)),
               centerTitle: true,
               ),
             body: SingleChildScrollView(
