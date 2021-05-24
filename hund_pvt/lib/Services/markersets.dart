@@ -6,6 +6,8 @@ import 'package:hund_pvt/Pages/infowindowwidget.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:hund_pvt/Pages/loading.dart';
 
+import 'package:hund_pvt/Services/getmarkersfromapi.dart';
+
 int markCounter = 1;
 
 enum sets { cafe, petshop, restaurant, vets, parks }
@@ -26,7 +28,7 @@ void addMarkers(List list, sets type, int iconNumber) {
         markerId: MarkerId(element.name),
         position: LatLng(element.latitude, element.longitude),
         icon: customIcons.elementAt(iconNumber),
-        onTap: () {
+        onTap: () async {
           if (element.type == 'cafes' ||
               element.type == 'restaurants' ||
               element.type == 'petshops' ||
@@ -38,6 +40,8 @@ void addMarkers(List list, sets type, int iconNumber) {
                 ),
                 LatLng(element.latitude, element.longitude));
           } else {
+            await getCheckInPark(element);
+            element.getDogs();
             infoWindowController.addInfoWindow(
                 InfoWindowWidget(
                   currentParkLocation: element,

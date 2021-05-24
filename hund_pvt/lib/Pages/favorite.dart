@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 class Favorite extends StatefulWidget {
@@ -23,20 +22,6 @@ class FavoriteState extends State<Favorite> {
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () async {
-                      Locations loc = favoriteList.elementAt(index);
-                      loc.unFavorite();
-                      LocationsFromDatabase favorite = LocationsFromDatabase(
-                          adress: loc.adress,
-                          name: loc.name,
-                          latitude: loc.latitude,
-                          longitude: loc.longitude);
-                      await removeFavorite(favorite);
-                      favoriteList.removeAt(index);
-                      setState(() {});
-                    }),
                 onTap: () {
                   Navigator.pop(context, favoriteList.elementAt(index));
                 },

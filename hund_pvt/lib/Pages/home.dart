@@ -181,6 +181,7 @@ class _HomeState extends State<Home> {
                     print(cafeList.first.reviewsandpoints.values);
                     print(cafeList.first.type);
                     print(petshopList.first.type);
+                    print(parksList.first.name);
                   }),
               IconButton(
                   icon: Icon(Icons.print),

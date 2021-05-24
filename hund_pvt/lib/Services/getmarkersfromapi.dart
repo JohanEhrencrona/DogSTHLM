@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:hund_pvt/JSON/parsejson.dart';
 import 'package:hund_pvt/JSON/parsejsonpark.dart';
+import 'package:hund_pvt/Services/userswithdogs.dart';
 import 'package:sweden_crs_transformations_4dart/sweden_crs_transformations_4dart.dart';
 import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 
@@ -17,8 +18,6 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
-
-//enum locationtype { cafe, petshop, restaurant, vets }
 
 List<LocationTrash> trashCanList = [];
 List<LocationPark> parksList = [];
@@ -112,13 +111,6 @@ class Locations {
     reviewsandpoints.forEach((key, value) {
       returnValue += value;
     });
-    /* for (int i in points) {
-      returnValue += i;
-    } */
-
-    double test = returnValue / reviewsandpoints.length;
-    print(test);
-
     return returnValue / reviewsandpoints.length;
   }
 
@@ -246,11 +238,9 @@ Future getFavorites() async {
   http.Response response = await http.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json'));
   if (response.body != 'null') {
-    print('inne i if');
     return favoriteList =
         locationListGenerator(Map.from(jsonDecode(response.body)), '');
   } else {
-    print('inne i else');
     return;
   }
 }
@@ -325,10 +315,33 @@ void createParkMarkers() {
   });
 }
 
-//TESTUSER//
-class User {
-  String name;
-  User({this.name});
+Future getCheckInPark(LocationPark park) async {
+  http.Response response = await http.get(Uri.parse(
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/${park.name.substring(17)}.json'));
+  print(response.body);
+  Map<String, dynamic> data = jsonDecode(response.body);
+  print(data);
+  if (data != null) {
+    print('inne i != null');
+    CheckInParkLocation tempPark = CheckInParkLocation.fromJson(data);
+    if (tempPark.dogsCheckedIn.isNotEmpty) {
+      print('Finns hund');
+      park.addList(tempPark.dogsCheckedIn);
+    }
+  } else if (data == null) {
+    print('inne i else if, data null');
+    List<Dog> empty = [];
+    park.addList(empty);
+    print('tomt');
+  }
+}
+
+Future postCheckInPark(CheckInParkLocation loc) async {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/.json';
+  final Map<String, dynamic> data = {loc.name.substring(17): loc.toJson()};
+  String json = jsonEncode(data);
+  return http.patch(Uri.parse(url), body: json);
 }
 
 class LocationPark {
@@ -338,7 +351,7 @@ class LocationPark {
   List<CrsCoordinate> wgs84Points;
   bool fav = false;
   String type = 'parks';
-  List<User> users = [];
+  List<Dog> dogsInPark = [];
 
   LocationPark({this.name, this.latitude, this.longitude, this.wgs84Points});
 
@@ -354,21 +367,20 @@ class LocationPark {
     fav = false;
   }
 
-  void addUser(User user) {
-    users.add(user);
+  void addList(List list) {
+    dogsInPark = list;
   }
 
-  String getUsers() {
-    print('get users körde');
+  String getDogs() {
     String names = ' ';
-    if (users.isEmpty) {
+    if (dogsInPark.isEmpty) {
       return names;
     } else
-      users.forEach((element) {
-        print('foreach körde');
-        print(element.name);
-        return element.name;
+      dogsInPark.forEach((element) {
+        names += element.name + ', ';
       });
+
+    return names;
   }
 }
 
@@ -393,7 +405,6 @@ List<Locations> locationListGenerator(Map data, String type) {
 Future postReview(Locations loc) async {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/${loc.type}/${loc.name}/Reviews/.json';
-  print(Uri.parse(url));
   String json = jsonEncode(loc.reviewsandpoints);
   return http.patch(Uri.parse(url), body: json);
 }
@@ -405,22 +416,13 @@ Future getCafes() async {
           'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'))
       .then((response) => Map.from(jsonDecode(response.body)))
       .then((data) => cafeList = locationListGenerator(data, 'cafes'));
-
-  /* return await http
-      .get(Uri.parse(
-          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'))
-      .then((response) => cafeList =
-          locationListGenerator(Map.from(jsonDecode(response.body)))); */
 }
 
 Future<http.Response> postCafes(LocationsFromDatabase cafe) {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json';
   final Map<String, dynamic> data = {cafe.name: cafe.toJson()};
-  var body = data;
-  print(body);
   String json = jsonEncode(data);
-  print(json);
 
   return http.patch(Uri.parse(url), body: json);
 }
@@ -440,10 +442,7 @@ Future<http.Response> postPetShops(LocationsFromDatabase petshop) {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/petshops/.json';
   final Map<String, dynamic> data = {petshop.name: petshop.toJson()};
-  var body = data;
-  print(body);
   String json = jsonEncode(data);
-  print(json);
 
   return http.patch(Uri.parse(url), body: json);
 }
@@ -466,10 +465,7 @@ Future<http.Response> postRestaurant(LocationsFromDatabase restaurant) {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/restaurants/.json';
   final Map<String, dynamic> data = {restaurant.name: restaurant.toJson()};
-  var body = data;
-  print(body);
   String json = jsonEncode(data);
-  print(json);
 
   return http.patch(Uri.parse(url), body: json);
 }
@@ -487,8 +483,6 @@ Future getVets() async {
       .then((response) => Map.from(jsonDecode(response.body)))
       .then((data) => vetsList = locationListGenerator(data, 'vets'));
 }
-
-
 /*
 ! -------------------------------------VETS-----------------------------------------
 */
