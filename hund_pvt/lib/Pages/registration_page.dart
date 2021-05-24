@@ -179,6 +179,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               onSaved: (value) {
                                 _dogAge = value;
                               },
+                              keyboardType: TextInputType.number,
                               controller: _dogAgeController,
                               decoration: InputDecoration(
                                 errorStyle: _style,
