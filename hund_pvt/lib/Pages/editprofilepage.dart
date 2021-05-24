@@ -165,7 +165,7 @@ class _EditProfilePageState extends State<EditProfile> {
                               width: 320,
                               child: TextFormField(
                                 style: TextStyle(color: Colors.white),
-                                validator: validateString,
+                                validator: validateInt,
                                 onSaved: (value) {
                                   _dogAge = value;
                                 },
@@ -295,6 +295,22 @@ class _EditProfilePageState extends State<EditProfile> {
   String validateString(String value) {
     if (value.trim().isEmpty) {
       return 'Cant be empty';
+    }
+    if (value.trim().length>50) {
+      return 'Too long';
+    }
+    return null;
+  }
+
+  String validateInt(String value) {
+    if (value.trim().isEmpty) {
+      return 'Cant be empty';
+    }
+    if (int.tryParse(value)==null) {
+      return 'Only enter numbers';
+    }
+    if (int.parse(value)>99) {
+      return 'Number too large';
     }
     return null;
   }

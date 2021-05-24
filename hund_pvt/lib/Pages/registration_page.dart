@@ -175,7 +175,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             EdgeInsets.only(left: 10, right: 10, bottom: 5),
                             child: TextFormField(
                               style: _style,
-                              validator: validateString,
+                              validator: validateInt,
                               onSaved: (value) {
                                 _dogAge = value;
                               },
@@ -380,6 +380,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String validateString(String value) {
     if (value.trim().isEmpty) {
       return 'Cant be empty';
+    }
+    if (value.trim().length>50) {
+      return 'Too long';
+    }
+    return null;
+  }
+
+  String validateInt(String value) {
+    if (value.trim().isEmpty) {
+      return 'Cant be empty';
+    }
+    if (int.tryParse(value)==null) {
+      return 'Only enter numbers';
+    }
+    if (int.parse(value)>99) {
+      return 'Number too large';
     }
     return null;
   }
