@@ -20,6 +20,7 @@ class _SettingsState extends State<Settings> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Settings"),
+
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(

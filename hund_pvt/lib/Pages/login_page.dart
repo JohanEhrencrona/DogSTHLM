@@ -269,47 +269,6 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   )
                 : Container()),
-            (!isGoogleSignIn
-                // ignore: deprecated_member_use
-                ? TextButton(
-                    child: Text('Sign in with Google',
-                        style: TextStyle(color: Colors.white)),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Color(0x22000000),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    onPressed: () {
-                      googleSignin(context).then((user) {
-                        if (user != null) {
-                          print('Logged in successfully.');
-                          setState(() {
-                            isGoogleSignIn = true;
-                            successMessage =
-                                'Logged in successfully.\nEmail : ${user.email}';
-                          });
-                          Navigator.pushReplacementNamed(context, '/loading');
-                        } else {
-                          print('Error');
-                        }
-                      });
-                    },
-                  )
-                // ignore: deprecated_member_use
-                : RaisedButton(
-                    child: Text('Sign out'),
-                    onPressed: () {
-                      googleSignout().then((response) {
-                        if (response) {
-                          setState(() {
-                            isGoogleSignIn = false;
-                            successMessage = '';
-                          });
-                        }
-                      });
-                    },
-                  )),
             Container(
               height: 200,
             ),
@@ -339,37 +298,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<User> googleSignin(BuildContext context) async {
-    User currentUser;
-    try {
-      final GoogleSignInAccount googleUser = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
 
-      final User user =
-          (await auth.signInWithCredential(credential)).user; // _CastError here
-      assert(user.email != null);
-      assert(user.displayName != null);
-      assert(!user.isAnonymous);
-      assert(await user.getIdToken() != null);
-
-      currentUser = await auth.currentUser;
-      assert(user.uid == currentUser.uid);
-    } catch (FirebaseAuthException) {
-      handleError(FirebaseAuthException);
-    }
-    return currentUser;
-  }
-
-  Future<bool> googleSignout() async {
-    await auth.signOut();
-    await googleSignIn.signOut();
-    return true;
-  }
 
   handleError(FirebaseAuthException error) {
     Future<void> _showMyDialog() async {
