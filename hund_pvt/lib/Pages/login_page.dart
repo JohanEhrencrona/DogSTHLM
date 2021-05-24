@@ -34,34 +34,37 @@ class _LoginPageState extends State<LoginPage> {
                 end: Alignment.bottomCenter,
                 colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
         child: SingleChildScrollView(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
                 padding: EdgeInsets.only(bottom: 70, top: 171),
-                child: Text("Welcome!", style: TextStyle(letterSpacing: 5, color: Colors.white, fontSize: 25))),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Image.asset("assets/images/Dog_siluette.png", height: 150),
-                ),
-              Container(
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Form(
-                        autovalidateMode: AutovalidateMode.always, key: _formStateKey,
-                        child: Column(
-                          children: <Widget>[
+                child: Text("Welcome!",
+                    style: TextStyle(
+                        letterSpacing: 5, color: Colors.white, fontSize: 25))),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Image.asset("assets/images/Dog_siluette.png", height: 150),
+            ),
+            Container(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Form(
+                      autovalidateMode: AutovalidateMode.always,
+                      key: _formStateKey,
+                      child: Column(
+                        children: <Widget>[
 //--------------------------------------------FIRST-----------------------------------------------------------
-                            Padding(
-                              padding:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                              child: Container(
-                                width: 320,
-                                child: TextFormField(
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
+                            child: Container(
+                              width: 320,
+                              child: TextFormField(
                                 style: TextStyle(color: Colors.white),
                                 validator: validateEmail,
                                 onSaved: (value) {
@@ -69,30 +72,30 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                                 keyboardType: TextInputType.emailAddress,
                                 controller: _emailIdController,
-                                
                                 decoration: InputDecoration(
                                   fillColor: Color(0x22000000),
                                   filled: true,
                                   errorStyle: TextStyle(color: Colors.white),
                                   errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                  
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                  
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
                                   labelText: "Email",
                                   icon: Icon(
                                     Icons.email,
@@ -104,15 +107,15 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
-                              ),
                             ),
+                          ),
 //--------------------------------------------------SECOND-------------------------------------------------------------
-                            Padding(
-                              padding:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 5),
-                              child: Container(
-                                width: 320,
-                                child: TextFormField(
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                            child: Container(
+                              width: 320,
+                              child: TextFormField(
                                 validator: validatePassword,
                                 style: TextStyle(color: Colors.white),
                                 onSaved: (value) {
@@ -125,24 +128,25 @@ class _LoginPageState extends State<LoginPage> {
                                   filled: true,
                                   errorStyle: TextStyle(color: Colors.white),
                                   errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                  
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
                                   focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                    
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                  
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent),
-                                    borderRadius: BorderRadius.all(Radius.circular(20))
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
                                   labelText: "Password",
                                   icon: Icon(
                                     Icons.lock,
@@ -153,34 +157,34 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
-                              ),
                             ),
+                          ),
 //-------------------------------------------------------ENDS OF FIELDS---------------------------------------------------------
-                          ],
-                        ),
+                        ],
                       ),
-                      (errorMessage != ''
-                          ? Text(
-                        errorMessage,
-                        style: TextStyle(color: Colors.red),
-                      )
-                          : Container()),
-                      ButtonBarTheme(
-                        data: ButtonBarThemeData(buttonTextTheme: ButtonTextTheme.accent),
-                        child: ButtonBar(
-
-                          alignment: MainAxisAlignment.start,
-                          children: <Widget>[
+                    ),
+                    (errorMessage != ''
+                        ? Text(
+                            errorMessage,
+                            style: TextStyle(color: Colors.red),
+                          )
+                        : Container()),
+                    ButtonBarTheme(
+                      data: ButtonBarThemeData(
+                          buttonTextTheme: ButtonTextTheme.accent),
+                      child: ButtonBar(
+                        alignment: MainAxisAlignment.start,
+                        children: <Widget>[
 //---------------------------------------------CREATING SOME ROOM------------------------------------------------------
-                            Container(
-                              width: 50,
-                            ),
-                            // ignore: deprecated_member_use
+                          Container(
+                            width: 50,
+                          ),
+                          // ignore: deprecated_member_use
 //-----------------------------------------SIGN IN BUTTON----------------------------------------------------------------
-                            SizedBox(
-                              height: 40, 
-                              width: 100,
-                              child: TextButton(
+                          SizedBox(
+                            height: 40,
+                            width: 100,
+                            child: TextButton(
                               style: TextButton.styleFrom(
                                 backgroundColor: Color(0x22000000),
                                 shape: RoundedRectangleBorder(
@@ -202,105 +206,107 @@ class _LoginPageState extends State<LoginPage> {
                                       print('Logged in successfully.');
                                       setState(() {
                                         successMessage =
-                                        'Logged in successfully.';
+                                            'Logged in successfully.';
                                       });
-                                      Navigator.pushReplacementNamed(context, '/loading');
+                                      Navigator.pushReplacementNamed(
+                                          context, '/loading');
                                     } else {
                                       setState(() {
                                         successMessage =
-                                        'Incorrect email or password.';
+                                            'Incorrect email or password.';
                                       });
                                     }
                                   });
                                 }
                               },
                             ),
-                            ),
-                           
+                          ),
+
 //---------------------------------------CREATING SOME ROOM------------------------------------------------------------
-                            Container(
-                              width: 65,
-                            ),
+                          Container(
+                            width: 65,
+                          ),
 //---------------------------------------REGISTER BUTTON-----------------------------------------------
-                            SizedBox(
-                              height: 40,
-                              width: 100,
-                              child: TextButton(
+                          SizedBox(
+                            height: 40,
+                            width: 100,
+                            child: TextButton(
                               style: TextButton.styleFrom(
                                 backgroundColor: Color(0x22000000),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
-                              child: Text(
-                                "Register",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                )),
-                              onPressed: () { 
+                              child: Text("Register",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                  )),
+                              onPressed: () {
                                 Navigator.pushReplacement(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => RegistrationPage(),
-                                ),
-                              );
-                               },
+                                  context,
+                                  new MaterialPageRoute(
+                                    builder: (context) => RegistrationPage(),
+                                  ),
+                                );
+                              },
                             ),
-                            ),
-                            
+                          ),
+
 //-------------------------------------------END OF REGISTER BUTTON-------------------------------------------------
-                            // ignore: deprecated_member_use
-                          ],
-                        ),
+                          // ignore: deprecated_member_use
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              (successMessage != ''
-                  ? Text(
-                successMessage,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              )
-                  : Container()),
-              (!isGoogleSignIn
-                  // ignore: deprecated_member_use
-                  ? TextButton(
-                    
-                child: Text('Sign in with Google', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(
-                  backgroundColor: Color(0x22000000),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                onPressed: () {
-                  googleSignin(context).then((user) {
-                    if (user != null) {
-                      print('Logged in successfully.');
-                      setState(() {
-                        isGoogleSignIn = true;
-                        successMessage =
-                        'Logged in successfully.\nEmail : ${user.email}';
+            ),
+            (successMessage != ''
+                ? Text(
+                    successMessage,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  )
+                : Container()),
+            (!isGoogleSignIn
+                // ignore: deprecated_member_use
+                ? TextButton(
+                    child: Text('Sign in with Google',
+                        style: TextStyle(color: Colors.white)),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color(0x22000000),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    onPressed: () {
+                      googleSignin(context).then((user) {
+                        if (user != null) {
+                          print('Logged in successfully.');
+                          setState(() {
+                            isGoogleSignIn = true;
+                            successMessage =
+                                'Logged in successfully.\nEmail : ${user.email}';
+                          });
+                          Navigator.pushReplacementNamed(context, '/loading');
+                        } else {
+                          print('Error');
+                        }
                       });
-                      Navigator.pushReplacementNamed(context, '/loading');
-                    } else {
-                      print('Error');
-                    }
-                  });
-                },
-              )
-                  // ignore: deprecated_member_use
-                  : RaisedButton(
-                child: Text('Sign out'),
-                onPressed: () {
-                  googleSignout().then((response) {
-                    if (response) {
-                      setState(() {
-                        isGoogleSignIn = false;
-                        successMessage = '';
+                    },
+                  )
+                // ignore: deprecated_member_use
+                : RaisedButton(
+                    child: Text('Sign out'),
+                    onPressed: () {
+                      googleSignout().then((response) {
+                        if (response) {
+                          setState(() {
+                            isGoogleSignIn = false;
+                            successMessage = '';
+                          });
+                        }
                       });
                     }
                   });
@@ -313,17 +319,21 @@ class _LoginPageState extends State<LoginPage> {
           )
         ),
       ),
-      );
+    );
   }
 
   Future<User> signIn(String email, String password) async {
     try {
-      User user = (await auth.signInWithEmailAndPassword( //_CastError HERE
-          email: email, password: password)).user;
+      User user = (await auth.signInWithEmailAndPassword(
+              //_CastError HERE
+              email: email,
+              password: password))
+          .user;
       assert(user != null);
       assert(await user.getIdToken() != null);
       final User currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
+      await UserDatabaseService(uid: user.uid).addUserAndDogToApplication();
 
       return user;
     } catch (FirebaseAuthException) {
@@ -336,12 +346,15 @@ class _LoginPageState extends State<LoginPage> {
     User currentUser;
     try {
       final GoogleSignInAccount googleUser = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,);
+        idToken: googleAuth.idToken,
+      );
 
-      final User user = (await auth.signInWithCredential(credential)).user; // _CastError here
+      final User user =
+          (await auth.signInWithCredential(credential)).user; // _CastError here
       assert(user.email != null);
       assert(user.displayName != null);
       assert(!user.isAnonymous);
@@ -360,9 +373,6 @@ class _LoginPageState extends State<LoginPage> {
     await googleSignIn.signOut();
     return true;
   }
-
-
-
 
   handleError(FirebaseAuthException error) {
     Future<void> _showMyDialog() async {
@@ -390,7 +400,8 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
       );
-    }  }
+    }
+  }
 
   String validateEmail(String value) {
     Pattern pattern =
@@ -403,7 +414,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   String validatePassword(String value) {
-    if (value.trim().isEmpty || value.length<6) {
+    if (value.trim().isEmpty || value.length < 6) {
       return 'Enter a valid password';
     }
     return null;

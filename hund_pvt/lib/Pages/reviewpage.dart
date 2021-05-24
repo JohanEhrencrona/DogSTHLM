@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hund_pvt/Pages/infowindowwidget.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 TextStyle _style = TextStyle(color: Colors.white);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 class Favorite extends StatefulWidget {
@@ -7,11 +6,10 @@ class Favorite extends StatefulWidget {
   FavoriteState createState() => FavoriteState();
 }
 
-//List<String> places = ["Park", "Cafe"];
-
 class FavoriteState extends State<Favorite> {
   @override
   Widget build(BuildContext context) {
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -25,6 +23,7 @@ class FavoriteState extends State<Favorite> {
               shadowColor: Colors.transparent,
               title: Text("Favorites", style: TextStyle(letterSpacing: 2)),
               centerTitle: true,
+
               ),
             body: SingleChildScrollView(
               padding: EdgeInsets.only(left: 25),

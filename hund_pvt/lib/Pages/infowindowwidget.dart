@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hund_pvt/Pages/dogsinpark.dart';
 import 'package:hund_pvt/Pages/showreviews.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hund_pvt/Services/userswithdogs.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'package:hund_pvt/Services/markersets.dart';
@@ -275,7 +276,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                   offset: Offset.zero,
                                   color: Colors.grey.withOpacity(0.5))
                             ]),
-                        height: 270,
+                        height: 210,
                         width: 200,
                         padding: EdgeInsets.all(5),
                         child: Column(
@@ -354,28 +355,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                             //platsens namn
                                             padding: EdgeInsets.only(
                                                 left: 2, bottom: 5),
-                                            child: Text(
-                                                widget.currentParkLocation.name,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.white)),
-                                          ),
-                                          Padding(
-                                            //platsens namn
-                                            padding: EdgeInsets.only(
-                                                left: 2, bottom: 5),
-                                            child: Text(
-                                                'Friends who are checked in',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.white)),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 2, bottom: 5),
-                                            child: Text(
-                                                widget.currentParkLocation
-                                                    .getUsers(),
+                                            child: Text('Hundrastgård',
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.white)),
@@ -383,12 +363,80 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                           Padding(
                                               //platsens namn
                                               padding: EdgeInsets.only(
+                                                  left: 2, bottom: 5),
+                                              child: InkWell(
+                                                child: Text('Dogs in park :',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                        color: Colors.white)),
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      new MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              new DogsInPark(
+                                                                  currentLoc: widget
+                                                                      .currentParkLocation)));
+                                                },
+                                              )),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 2, bottom: 5),
+                                            child: Text(
+                                                widget.currentParkLocation
+                                                    .getDogs(),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.white)),
+                                          ),
+                                          Padding(
+                                            //rapportera plats text
+                                            padding: EdgeInsets.only(
+                                                bottom: 5, left: 2),
+                                            child: InkWell(
+                                              child: Text("Show all",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      color: Colors.white)),
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    new MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            new DogsInPark(
+                                                                currentLoc: widget
+                                                                    .currentParkLocation)));
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                              //platsens namn
+                                              padding: EdgeInsets.only(
                                                   left: 2, bottom: 2),
                                               child: ElevatedButton(
-                                                  onPressed: () {
-                                                    widget.currentParkLocation
-                                                        .addUser(User(
-                                                            name: 'Philip B'));
+                                                  onPressed: () async {
+                                                    setState(() {
+                                                      widget.currentParkLocation
+                                                          .dogsInPark
+                                                          .add(userList
+                                                              .first.dog);
+                                                    });
+                                                    CheckInParkLocation park =
+                                                        CheckInParkLocation(
+                                                            name: widget
+                                                                .currentParkLocation
+                                                                .name,
+                                                            dogsCheckedIn: widget
+                                                                .currentParkLocation
+                                                                .dogsInPark);
+                                                    await postCheckInPark(park);
+                                                    await getCheckInPark(widget
+                                                        .currentParkLocation);
                                                   },
                                                   child: Text(
                                                     'Checka in',
@@ -397,22 +445,6 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                       color: Colors.white,
                                                     ),
                                                   ))),
-                                          /* Padding(
-                                            //rapportera plats text
-                                            padding: EdgeInsets.only(
-                                                bottom: 5, left: 2),
-                                            child: InkWell(
-                                              child: Text("Report place",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      decoration: TextDecoration
-                                                          .underline,
-                                                      color: Colors.white)),
-                                              onTap: () {
-                                                print('report');
-                                              },
-                                            ),
-                                          ), */
                                         ],
                                       ))),
                             ]),
