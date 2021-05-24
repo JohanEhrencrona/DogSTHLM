@@ -10,7 +10,7 @@ import 'package:hund_pvt/Pages/contactUs.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hund_pvt/Pages/reviewpage.dart';
 import 'package:hund_pvt/Pages/changepassword.dart';
-
+import 'package:hund_pvt/Pages/editprofilepage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -27,6 +27,7 @@ void main() async {
       '/contactus': (context) => ContactUs(),
       '/loginpage': (context) => LoginPage(),
       '/changepassword': (context) => ChangePassword(),
+      '/editprofile': (context) => EditProfile(),
     },
     debugShowCheckedModeBanner: false,
   ));
