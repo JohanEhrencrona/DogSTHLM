@@ -32,15 +32,21 @@ class _EditProfilePageState extends State<EditProfile> {
       _dogAge = i.dog.getAge.toString();
       _dogRace = i.dog.getRace;
     }
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-        child: SingleChildScrollView(
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            title: Text("Edit profile", style: TextStyle(letterSpacing: 2)),
+            centerTitle: true,
+        ),
+        body: SingleChildScrollView(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,10 +64,9 @@ class _EditProfilePageState extends State<EditProfile> {
                         children: <Widget>[
 //--------------------------------------------FIRST-----------------------------------------------------------
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
+                            padding: EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 style: TextStyle(color: Colors.white),
                                 validator: validateString,
@@ -109,10 +114,9 @@ class _EditProfilePageState extends State<EditProfile> {
                           ),
 //--------------------------------------------------SECOND-------------------------------------------------------------
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
+                            padding: EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 style: TextStyle(color: Colors.white),
                                 validator: validateString,
@@ -145,7 +149,7 @@ class _EditProfilePageState extends State<EditProfile> {
                                           BorderSide(color: Colors.transparent),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
-                                  labelText:"Race",
+                                  labelText:"Breed",
                                   icon: Icon(
                                     Icons.pets,
                                     color: Colors.white,
@@ -159,10 +163,9 @@ class _EditProfilePageState extends State<EditProfile> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
+                            padding: EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 style: TextStyle(color: Colors.white),
                                 validator: validateInt,
@@ -227,13 +230,13 @@ class _EditProfilePageState extends State<EditProfile> {
                         children: <Widget>[
 //---------------------------------------------CREATING SOME ROOM------------------------------------------------------
                           Container(
-                            width: 50,
+                            width: 36,
                           ),
                           // ignore: deprecated_member_use
 //-----------------------------------------SIGN IN BUTTON----------------------------------------------------------------
                           SizedBox(
                             height: 40,
-                            width: 100,
+                            width: 120,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 backgroundColor: Color(0x22000000),
