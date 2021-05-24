@@ -127,12 +127,9 @@ class AddPlaceState extends State<AddPlace> {
           longitude: coordinates.longitude,
         );
         await postRestaurant(restaurant);
-        print('restaurants innan ${restaurantMarkers.length}');
         await getRestaurants();
         restaurantMarkers = {};
-        print('restaurants tömd ${restaurantMarkers.length}');
         addMarkers(restaurantList, sets.restaurant, 2);
-        print('restaurants efter ${restaurantMarkers.length}');
         Navigator.of(context).pop();
       }
       if (key == 'cafe') {
@@ -142,12 +139,9 @@ class AddPlaceState extends State<AddPlace> {
             latitude: coordinates.latitude,
             longitude: coordinates.longitude);
         await postCafes(cafe);
-        print('cafemarkers innan ${cafeMarkers.length}');
         await getCafes();
         cafeMarkers = {};
-        print('cafemarkers tömd ${cafeMarkers.length}');
         addMarkers(cafeList, sets.cafe, 0);
-        print('cafemarkers efter ${cafeMarkers.length}');
         Navigator.of(context).pop();
       }
       if (key == 'petshop') {
@@ -157,12 +151,9 @@ class AddPlaceState extends State<AddPlace> {
             latitude: coordinates.latitude,
             longitude: coordinates.longitude);
         await postPetShops(petshop);
-        print('petshops innan ${petshopMarkers.length}');
         await getPetshops();
         petshopMarkers = {};
-        print('petshops tömd ${petshopMarkers.length}');
         addMarkers(petshopList, sets.petshop, 3);
-        print('petshops efter ${petshopMarkers.length}');
         Navigator.of(context).pop();
       }
     } catch (e) {

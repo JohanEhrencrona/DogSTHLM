@@ -1,21 +1,13 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hund_pvt/Services/userdatabase.dart';
-import 'package:image_picker/image_picker.dart';
-
-import 'login_page.dart';
 
 class EditProfile extends StatefulWidget {
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
-
 
 class _EditProfilePageState extends State<EditProfile> {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -31,7 +23,6 @@ class _EditProfilePageState extends State<EditProfile> {
   final _dogRaceController = TextEditingController(text: '');
   final _dogAgeController = TextEditingController(text: '');
 
-
   @override
   Widget build(BuildContext context) {
     getDogData("name");
@@ -45,260 +36,259 @@ class _EditProfilePageState extends State<EditProfile> {
                 colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
         child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Form(
-                          autovalidateMode: AutovalidateMode.always, key: _formStateKey,
-                          child: Column(
-                            children: <Widget>[
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Form(
+                      autovalidateMode: AutovalidateMode.always,
+                      key: _formStateKey,
+                      child: Column(
+                        children: <Widget>[
 //--------------------------------------------FIRST-----------------------------------------------------------
-                              Padding(
-                                padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                                child: Container(
-                                  width: 320,
-                                  child: TextFormField(
-                                    style: TextStyle(color: Colors.white),
-                                    validator: validateString,
-                                    onSaved: (value) {
-                                      _dogName = value;
-                                    },
-                                    keyboardType: TextInputType.emailAddress,
-                                    controller: _dogNameController,
-
-                                    decoration: InputDecoration(
-                                      fillColor: Color(0x22000000),
-                                      filled: true,
-                                      errorStyle: TextStyle(color: Colors.white),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-                                      ),
-                                      labelText: "Name",
-                                      icon: Icon(
-                                        Icons.email,
-                                        color: Colors.white,
-                                      ),
-                                      //fillColor: Colors.white,
-                                      labelStyle: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
+                            child: Container(
+                              width: 320,
+                              child: TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                validator: validateString,
+                                onSaved: (value) {
+                                  _dogName = value;
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _dogNameController,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0x22000000),
+                                  filled: true,
+                                  errorStyle: TextStyle(color: Colors.white),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  labelText: "Name",
+                                  icon: Icon(
+                                    Icons.email,
+                                    color: Colors.white,
+                                  ),
+                                  //fillColor: Colors.white,
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
+                            ),
+                          ),
 //--------------------------------------------------SECOND-------------------------------------------------------------
-                              Padding(
-                                padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                                child: Container(
-                                  width: 320,
-                                  child: TextFormField(
-                                    style: TextStyle(color: Colors.white),
-                                    validator: validateString,
-                                    onSaved: (value) {
-                                      _dogRace = value;
-                                    },
-                                    keyboardType: TextInputType.emailAddress,
-                                    controller: _dogRaceController,
-                                    initialValue: initDogName,
-                                    decoration: InputDecoration(
-                                      fillColor: Color(0x22000000),
-                                      filled: true,
-                                      errorStyle: TextStyle(color: Colors.white),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-                                      ),
-                                      labelText: "Race",
-                                      icon: Icon(
-                                        Icons.email,
-                                        color: Colors.white,
-                                      ),
-                                      //fillColor: Colors.white,
-                                      labelStyle: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
+                            child: Container(
+                              width: 320,
+                              child: TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                validator: validateString,
+                                onSaved: (value) {
+                                  _dogRace = value;
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _dogRaceController,
+                                initialValue: initDogName,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0x22000000),
+                                  filled: true,
+                                  errorStyle: TextStyle(color: Colors.white),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  labelText: "Race",
+                                  icon: Icon(
+                                    Icons.email,
+                                    color: Colors.white,
+                                  ),
+                                  //fillColor: Colors.white,
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                                child: Container(
-                                  width: 320,
-                                  child: TextFormField(
-                                    style: TextStyle(color: Colors.white),
-                                    validator: validateString,
-                                    onSaved: (value) {
-                                      _dogAge = value;
-                                    },
-                                    keyboardType: TextInputType.emailAddress,
-                                    controller: _dogAgeController,
-
-                                    decoration: InputDecoration(
-                                      fillColor: Color(0x22000000),
-                                      filled: true,
-                                      errorStyle: TextStyle(color: Colors.white),
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                          borderRadius: BorderRadius.all(Radius.circular(20))
-                                      ),
-                                      labelText: "Age",
-                                      icon: Icon(
-                                        Icons.email,
-                                        color: Colors.white,
-                                      ),
-                                      //fillColor: Colors.white,
-                                      labelStyle: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
+                            child: Container(
+                              width: 320,
+                              child: TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                validator: validateString,
+                                onSaved: (value) {
+                                  _dogAge = value;
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _dogAgeController,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0x22000000),
+                                  filled: true,
+                                  errorStyle: TextStyle(color: Colors.white),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  labelText: "Age",
+                                  icon: Icon(
+                                    Icons.email,
+                                    color: Colors.white,
+                                  ),
+                                  //fillColor: Colors.white,
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
+                            ),
+                          ),
 //-------------------------------------------------------ENDS OF FIELDS---------------------------------------------------------
-                            ],
-                          ),
-                        ),
-                        (errorMessage != ''
-                            ? Text(
-                          errorMessage,
-                          style: TextStyle(color: Colors.red),
-                        )
-                            : Container()),
-                        ButtonBarTheme(
-                          data: ButtonBarThemeData(buttonTextTheme: ButtonTextTheme.accent),
-                          child: ButtonBar(
-
-                            alignment: MainAxisAlignment.start,
-                            children: <Widget>[
+                        ],
+                      ),
+                    ),
+                    (errorMessage != ''
+                        ? Text(
+                            errorMessage,
+                            style: TextStyle(color: Colors.red),
+                          )
+                        : Container()),
+                    ButtonBarTheme(
+                      data: ButtonBarThemeData(
+                          buttonTextTheme: ButtonTextTheme.accent),
+                      child: ButtonBar(
+                        alignment: MainAxisAlignment.start,
+                        children: <Widget>[
 //---------------------------------------------CREATING SOME ROOM------------------------------------------------------
-                              Container(
-                                width: 50,
-                              ),
-                              // ignore: deprecated_member_use
+                          Container(
+                            width: 50,
+                          ),
+                          // ignore: deprecated_member_use
 //-----------------------------------------SIGN IN BUTTON----------------------------------------------------------------
-                              SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: Color(0x22000000),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'Save changes',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    if (_formStateKey.currentState.validate()) {
-                                      _formStateKey.currentState.save();
-                                      //Lägg in push till server
-                                        if (true) { //Om den pushar till server
-                                          setState(() {
-                                            successMessage =
-                                            'Saved';
-                                          });
-
-                                          SavedChangedAlert();
-                                        } else {
-                                          setState(() {
-                                            successMessage =
-                                            'Incorrect email or password.';
-                                          });
-                                        }
-                                    }
-                                  },
+                          SizedBox(
+                            height: 40,
+                            width: 100,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Color(0x22000000),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
-//---------------------------------------CREATING SOME ROOM------------------------------------------------------------
-                              Container(
-                                width: 65,
+                              child: Text(
+                                'Save changes',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ],
+                              onPressed: () {
+                                if (_formStateKey.currentState.validate()) {
+                                  _formStateKey.currentState.save();
+                                  //Lägg in push till server
+                                  if (true) {
+                                    //Om den pushar till server
+                                    setState(() {
+                                      successMessage = 'Saved';
+                                    });
+
+                                    SavedChangedAlert();
+                                  } else {
+                                    setState(() {
+                                      successMessage =
+                                          'Incorrect email or password.';
+                                    });
+                                  }
+                                }
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+//---------------------------------------CREATING SOME ROOM------------------------------------------------------------
+                          Container(
+                            width: 65,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                (successMessage != ''
-                    ? Text(
-                  successMessage,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                )
-                    : Container()),
-                Container(
-                  height: 94,
-                ),
-              ],
-            )
-        ),
+              ),
+            ),
+            (successMessage != ''
+                ? Text(
+                    successMessage,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  )
+                : Container()),
+            Container(
+              height: 94,
+            ),
+          ],
+        )),
       ),
     );
   }
-
-
 
   String validateString(String value) {
     if (value.trim().isEmpty) {
@@ -333,19 +323,20 @@ class _EditProfilePageState extends State<EditProfile> {
           );
         },
       );
-    }  }
+    }
+  }
 
-  Future<String> loadDogData (String reference) async {
-    final CollectionReference users = FirebaseFirestore.instance.collection('users');
+  Future<String> loadDogData(String reference) async {
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
     var document = await users.doc(auth.currentUser.uid).get();
     return document.get(reference).toString();
   }
 
   String initDogName;
-  getDogData(String reference){
+  getDogData(String reference) {
     print("2");
     FutureBuilder<String>(
-
       future: loadDogData(reference), // async work
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         print("1");
@@ -360,7 +351,7 @@ class _EditProfilePageState extends State<EditProfile> {
             if (snapshot.hasError) {
               initDogName = "Error";
               return null;
-            }else{
+            } else {
               initDogName = loadedName;
               print("1");
               return null;
