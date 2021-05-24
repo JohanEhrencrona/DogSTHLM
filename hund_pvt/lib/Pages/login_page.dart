@@ -308,16 +308,13 @@ class _LoginPageState extends State<LoginPage> {
                           });
                         }
                       });
-                    }
-                  });
-                },
-              )),
-              Container(
-                height: 200,
-              ),
-            ],
-          )
-        ),
+                    },
+                  )),
+            Container(
+              height: 200,
+            ),
+          ],
+        )),
       ),
     );
   }

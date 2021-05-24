@@ -188,7 +188,6 @@ Future getTrashCan() async {
   final jsonResponse = jsonDecode(response.body);
   FeatureCollection pin = new FeatureCollection.fromJson(jsonResponse);
   //Iterate through and convert coordinates
-  print(pin.features.length);
   pin.features.forEach((element) {
     trashCanList.add(LocationTrash(
         wgs84: convertPoint(element.geometry.coordinateLat.toDouble(),
@@ -213,18 +212,15 @@ class LocationTrash {
 }
 
 void markFavoritesInLists(List list) {
-  print('inne i markfavoritesinlists');
   Locations loc;
   list.forEach((fav) {
     if (cafeList.contains(fav)) {
       loc = (cafeList.singleWhere((element) => element.name == fav.name));
       loc.setFavorite();
     } else if (restaurantList.contains(fav)) {
-      print('inne i rest');
       loc = (restaurantList.singleWhere((element) => element.name == fav.name));
       loc.setFavorite();
     } else if (petshopList.contains(fav)) {
-      print('inne i petshop');
       loc = (petshopList.singleWhere((element) => element.name == fav.name));
       loc.setFavorite();
     } else if (vetsList.contains(fav)) {
@@ -318,21 +314,15 @@ void createParkMarkers() {
 Future getCheckInPark(LocationPark park) async {
   http.Response response = await http.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/${park.name.substring(17)}.json'));
-  print(response.body);
   Map<String, dynamic> data = jsonDecode(response.body);
-  print(data);
   if (data != null) {
-    print('inne i != null');
     CheckInParkLocation tempPark = CheckInParkLocation.fromJson(data);
     if (tempPark.dogsCheckedIn.isNotEmpty) {
-      print('Finns hund');
       park.addList(tempPark.dogsCheckedIn);
     }
   } else if (data == null) {
-    print('inne i else if, data null');
     List<Dog> empty = [];
     park.addList(empty);
-    print('tomt');
   }
 }
 

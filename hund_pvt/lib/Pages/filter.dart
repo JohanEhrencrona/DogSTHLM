@@ -12,7 +12,6 @@ class FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -24,7 +23,10 @@ class FilterScreenState extends State<FilterScreen> {
               centerTitle: true,
               backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent,
-              title: Text('Filter', style: TextStyle(letterSpacing: 5),),
+              title: Text(
+                'Filter',
+                style: TextStyle(letterSpacing: 5),
+              ),
             ),
             body: ListView.builder(
               itemCount: checkBoxListTileModel.length,
@@ -64,7 +66,6 @@ class FilterScreenState extends State<FilterScreen> {
                     ));
               },
             )));
-
   }
 
   void itemChange(bool val, int index) {
@@ -84,7 +85,7 @@ class CheckBoxListTileModel {
   static List<CheckBoxListTileModel> getFilters() {
     return <CheckBoxListTileModel>[
       CheckBoxListTileModel(
-          filtername: 'Skräpkorgar, LYCKA TILL',
+          filtername: 'Skräpkorgar',
           isChecked: false,
           imageTest: AssetImage("assets/images/trashcan_symbol.png")),
       CheckBoxListTileModel(
