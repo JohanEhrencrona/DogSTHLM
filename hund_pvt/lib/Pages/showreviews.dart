@@ -112,7 +112,7 @@ class ShowReviewState extends State<ShowReviews> {
                   child: Text(
                   "Current rating: ",
                   style: TextStyle(color: Colors.white, fontSize: 16)
-                  ),
+                  )),
                   Wrap(
                     spacing: 5,
                     children: [
