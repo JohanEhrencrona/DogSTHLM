@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "177733136533-e6vq44vku42ddda951s6n78qc72tidtm.apps.googleusercontent.com",
+          "client_id": "177733136533-alm2fbpfd71ojdo3spjdqdauudqbgjrn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.hund_pvt",
@@ -38,6 +38,13 @@
             {
               "client_id": "177733136533-f0fri5ku7nif0rptmqjgk072eak4d681.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "177733136533-4mcgenn5js76744fc43c39uriepc4lri.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hundPvt"
+              }
             }
           ]
         }

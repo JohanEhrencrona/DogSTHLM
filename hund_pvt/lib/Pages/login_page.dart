@@ -20,12 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _emailId;
   String _password;
-  String _dogName;
-  String _dogRace;
-  String _dogAge;
   final _emailIdController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
-  final _stringController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -312,13 +308,16 @@ class _LoginPageState extends State<LoginPage> {
                           });
                         }
                       });
-                    },
-                  )),
-            Container(
-              height: 94,
-            ),
-          ],
-        )),
+                    }
+                  });
+                },
+              )),
+              Container(
+                height: 200,
+              ),
+            ],
+          )
+        ),
       ),
     );
   }
