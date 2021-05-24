@@ -21,8 +21,10 @@ class FilterScreenState extends State<FilterScreen> {
         child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
+              centerTitle: true,
               backgroundColor: Colors.transparent,
-              title: Text('Filter'),
+              shadowColor: Colors.transparent,
+              title: Text('Filter', style: TextStyle(letterSpacing: 5),),
             ),
             body: ListView.builder(
               itemCount: checkBoxListTileModel.length,
@@ -87,7 +89,7 @@ class CheckBoxListTileModel {
           imageTest: AssetImage("assets/images/trashcan_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Hundparker',
-          isChecked: true,
+          isChecked: false,
           imageTest: AssetImage("assets/images/dog_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Veterinärer',
@@ -95,7 +97,7 @@ class CheckBoxListTileModel {
           imageTest: AssetImage("assets/images/veterinary_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Caféer',
-          isChecked: false,
+          isChecked: true,
           imageTest: AssetImage("assets/images/cafe_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Restauranger',
