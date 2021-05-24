@@ -181,6 +181,7 @@ class _HomeState extends State<Home> {
                     print(cafeList.first.reviewsandpoints.values);
                     print(cafeList.first.type);
                     print(petshopList.first.type);
+                    print(parksList.first.name);
                   }),
               IconButton(
                   icon: Icon(Icons.print),
@@ -259,10 +260,6 @@ class _HomeState extends State<Home> {
                 label: ("Filter"),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: ("Search"),
-              ),
-              BottomNavigationBarItem(
                 icon: Icon(Icons.add),
                 label: ("Add new place"),
               ),
@@ -277,9 +274,6 @@ class _HomeState extends State<Home> {
                   Navigator.pushNamed(context, '/filter').then(poppingBack);
                 }
                 if (index == 2) {
-                  _showSearchModal(context);
-                }
-                if (index == 3) {
                   Navigator.pushNamed(context, '/addplace').then(poppingBack);
                 }
               });
@@ -289,42 +283,4 @@ class _HomeState extends State<Home> {
 
 Future<void> requestPermission() async {
   await Permission.location.request();
-}
-
-void _showSearchModal(context) {
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return Container(
-          height: MediaQuery.of(context).size.height * .60,
-          child: AppBar(
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-            ),
-            automaticallyImplyLeading: false,
-            title: TextField(
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: 'Search',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  color: Colors.white,
-                  onPressed: () {},
-                ),
-                focusColor: Colors.white,
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-        );
-      });
 }

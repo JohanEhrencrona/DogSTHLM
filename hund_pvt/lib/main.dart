@@ -8,8 +8,9 @@ import 'package:hund_pvt/Pages/favorite.dart';
 import 'package:hund_pvt/Pages/loading.dart';
 import 'package:hund_pvt/Pages/contactUs.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hund_pvt/Pages/reviewpage.dart';
 
+import 'package:hund_pvt/Pages/changepassword.dart';
+import 'package:hund_pvt/Pages/editprofilepage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,9 @@ void main() async {
       '/favorite': (context) => Favorite(),
       '/addplace': (context) => AddPlace(),
       '/contactus': (context) => ContactUs(),
-      '/login_page': (context) => LoginPage(),
+      '/loginpage': (context) => LoginPage(),
+      '/changepassword': (context) => ChangePassword(),
+      '/editprofile': (context) => EditProfile(),
     },
     debugShowCheckedModeBanner: false,
   ));

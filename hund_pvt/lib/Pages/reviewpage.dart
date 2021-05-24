@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hund_pvt/Pages/infowindowwidget.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 TextStyle _style = TextStyle(color: Colors.white);
-OutlineInputBorder _outlineInputBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(25.0),borderSide: BorderSide(color: Colors.transparent,));
+OutlineInputBorder _outlineInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(25.0),
+    borderSide: BorderSide(
+      color: Colors.transparent,
+    ));
 double _height = 50.0;
 double _width = 50.0;
 
@@ -49,7 +52,7 @@ class ReviewState extends State<ReviewPage> {
   );
   var fourthPaw = Image.asset(
     'assets/images/dark-paw_symbol.png',
-   // height: 30.0,
+    // height: 30.0,
     //fit: BoxFit.cover,
   );
   var fifthPaw = Image.asset(
@@ -61,35 +64,35 @@ class ReviewState extends State<ReviewPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          title: Text(location.name, style: TextStyle(letterSpacing: 2)),
-          centerTitle: true,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text(
-                  "Leave a review for " + location.name,
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                  textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              title: Text(location.name, style: TextStyle(letterSpacing: 2)),
+              centerTitle: true,
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Text(
+                          "Leave a review for " + location.name,
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
                   padding: EdgeInsets.all(20),
                   child: TextFormField(
                   style: _style,
@@ -112,112 +115,107 @@ class ReviewState extends State<ReviewPage> {
                   },
                 ),
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Your rating: ",
-                        style: _style,
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Your rating: ",
+                              style: _style,
+                            ),
+                            SizedBox(
+                              height: _height,
+                              width: _width,
+                              child: TextButton(
+                                onPressed: () {
+                                  points = 1;
+                                  setPaws(points);
+                                  setState(() {});
+                                },
+                                child: pinkPaw,
+                              ),
+                            ),
+                            SizedBox(
+                              height: _height,
+                              width: _width,
+                              child: TextButton(
+                                onPressed: () {
+                                  points = 2;
+                                  setPaws(points);
+                                  setState(() {});
+                                },
+                                child: secondPaw,
+                              ),
+                            ),
+                            SizedBox(
+                              height: _height,
+                              width: _width,
+                              child: TextButton(
+                                onPressed: () {
+                                  points = 3;
+                                  setPaws(points);
+                                  setState(() {});
+                                },
+                                child: thirdPaw,
+                              ),
+                            ),
+                            SizedBox(
+                              height: _height,
+                              width: _width,
+                              child: TextButton(
+                                onPressed: () {
+                                  points = 4;
+                                  setPaws(points);
+                                  setState(() {});
+                                },
+                                child: fourthPaw,
+                              ),
+                            ),
+                            SizedBox(
+                              height: _height,
+                              width: _width,
+                              child: TextButton(
+                                onPressed: () {
+                                  points = 5;
+                                  setPaws(points);
+                                  setState(() {});
+                                },
+                                child: fifthPaw,
+                              ),
+                            ),
+                          ]),
+                      Container(
+                        height: 10,
                       ),
                       SizedBox(
-                        height: _height,
-                        width: _width,
-                        child: TextButton(
-                          onPressed: () {
-                            points = 1;
-                            print(points);
-                            setPaws(points);
-                            setState(() {});
-                          },
-                          child: pinkPaw,
-                        ),
-                      ),
-                      
-                      SizedBox(
-                        height: _height,
-                        width: _width,
-                        child: TextButton(
-                          onPressed: () {
-                            points = 2;
-                            print(points);
-                            setPaws(points);
-                            setState(() {});
-                          },
-                          child: secondPaw,
-                        ),
-                      ),
-                      SizedBox(
-                        height: _height,
-                        width: _width,
-                        child: TextButton(
-                          onPressed: () {
-                            points = 3;
-                            print(points);
-                            setPaws(points);
-                            setState(() {});
-                          },
-                          child: thirdPaw,
-                        ),
-                      ),
-                      SizedBox(
-                        height: _height,
-                        width: _width,
-                        child: TextButton(
-                          onPressed: () {
-                            points = 4;
-                            print(points);
-                            setPaws(points);
-                            setState(() {});
-                          },
-                          child: fourthPaw,
-                        ),
-                      ),
-                      SizedBox(
-                        height: _height,
-                        width: _width,
-                        child: TextButton(
-                          onPressed: () {
-                            points = 5;
-                            print(points);
-                            setPaws(points);
-                            setState(() {});
-                          },
-                          child: fifthPaw,
-                        ),
-                      ),
-                    ]),
-                    Container(height: 10,),
-                    SizedBox(
                         height: 50,
                         child: TextButton(
-                        style: TextButton.styleFrom(
+                          style: TextButton.styleFrom(
                             backgroundColor: Color(0x22000000),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                        child: Text("Send", style: _style),
-                        onPressed: () async {
-                          if (reviewText == null) {
-                            showErrorDialog(context);
-                          } else if (reviewText.isEmpty) {
-                            showErrorDialog(context);
-                          } else if (reviewText.isNotEmpty &&
-                              reviewText != null) {
-                            location.addReviewAndPoints(reviewText, points);
-                            await postReview(location);
+                          child: Text("Send", style: _style),
+                          onPressed: () async {
+                            if (reviewText == null) {
+                              showErrorDialog(context);
+                            } else if (reviewText.isEmpty) {
+                              showErrorDialog(context);
+                            } else if (reviewText.isNotEmpty &&
+                                reviewText != null) {
+                              location.addReviewAndPoints(reviewText, points);
+                              await postReview(location);
 
-                            location.setInfoPaws(location.getPoints());
+                              location.setInfoPaws(location.getPoints());
 
-                            Navigator.of(context).pop();
-                          }
-                        },
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        ),
                       ),
-                      ),
-              ]),
-          ),
-        ))
-    ); 
+                    ]),
+              ),
+            )));
   }
 
   void setPaws(int points) {

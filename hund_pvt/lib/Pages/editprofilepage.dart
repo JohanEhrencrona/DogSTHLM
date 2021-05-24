@@ -1,32 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hund_pvt/Pages/registration_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hund_pvt/Services/userdatabase.dart';
+import 'package:hund_pvt/Services/userswithdogs.dart';
 
-class LoginPage extends StatefulWidget {
+
+class EditProfile extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _EditProfilePageState extends State<EditProfile> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = new GoogleSignIn();
   bool isGoogleSignIn = false;
   String errorMessage = '';
   String successMessage = '';
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
-  String _emailId;
-  String _password;
-  final _emailIdController = TextEditingController(text: '');
-  final _passwordController = TextEditingController(text: '');
+  String _dogName;
+  String _dogRace;
+  String _dogAge;
 
+  final _dogNameController = TextEditingController(text: '');
+  final _dogRaceController = TextEditingController(text: '');
+  final _dogAgeController = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
+    for (LoggedInUser i in userList){
+      _dogName = i.dog.getName;
+      _dogAge = i.dog.getAge.toString();
+      _dogRace = i.dog.getRace;
+    }
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -38,15 +45,6 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-                padding: EdgeInsets.only(bottom: 70, top: 171),
-                child: Text("Welcome!",
-                    style: TextStyle(
-                        letterSpacing: 5, color: Colors.white, fontSize: 25))),
-            Padding(
-              padding: EdgeInsets.only(bottom: 10),
-              child: Image.asset("assets/images/Dog_siluette.png", height: 150),
-            ),
             Container(
               child: Padding(
                 padding: EdgeInsets.all(10),
@@ -66,12 +64,12 @@ class _LoginPageState extends State<LoginPage> {
                               width: 320,
                               child: TextFormField(
                                 style: TextStyle(color: Colors.white),
-                                validator: validateEmail,
+                                validator: validateString,
                                 onSaved: (value) {
-                                  _emailId = value;
+                                  _dogName = value;
                                 },
-                                keyboardType: TextInputType.emailAddress,
-                                controller: _emailIdController,
+                                keyboardType: TextInputType.text,
+                                initialValue: _dogName,
                                 decoration: InputDecoration(
                                   fillColor: Color(0x22000000),
                                   filled: true,
@@ -96,9 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                                           BorderSide(color: Colors.transparent),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
-                                  labelText: "Email",
+                                  labelText: "Name",
                                   icon: Icon(
-                                    Icons.email,
+                                    Icons.pets,
                                     color: Colors.white,
                                   ),
                                   //fillColor: Colors.white,
@@ -111,18 +109,18 @@ class _LoginPageState extends State<LoginPage> {
                           ),
 //--------------------------------------------------SECOND-------------------------------------------------------------
                           Padding(
-                            padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
                             child: Container(
                               width: 320,
                               child: TextFormField(
-                                validator: validatePassword,
                                 style: TextStyle(color: Colors.white),
+                                validator: validateString,
                                 onSaved: (value) {
-                                  _password = value;
+                                  _dogRace = value;
                                 },
-                                controller: _passwordController,
-                                obscureText: true,
+                                keyboardType: TextInputType.text,
+                                initialValue: _dogRace,
                                 decoration: InputDecoration(
                                   fillColor: Color(0x22000000),
                                   filled: true,
@@ -147,11 +145,63 @@ class _LoginPageState extends State<LoginPage> {
                                           BorderSide(color: Colors.transparent),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
-                                  labelText: "Password",
+                                  labelText:"Race",
                                   icon: Icon(
-                                    Icons.lock,
+                                    Icons.pets,
                                     color: Colors.white,
                                   ),
+                                  //fillColor: Colors.white,
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
+                            child: Container(
+                              width: 320,
+                              child: TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                validator: validateInt,
+                                onSaved: (value) {
+                                  _dogAge = value;
+                                },
+                                keyboardType: TextInputType.number,
+                                initialValue: _dogAge,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0x22000000),
+                                  filled: true,
+                                  errorStyle: TextStyle(color: Colors.white),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  labelText: "Age",
+
+                                  icon: Icon(
+                                    Icons.pets,
+                                    color: Colors.white,
+                                  ),
+                                  //fillColor: Colors.white,
                                   labelStyle: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -192,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               child: Text(
-                                'Sign in',
+                                'Save changes',
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.white,
@@ -201,60 +251,24 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () {
                                 if (_formStateKey.currentState.validate()) {
                                   _formStateKey.currentState.save();
-                                  signIn(_emailId, _password).then((user) {
-                                    if (user != null) {
-                                      print('Logged in successfully.');
-                                      setState(() {
-                                        successMessage =
-                                            'Logged in successfully.';
-                                      });
-                                      Navigator.pushReplacementNamed(
-                                          context, '/loading');
-                                    } else {
-                                      setState(() {
-                                        successMessage =
-                                            'Incorrect email or password.';
-                                      });
-                                    }
-                                  });
+                                  pushChanges();
+                                  for (LoggedInUser i in userList){
+                                    _dogName = i.dog.setName(_dogName);
+                                    _dogAge = i.dog.setAge(int.parse(_dogAge));
+                                    _dogRace = i.dog.setRace(_dogRace);
+                                  }
+                                    setState(() {
+                                      successMessage = 'Saved';
+                                    });
+                                    SavedChangedAlert();
                                 }
                               },
                             ),
                           ),
-
 //---------------------------------------CREATING SOME ROOM------------------------------------------------------------
                           Container(
                             width: 65,
                           ),
-//---------------------------------------REGISTER BUTTON-----------------------------------------------
-                          SizedBox(
-                            height: 40,
-                            width: 100,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Color(0x22000000),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              child: Text("Register",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                  )),
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => RegistrationPage(),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-
-//-------------------------------------------END OF REGISTER BUTTON-------------------------------------------------
-                          // ignore: deprecated_member_use
                         ],
                       ),
                     ),
@@ -270,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
                   )
                 : Container()),
             Container(
-              height: 200,
+              height: 94,
             ),
           ],
         )),
@@ -278,26 +292,28 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<User> signIn(String email, String password) async {
-    try {
-      User user = (await auth.signInWithEmailAndPassword(
-              //_CastError HERE
-              email: email,
-              password: password))
-          .user;
-      assert(user != null);
-      assert(await user.getIdToken() != null);
-      final User currentUser = await auth.currentUser;
-      assert(user.uid == currentUser.uid);
-      await UserDatabaseService(uid: user.uid).addUserAndDogToApplication();
-
-      return user;
-    } catch (FirebaseAuthException) {
-      handleError(FirebaseAuthException);
-      return null;
+  String validateString(String value) {
+    if (value.trim().isEmpty) {
+      return 'Cant be empty';
     }
+    if (value.trim().length>50) {
+      return 'Too long';
+    }
+    return null;
   }
 
+  String validateInt(String value) {
+    if (value.trim().isEmpty) {
+      return 'Cant be empty';
+    }
+    if (int.tryParse(value)==null) {
+      return 'Only enter numbers';
+    }
+    if (int.parse(value)>99) {
+      return 'Number too large';
+    }
+    return null;
+  }
 
 
   handleError(FirebaseAuthException error) {
@@ -329,27 +345,35 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Please enter a valid email';
-    else
-      return null;
+
+  pushChanges () async {
+    await UserDatabaseService(uid: auth.currentUser.uid).pushUserData(_dogName, _dogRace, _dogAge);
   }
 
-  String validatePassword(String value) {
-    if (value.trim().isEmpty || value.length < 6) {
-      return 'Enter a valid password';
-    }
-    return null;
-  }
-
-  String validateString(String value) {
-    if (value.trim().isEmpty) {
-      return 'Cant be empty';
-    }
-    return null;
+  Future<void> SavedChangedAlert() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Account'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Changes have been saved'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/settings');
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

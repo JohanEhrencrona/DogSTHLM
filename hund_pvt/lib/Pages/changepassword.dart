@@ -1,27 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hund_pvt/Pages/registration_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hund_pvt/Services/userdatabase.dart';
 
-class LoginPage extends StatefulWidget {
+class ChangePassword extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ChangePasswordState createState() => _ChangePasswordState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ChangePasswordState extends State<ChangePassword> {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = new GoogleSignIn();
   bool isGoogleSignIn = false;
   String errorMessage = '';
   String successMessage = '';
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String _emailId;
   String _password;
+  String _newPassword;
   final _emailIdController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
+  final _newPasswordController = TextEditingController(text: '');
+  final _confirmNewPasswordController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +37,6 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-                padding: EdgeInsets.only(bottom: 70, top: 171),
-                child: Text("Welcome!",
-                    style: TextStyle(
-                        letterSpacing: 5, color: Colors.white, fontSize: 25))),
-            Padding(
-              padding: EdgeInsets.only(bottom: 10),
-              child: Image.asset("assets/images/Dog_siluette.png", height: 150),
-            ),
             Container(
               child: Padding(
                 padding: EdgeInsets.all(10),
@@ -159,6 +149,101 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                            child: Container(
+                              width: 320,
+                              child: TextFormField(
+                                validator: validatePassword,
+                                style: TextStyle(color: Colors.white),
+                                onSaved: (value) {
+                                  _newPassword = value;
+                                },
+                                controller: _newPasswordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0x22000000),
+                                  filled: true,
+                                  errorStyle: TextStyle(color: Colors.white),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  labelText: "New password",
+                                  icon: Icon(
+                                    Icons.lock,
+                                    color: Colors.white,
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                            child: Container(
+                              width: 320,
+                              child: TextFormField(
+                                validator: validateConfirmPassword,
+                                style: TextStyle(color: Colors.white),
+                                controller: _confirmNewPasswordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0x22000000),
+                                  filled: true,
+                                  errorStyle: TextStyle(color: Colors.white),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  labelText: "Confirm new password",
+                                  icon: Icon(
+                                    Icons.lock,
+                                    color: Colors.white,
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
 //-------------------------------------------------------ENDS OF FIELDS---------------------------------------------------------
                         ],
                       ),
@@ -192,7 +277,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               child: Text(
-                                'Sign in',
+                                'Change password',
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.white,
@@ -202,14 +287,14 @@ class _LoginPageState extends State<LoginPage> {
                                 if (_formStateKey.currentState.validate()) {
                                   _formStateKey.currentState.save();
                                   signIn(_emailId, _password).then((user) {
+                                    user.updatePassword(_newPassword);
                                     if (user != null) {
-                                      print('Logged in successfully.');
+                                      print('Password changed');
                                       setState(() {
-                                        successMessage =
-                                            'Logged in successfully.';
+                                        successMessage = 'Password changed';
                                       });
-                                      Navigator.pushReplacementNamed(
-                                          context, '/loading');
+
+                                      PasswordChangedAlert();
                                     } else {
                                       setState(() {
                                         successMessage =
@@ -221,40 +306,10 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                           ),
-
 //---------------------------------------CREATING SOME ROOM------------------------------------------------------------
                           Container(
                             width: 65,
                           ),
-//---------------------------------------REGISTER BUTTON-----------------------------------------------
-                          SizedBox(
-                            height: 40,
-                            width: 100,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Color(0x22000000),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              child: Text("Register",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                  )),
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => RegistrationPage(),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-
-//-------------------------------------------END OF REGISTER BUTTON-------------------------------------------------
-                          // ignore: deprecated_member_use
                         ],
                       ),
                     ),
@@ -270,7 +325,7 @@ class _LoginPageState extends State<LoginPage> {
                   )
                 : Container()),
             Container(
-              height: 200,
+              height: 94,
             ),
           ],
         )),
@@ -289,7 +344,6 @@ class _LoginPageState extends State<LoginPage> {
       assert(await user.getIdToken() != null);
       final User currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
-      await UserDatabaseService(uid: user.uid).addUserAndDogToApplication();
 
       return user;
     } catch (FirebaseAuthException) {
@@ -297,8 +351,6 @@ class _LoginPageState extends State<LoginPage> {
       return null;
     }
   }
-
-
 
   handleError(FirebaseAuthException error) {
     Future<void> _showMyDialog() async {
@@ -329,6 +381,13 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  String validateConfirmPassword(String value) {
+    if (value.trim() != _newPasswordController.text.trim()) {
+      return 'The passwords are not matching';
+    }
+    return null;
+  }
+
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -346,10 +405,30 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  String validateString(String value) {
-    if (value.trim().isEmpty) {
-      return 'Cant be empty';
-    }
-    return null;
+  Future<void> PasswordChangedAlert() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Account'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Password has been changed'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/home');
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
