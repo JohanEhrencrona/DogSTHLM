@@ -320,7 +320,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             )
                 : Container()),
 
-            Container(height: 100),
+            Container(height: 300),
           ],
         ),
                 ),

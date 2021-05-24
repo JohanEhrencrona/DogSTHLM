@@ -311,7 +311,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
               )),
               Container(
-                height: 94,
+                height: 200,
               ),
             ],
           )
