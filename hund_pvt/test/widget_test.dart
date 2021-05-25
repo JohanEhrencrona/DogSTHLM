@@ -17,6 +17,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 typedef Callback = void Function(MethodCall call);
 
+
+// Credit to FireBase Developers
 void setupFirebaseAuthMocks([Callback customHandlers]) {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -63,7 +65,7 @@ void setUppAll () async {
   await Firebase.initializeApp();
 }
 
-void main() {
+void  main() {
   setupFirebaseAuthMocks();
   setUppAll();
 
@@ -73,67 +75,48 @@ void main() {
     );
   }
 
-  testWidgets('Test registration', (WidgetTester tester) async {
 
+
+  testWidgets('Test registrate account', (WidgetTester tester) async {
     await tester.pumpWidget(createWidgetForTesting(child: new RegistrationPage()));
-
      final emailSignInField = find.bySemanticsLabel("Email");
      expect(emailSignInField, findsOneWidget);
-     await tester.pump();
      await tester.enterText(emailSignInField, "testtest@test.nu");
      expect(find.text('testtest@test.nu'), findsOneWidget);
 
-    /* final dogNameField = find.text('Dog Name');
+    final dogNameField = find.bySemanticsLabel("Dog name");
     expect(dogNameField, findsOneWidget);
+    await tester.enterText(dogNameField, "Fido");
+    expect(find.text('Fido'), findsOneWidget);
 
-    await tester.pump();
-    await tester.enterText(find.byType(EditableText), "Fido");
-
-     final dogAgeField = find.text('Dog Age');
+    final dogAgeField = find.bySemanticsLabel("Dog age");
     expect(dogAgeField, findsOneWidget);
+    await tester.enterText(dogAgeField, "10");
+    expect(find.text('10'), findsOneWidget);
 
-    await tester.pump();
-    await tester.enterText(find.byType(EditableText), "10");
-
-    final dogRaceField = find.text('Dog race');
+    final dogRaceField = find.bySemanticsLabel("Dog race");
     expect(dogRaceField, findsOneWidget);
+    await tester.enterText(dogRaceField, "Mastiff");
+    expect(find.text('Mastiff'), findsOneWidget);
 
-    await tester.pump();
-    await tester.enterText(find.byType(EditableText), "Mastiff");
-
-    final passwordField = find.text('Password');
+    final passwordField = find.bySemanticsLabel("Password");
     expect(passwordField, findsOneWidget);
+    await tester.enterText(passwordField, "123456");
 
-    await tester.pump();
-    await tester.enterText(find.byType(EditableText), "lösenord");
-
-    final confirmPasswordField = find.text('Confirm Password');
+    final confirmPasswordField = find.bySemanticsLabel("Confirm Password");
     expect(confirmPasswordField, findsOneWidget);
+    await tester.enterText(passwordField, "123456");
 
-    await tester.pump();
-    await tester.enterText(find.byType(EditableText), "lösenord");
+    final registerButton = find.byKey(ValueKey("RegisterButton"));
+    expect(registerButton, findsOneWidget);
+    await tester.pumpAndSettle();
+    await tester.tap(registerButton);
 
-    */
-
-  });
-  /*
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.pump(new Duration(milliseconds: 1000));
+    final successMessage = find.byKey(ValueKey("successMessage"));
+    expect(successMessage, findsOneWidget);
   });
 
-   */
+
 
 }
