@@ -5,6 +5,62 @@ import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
 TextStyle _style = TextStyle(color: Colors.white);
 
+Wrap onePaw = Wrap(
+  spacing: 5,
+  children: [
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+  ],
+);
+
+Wrap twoPaws = Wrap(
+  spacing: 5,
+  children: [
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+  ],
+);
+
+Wrap threePaws = Wrap(
+  spacing: 5,
+  children: [
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+  ],
+);
+
+Wrap fourPaws = Wrap(
+  spacing: 5,
+  children: [
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/dark-paw_symbol.png", height: 18),
+  ],
+);
+
+Wrap fivePaws = Wrap(
+  spacing: 5,
+  children: [
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+    Image.asset("assets/images/white-paw_symbol.png", height: 18),
+  ],
+);
+
+
 class ShowReviews extends StatefulWidget {
   final Locations location;
 
@@ -48,14 +104,15 @@ class ShowReviewState extends State<ShowReviews> {
 //----------------------------------------------SOME ROOM AT TOP--------------------------------
               //Container(height: 10,),
 //----------------------------------------------------THE TILES------------------------------------------------
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text("Nuvarande rating: ",
-                        style: TextStyle(color: Colors.white, fontSize: 16)),
-                  ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text(
+                  "Current rating: ",
+                  style: TextStyle(color: Colors.white, fontSize: 16)
+                  )),
                   Wrap(
                     spacing: 5,
                     children: [
@@ -89,13 +146,18 @@ class ShowReviewState extends State<ShowReviews> {
                                 location.reviewsandpoints.keys.elementAt(index),
                                 style: _style),
                             trailing: Wrap(
-                              spacing: 5,
                               children: [
-                                location.getFirstPaw(),
-                                location.getSecondPaw(),
-                                location.getThirdPaw(),
-                                location.getFourthPaw(),
-                                location.getFifthPaw(),
+                                location.reviewsandpoints.values.elementAt(index) == 1
+                          ? onePaw
+                          : location.reviewsandpoints.values.elementAt(index) == 2
+                            ? twoPaws
+                            : location.reviewsandpoints.values.elementAt(index) == 3
+                              ? threePaws
+                              : location.reviewsandpoints.values.elementAt(index) == 4
+                                ? fourPaws
+                                : location.reviewsandpoints.values.elementAt(index) == 5
+                                  ? fivePaws
+                                  : null,
                               ],
                             ),
                           ),
@@ -117,7 +179,7 @@ class ShowReviewState extends State<ShowReviews> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Text("Lämna en review", style: _style),
+                  child: Text("Leave a review", style: _style),
                   onPressed: () {
                     Navigator.push(
                             context,

@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hund_pvt/Services/userdatabase.dart';
+import 'package:hund_pvt/Services/userswithdogs.dart';
+
 
 class EditProfile extends StatefulWidget {
   @override
@@ -22,19 +25,28 @@ class _EditProfilePageState extends State<EditProfile> {
   final _dogNameController = TextEditingController(text: '');
   final _dogRaceController = TextEditingController(text: '');
   final _dogAgeController = TextEditingController(text: '');
-
   @override
   Widget build(BuildContext context) {
-    getDogData("name");
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-        child: SingleChildScrollView(
+    for (LoggedInUser i in userList){
+      _dogName = i.dog.getName;
+      _dogAge = i.dog.getAge.toString();
+      _dogRace = i.dog.getRace;
+    }
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            title: Text("Edit profile", style: TextStyle(letterSpacing: 2)),
+            centerTitle: true,
+        ),
+        body: SingleChildScrollView(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,18 +64,17 @@ class _EditProfilePageState extends State<EditProfile> {
                         children: <Widget>[
 //--------------------------------------------FIRST-----------------------------------------------------------
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
+                            padding: EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 style: TextStyle(color: Colors.white),
                                 validator: validateString,
                                 onSaved: (value) {
                                   _dogName = value;
                                 },
-                                keyboardType: TextInputType.emailAddress,
-                                controller: _dogNameController,
+                                keyboardType: TextInputType.text,
+                                initialValue: _dogName,
                                 decoration: InputDecoration(
                                   fillColor: Color(0x22000000),
                                   filled: true,
@@ -90,7 +101,7 @@ class _EditProfilePageState extends State<EditProfile> {
                                           Radius.circular(20))),
                                   labelText: "Name",
                                   icon: Icon(
-                                    Icons.email,
+                                    Icons.pets,
                                     color: Colors.white,
                                   ),
                                   //fillColor: Colors.white,
@@ -103,19 +114,17 @@ class _EditProfilePageState extends State<EditProfile> {
                           ),
 //--------------------------------------------------SECOND-------------------------------------------------------------
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
+                            padding: EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 style: TextStyle(color: Colors.white),
                                 validator: validateString,
                                 onSaved: (value) {
                                   _dogRace = value;
                                 },
-                                keyboardType: TextInputType.emailAddress,
-                                controller: _dogRaceController,
-                                initialValue: initDogName,
+                                keyboardType: TextInputType.text,
+                                initialValue: _dogRace,
                                 decoration: InputDecoration(
                                   fillColor: Color(0x22000000),
                                   filled: true,
@@ -140,9 +149,9 @@ class _EditProfilePageState extends State<EditProfile> {
                                           BorderSide(color: Colors.transparent),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
-                                  labelText: "Race",
+                                  labelText:"Breed",
                                   icon: Icon(
-                                    Icons.email,
+                                    Icons.pets,
                                     color: Colors.white,
                                   ),
                                   //fillColor: Colors.white,
@@ -154,18 +163,17 @@ class _EditProfilePageState extends State<EditProfile> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
+                            padding: EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 style: TextStyle(color: Colors.white),
-                                validator: validateString,
+                                validator: validateInt,
                                 onSaved: (value) {
                                   _dogAge = value;
                                 },
-                                keyboardType: TextInputType.emailAddress,
-                                controller: _dogAgeController,
+                                keyboardType: TextInputType.number,
+                                initialValue: _dogAge,
                                 decoration: InputDecoration(
                                   fillColor: Color(0x22000000),
                                   filled: true,
@@ -191,8 +199,9 @@ class _EditProfilePageState extends State<EditProfile> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20))),
                                   labelText: "Age",
+
                                   icon: Icon(
-                                    Icons.email,
+                                    Icons.pets,
                                     color: Colors.white,
                                   ),
                                   //fillColor: Colors.white,
@@ -221,13 +230,13 @@ class _EditProfilePageState extends State<EditProfile> {
                         children: <Widget>[
 //---------------------------------------------CREATING SOME ROOM------------------------------------------------------
                           Container(
-                            width: 50,
+                            width: 36,
                           ),
                           // ignore: deprecated_member_use
 //-----------------------------------------SIGN IN BUTTON----------------------------------------------------------------
                           SizedBox(
                             height: 40,
-                            width: 100,
+                            width: 120,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 backgroundColor: Color(0x22000000),
@@ -245,20 +254,16 @@ class _EditProfilePageState extends State<EditProfile> {
                               onPressed: () {
                                 if (_formStateKey.currentState.validate()) {
                                   _formStateKey.currentState.save();
-                                  //Lägg in push till server
-                                  if (true) {
-                                    //Om den pushar till server
+                                  pushChanges();
+                                  for (LoggedInUser i in userList){
+                                    _dogName = i.dog.setName(_dogName);
+                                    _dogAge = i.dog.setAge(int.parse(_dogAge));
+                                    _dogRace = i.dog.setRace(_dogRace);
+                                  }
                                     setState(() {
                                       successMessage = 'Saved';
                                     });
-
                                     SavedChangedAlert();
-                                  } else {
-                                    setState(() {
-                                      successMessage =
-                                          'Incorrect email or password.';
-                                    });
-                                  }
                                 }
                               },
                             ),
@@ -294,8 +299,25 @@ class _EditProfilePageState extends State<EditProfile> {
     if (value.trim().isEmpty) {
       return 'Cant be empty';
     }
+    if (value.trim().length>50) {
+      return 'Too long';
+    }
     return null;
   }
+
+  String validateInt(String value) {
+    if (value.trim().isEmpty) {
+      return 'Cant be empty';
+    }
+    if (int.tryParse(value)==null) {
+      return 'Only enter numbers';
+    }
+    if (int.parse(value)>99) {
+      return 'Number too large';
+    }
+    return null;
+  }
+
 
   handleError(FirebaseAuthException error) {
     Future<void> _showMyDialog() async {
@@ -326,39 +348,9 @@ class _EditProfilePageState extends State<EditProfile> {
     }
   }
 
-  Future<String> loadDogData(String reference) async {
-    final CollectionReference users =
-        FirebaseFirestore.instance.collection('users');
-    var document = await users.doc(auth.currentUser.uid).get();
-    return document.get(reference).toString();
-  }
 
-  String initDogName;
-  getDogData(String reference) {
-    print("2");
-    FutureBuilder<String>(
-      future: loadDogData(reference), // async work
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        print("1");
-        String loadedName = loadDogData('name') as String;
-        print("kom hit");
-
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            initDogName = "Loading";
-            return null;
-          default:
-            if (snapshot.hasError) {
-              initDogName = "Error";
-              return null;
-            } else {
-              initDogName = loadedName;
-              print("1");
-              return null;
-            }
-        }
-      },
-    );
+  pushChanges () async {
+    await UserDatabaseService(uid: auth.currentUser.uid).pushUserData(_dogName, _dogRace, _dogAge);
   }
 
   Future<void> SavedChangedAlert() async {

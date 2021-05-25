@@ -87,38 +87,39 @@ class ReviewState extends State<ReviewPage> {
                       Padding(
                         padding: EdgeInsets.only(top: 20),
                         child: Text(
-                          "Lämna en recension till " + location.name,
+                          "Leave a review for " + location.name,
                           style: TextStyle(color: Colors.white, fontSize: 18),
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(20),
-                        child: TextFormField(
-                          style: _style,
-                          minLines: 8,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                            alignLabelWithHint: true,
-                            labelStyle: TextStyle(color: Color(0xaaffffff)),
-                            labelText: "Lämna en kommentar...",
-                            fillColor: Color(0x22000000),
-                            filled: true,
-                            focusedBorder: _outlineInputBorder,
-                            enabledBorder: _outlineInputBorder,
-                          ),
-                          onChanged: (T) {
-                            reviewText = T;
-                            setState(() {});
-                          },
-                        ),
-                      ),
+                  padding: EdgeInsets.all(20),
+                  child: TextFormField(
+                  style: _style,
+                  minLines: 8,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    alignLabelWithHint: true,
+                    labelStyle: TextStyle(color: Color(0xaaffffff)),
+                    labelText: "Leave a comment...",
+                    fillColor: Color(0x22000000),
+                    filled: true,
+                    focusedBorder: _outlineInputBorder,
+                    enabledBorder: _outlineInputBorder,
+                  ),
+                  onChanged: (T) {
+                    reviewText = T;
+                    print(reviewText);
+                    setState(() {});
+                  },
+                ),
+                ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "Välj ditt betyg: ",
+                              "Your rating: ",
                               style: _style,
                             ),
                             SizedBox(
@@ -194,7 +195,7 @@ class ReviewState extends State<ReviewPage> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          child: Text("Skicka", style: _style),
+                          child: Text("Send", style: _style),
                           onPressed: () async {
                             if (reviewText == null) {
                               showErrorDialog(context);

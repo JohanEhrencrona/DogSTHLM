@@ -237,14 +237,6 @@ class _HomeState extends State<Home> {
             width: 260,
             offset: 25,
           ),
-          Positioned(
-              top: 5,
-              right: 340,
-              child: IconButton(
-                icon: Image.asset("assets/images/friends_symbol.png"),
-                onPressed: () {},
-              )),
-          checkInWidget(),
         ]),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
@@ -267,8 +259,8 @@ class _HomeState extends State<Home> {
             items: [
               BottomNavigationBarItem(
                 icon: Image.asset("assets/images/favourites_symbol.png",
-                    height: 25),
-                label: ("Favorite"),
+                    height: 22),
+                label: ("Favourite"),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.filter_alt_rounded),

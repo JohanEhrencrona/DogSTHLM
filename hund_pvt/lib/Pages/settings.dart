@@ -15,22 +15,25 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
+  TextStyle _style = TextStyle(color: Colors.white);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Settings"),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            title: Text("Settings", style: TextStyle(letterSpacing: 2)),
+            centerTitle: true,
         ),
-      ),
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -77,108 +80,131 @@ class _SettingsState extends State<Settings> {
               },
             ),
             const SizedBox(height: 50.0),
-            Text(
+//----------------------------------------------------PROFILE PIC END---------------------------------------------------------
+            Padding(
+              padding: EdgeInsets.only(left: 20, bottom: 10),
+              child: Text(
               "Profile",
               style: TextStyle(
                 fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.red, //White text later
+                color: Colors.white,
               ),
             ),
-            Column(
-              children: <Widget>[
-                ListTile(
-                    leading: Icon(Icons.account_circle),
-                    trailing: Icon(Icons.edit),
-                    title: Text(auth.currentUser.email),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ListTile(
+                    tileColor: Color(0x22000000),
+                    leading: Icon(Icons.account_circle, color: Colors.white),
+                    trailing: Icon(Icons.edit, color: Colors.white),
+                    title: Text(auth.currentUser.email, style: _style),
                     onTap: () {
                       Navigator.of(context).pushNamed('/editprofile');
                     }),
                 ListTile(
-                    leading: Icon(Icons.lock_outline),
-                    title: Text("Change password"),
+                    tileColor: Color(0x22000000),
+                    leading: Icon(Icons.lock_outline, color: Colors.white),
+                    title: Text("Change password", style: _style),
                     trailing:
-                        Icon(Icons.keyboard_arrow_right), //add lock button icon
+                        Icon(Icons.keyboard_arrow_right, color: Colors.white), //add lock button icon
                     onTap: () {
                       Navigator.of(context).pushNamed('/changepassword');
                     }),
                 SwitchListTile(
-                  activeColor: Colors.grey, //white later
+                  tileColor: Color(0x22000000),
+                  activeColor: Colors.white,
                   value: true,
-                  title: Text("Notifications"),
+                  title: Text("Notifications", style: _style,),
                   onChanged: (val) {
                     //Activate Notifications
                   },
                 ),
-                const SizedBox(height: 10.0),
-                Text(
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10, top: 20),
+                  child: Text(
                   "About DogApp",
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red, //White text later
+                    color: Colors.white, 
                   ),
                 ),
+                ),
                 ListTile(
-                  leading: Icon(Icons.chat_bubble),
-                  title: Text("Contact us"),
+                    tileColor: Color(0x22000000),
+                  leading: Icon(Icons.chat_bubble, color: Colors.white),
+                  title: Text("Contact us", style: _style),
                   onTap: () {
                     Navigator.of(context).pushNamed('/contactus');
                   },
                 ),
-              ],
-            ),
+              
 
             const SizedBox(height: 10.0),
-            Text(
+            Padding(
+              padding: EdgeInsets.only(bottom: 10, top: 20),
+              child: Text(
               "Personal settings",
               style: TextStyle(
                 fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.red, //White text later
+                color: Colors.white, 
               ),
+            ),
             ),
 
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text("Manage location settings"),
+              tileColor: Color(0x22000000),
+              leading: Icon(Icons.settings, color: Colors.white),
+              title: Text("Manage location settings", style: _style),
               onTap: () => openAppSettings(),
             ),
 
             SwitchListTile(
-              activeColor: Colors.grey, //white later
+              tileColor: Color(0x22000000),
+              activeColor: Colors.white,
               value: true,
-              title: Text("Day and night mode"),
+              title: Text("Day and night mode", style: _style),
               onChanged: (val) {},
             ),
 
             ListTile(
-                leading: Icon(Icons.help),
-                title: Text("Help?"),
+                tileColor: Color(0x22000000),
+                leading: Icon(Icons.help, color: Colors.white),
+                title: Text("Help?", style: _style),
                 trailing:
-                    Icon(Icons.keyboard_arrow_right), //add lock button icon
+                    Icon(Icons.keyboard_arrow_right, color: Colors.white), //add lock button icon
                 onTap: () {
                   //Open help!
                 }),
 
             ListTile(
-                leading: Icon(Icons.logout),
-                title: Text("Log out"),
+                tileColor: Color(0x22000000),
+                leading: Icon(Icons.logout, color: Colors.white),
+                title: Text("Log out", style: _style),
                 trailing:
-                    Icon(Icons.keyboard_arrow_right), //add lock button icon
+                    Icon(Icons.keyboard_arrow_right, color: Colors.white), //add lock button icon
                 onTap: () {
                   signOut();
                   Navigator.pushReplacementNamed(context, '/loginpage');
                 }),
 
             //App version
-            Text(
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Text(
               "App version 1.0.0",
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: _style,
             ),
+            ),
+            ],
+            )),
           ],
         ),
+      ),
       ),
     );
   }

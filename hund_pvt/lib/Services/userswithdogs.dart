@@ -29,6 +29,7 @@ class Dog {
 
   int get getAge => this.age;
 
+
   @override
   bool operator ==(other) {
     return (other is Dog) &&
@@ -40,6 +41,7 @@ class Dog {
   @override
   // TODO: implement hashCode
   int get hashCode => super.hashCode;
+
 
   factory Dog.fromJson(Map<String, dynamic> parsedJson) {
     return Dog(
@@ -54,4 +56,15 @@ class Dog {
         "race": race,
         "age": age.toString(),
       };
+
+
+  setName(String dogName) {
+    this.name=dogName;
+  }
+  setAge (int dogAge) {
+    this.age=dogAge;
+  }
+  setRace(String dogRace) {
+    this.race=dogRace;
+  }
 }

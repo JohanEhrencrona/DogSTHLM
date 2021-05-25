@@ -21,18 +21,25 @@ class _ChangePasswordState extends State<ChangePassword> {
   final _passwordController = TextEditingController(text: '');
   final _newPasswordController = TextEditingController(text: '');
   final _confirmNewPasswordController = TextEditingController(text: '');
+  InputBorder _inputBorder = OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent), borderRadius: BorderRadius.all(Radius.circular(20)));
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //resizeToAvoidBottomInset: false,
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-        child: SingleChildScrollView(
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            title: Text("Change password", style: TextStyle(letterSpacing: 2)),
+            centerTitle: true,
+        ),
+      body: SingleChildScrollView(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,10 +57,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                         children: <Widget>[
 //--------------------------------------------FIRST-----------------------------------------------------------
                           Padding(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, bottom: 10),
+                            padding: EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 style: TextStyle(color: Colors.white),
                                 validator: validateEmail,
@@ -66,26 +72,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   fillColor: Color(0x22000000),
                                   filled: true,
                                   errorStyle: TextStyle(color: Colors.white),
-                                  errorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
+                                  errorBorder: _inputBorder,
+                                  focusedErrorBorder: _inputBorder,
+                                  enabledBorder: _inputBorder,
+                                  focusedBorder: _inputBorder,
                                   labelText: "Email",
                                   icon: Icon(
                                     Icons.email,
@@ -102,9 +92,9 @@ class _ChangePasswordState extends State<ChangePassword> {
 //--------------------------------------------------SECOND-------------------------------------------------------------
                           Padding(
                             padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                                EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 validator: validatePassword,
                                 style: TextStyle(color: Colors.white),
@@ -117,26 +107,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   fillColor: Color(0x22000000),
                                   filled: true,
                                   errorStyle: TextStyle(color: Colors.white),
-                                  errorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
+                                  errorBorder: _inputBorder,
+                                  focusedErrorBorder: _inputBorder,
+                                  enabledBorder: _inputBorder,
+                                  focusedBorder: _inputBorder,
                                   labelText: "Password",
                                   icon: Icon(
                                     Icons.lock,
@@ -151,9 +125,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                           Padding(
                             padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                                EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 validator: validatePassword,
                                 style: TextStyle(color: Colors.white),
@@ -166,26 +140,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   fillColor: Color(0x22000000),
                                   filled: true,
                                   errorStyle: TextStyle(color: Colors.white),
-                                  errorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
+                                  errorBorder: _inputBorder,
+                                  focusedErrorBorder: _inputBorder,
+                                  enabledBorder: _inputBorder,
+                                  focusedBorder: _inputBorder,
                                   labelText: "New password",
                                   icon: Icon(
                                     Icons.lock,
@@ -200,9 +158,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                           Padding(
                             padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 5),
+                                EdgeInsets.only(bottom: 10),
                             child: Container(
-                              width: 320,
+                              width: 350,
                               child: TextFormField(
                                 validator: validateConfirmPassword,
                                 style: TextStyle(color: Colors.white),
@@ -212,26 +170,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   fillColor: Color(0x22000000),
                                   filled: true,
                                   errorStyle: TextStyle(color: Colors.white),
-                                  errorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
+                                  errorBorder: _inputBorder,
+                                  focusedErrorBorder: _inputBorder,
+                                  enabledBorder: _inputBorder,
+                                  focusedBorder: _inputBorder,
                                   labelText: "Confirm new password",
                                   icon: Icon(
                                     Icons.lock,
@@ -262,13 +204,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                         children: <Widget>[
 //---------------------------------------------CREATING SOME ROOM------------------------------------------------------
                           Container(
-                            width: 50,
+                            width: 36,
                           ),
                           // ignore: deprecated_member_use
 //-----------------------------------------SIGN IN BUTTON----------------------------------------------------------------
                           SizedBox(
                             height: 40,
-                            width: 100,
+                            width: 150,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 backgroundColor: Color(0x22000000),
@@ -329,8 +271,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             ),
           ],
         )),
-      ),
-    );
+    ));
   }
 
   Future<User> signIn(String email, String password) async {
