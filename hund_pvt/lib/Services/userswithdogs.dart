@@ -3,6 +3,15 @@ List<LoggedInUser> userList = [];
 class LoggedInUser {
   String uid;
   Dog dog;
+  bool checkedIn;
+
+  bool getCheckedIn() {
+    return checkedIn;
+  }
+
+  setCheckedIn(bool checkedInOrOut) {
+    checkedIn = checkedInOrOut;
+  }
 
   LoggedInUser({this.uid, this.dog});
 }
@@ -19,6 +28,18 @@ class Dog {
   String get getRace => this.race;
 
   int get getAge => this.age;
+
+  @override
+  bool operator ==(other) {
+    return (other is Dog) &&
+        other.name == name &&
+        other.race == race &&
+        other.age == age;
+  }
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
 
   factory Dog.fromJson(Map<String, dynamic> parsedJson) {
     return Dog(
