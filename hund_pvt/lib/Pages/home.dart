@@ -1,5 +1,5 @@
 import 'dart:async';
-
+ 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,29 +7,29 @@ import 'package:hund_pvt/Pages/filter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 import 'package:hund_pvt/Services/userswithdogs.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+ 
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
-
+ 
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+ 
 String _mapStyle;
-
+ 
 //Check in widget
 bool selected = false;
 LocationPark animatedWidgetPark = LocationPark(name: '');
-
+ 
 //Check in widget
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
-
+ 
 class _HomeState extends State<Home> {
   //BottomnavigationBar index
   int _currentIndex = 0;
   double zoom = 12.5;
-
+ 
   //Google/////////////////////////////////////////////////////////////
   GoogleMapController _controller;
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -40,16 +40,16 @@ class _HomeState extends State<Home> {
         .map((e) => e.toMarker())
         .toList();
   }
-
+ 
   List<Marker> trashCans = fluster
       .clusters([-180, -85, 180, 85], 12)
       .map((e) => e.toMarker())
       .toList();
-
+ 
   Set<Marker> getMarkers() {
     Set<Marker> showMarkers = {};
     Set<Marker> trashMarkers = {};
-
+ 
     if (checkBoxListTileModel[0].isChecked) {
       trashMarkers = trashCans.toSet();
       showMarkers.addAll(trashMarkers);
@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
     }
     return showMarkers;
   }
-
+ 
   Set<Polygon> getPolygon() {
     Set<Polygon> empty = {};
     if (checkBoxListTileModel[1].isChecked) {
@@ -93,15 +93,15 @@ class _HomeState extends State<Home> {
     }
   }
   //Cluster////////////////////////////////////////////////////////////
-
+ 
   static const LatLng _center = const LatLng(59.325898, 18.0539599);
-
+ 
   void _onMapCreated(GoogleMapController controller) {
     _controller = controller;
     controller.setMapStyle(_mapStyle);
     infoWindowController.googleMapController = _controller;
   }
-
+ 
   //Google////////////////////////////////////////////////////////////
   @override
   void initState() {
@@ -111,11 +111,11 @@ class _HomeState extends State<Home> {
       _mapStyle = string;
     });
   }
-
+ 
   FutureOr poppingBack(dynamic value) {
     setState(() {}); //Updates google map when returning from filterScreen.
   }
-
+ 
   void goToMarker(Locations loc) {
     if (loc != null) {
       setState(() {
@@ -134,7 +134,7 @@ class _HomeState extends State<Home> {
       });
     }
   }
-
+ 
   void searchMarker(String loc) {
     setState(() {
       checkBoxListTileModel.elementAt(1).isChecked = true;
@@ -151,13 +151,14 @@ class _HomeState extends State<Home> {
       }
     });
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
+        
+        /*appBar: AppBar(
             //backgroundColor: Colors.pink,
             // Here we take the value from the MyHomePage object that was created by
             // the App.build method, and use it to set our appbar title.
@@ -209,9 +210,10 @@ class _HomeState extends State<Home> {
                   Navigator.pushNamed(context, '/settings');
                 },
               ),
-            ]),
+            ]),*/
         body: Stack(children: <Widget>[
           GoogleMap(
+            padding: EdgeInsets.only(top: 65),
               onMapCreated: _onMapCreated,
               markers: getMarkers(),
               polygons: getPolygon(),
@@ -237,12 +239,23 @@ class _HomeState extends State<Home> {
             width: 260,
             offset: 25,
           ),
+          checkInWidget(),
+          Positioned(
+            top: 65,
+            //bottom: 20,
+            child: IconButton(
+              icon: Icon(Icons.settings, size: 35, color: Color(0xffDD5151)),
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+            ),
+          ),
         ]),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
     );
   }
-
+ 
   Widget _createBottomNavigationBar() {
     return Container(
         decoration: BoxDecoration(
@@ -286,20 +299,20 @@ class _HomeState extends State<Home> {
               });
             }));
   }
-
+ 
   Widget checkInWidget() {
     return AnimatedPositioned(
-        width: selected ? 180 : 70,
-        height: 50,
-        bottom: 40,
-        right: selected ? 250 : -100,
+        width: selected ? 170 : 70,
+        height: 55,
+        bottom: 10,
+        right: selected ? 215 : -100,
         duration: Duration(seconds: 2),
         curve: Curves.bounceIn,
         child: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                  begin: Alignment.bottomRight,
-                  end: Alignment.topLeft,
+                  begin: Alignment(0.0, -1.0),
+                  end: Alignment(0.0, 2.0),
                   colors: <Color>[Color(0xffDD5151), Color(0xff583177)]),
               borderRadius: BorderRadius.circular(15)),
           height: 50,
@@ -310,13 +323,13 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 Flexible(
                   child: Text(
-                    'Incheckad i park',
+                    'Checked into park',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(5)),
                 CircleAvatar(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Color(0x30000000),
                   radius: 16,
                   child: IconButton(
                     onPressed: () async {
@@ -338,12 +351,12 @@ class _HomeState extends State<Home> {
         ));
   }
 }
-
+ 
 void setParkForCheckInWidget(LocationPark checkedInPark, bool boolean) {
   animatedWidgetPark = checkedInPark;
   selected = boolean;
 }
-
+ 
 Future<void> requestPermission() async {
   await Permission.location.request();
 }
