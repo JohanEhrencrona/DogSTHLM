@@ -376,7 +376,7 @@ class _EditProfilePageState extends State<EditProfile> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/settings');
+                Navigator.popUntil(context, ModalRoute.withName('/settings'));
               },
             ),
           ],
