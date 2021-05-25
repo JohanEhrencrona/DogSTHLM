@@ -315,23 +315,36 @@ Future getCheckInPark(LocationPark park) async {
   http.Response response = await http.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/${park.name.substring(17)}.json'));
   Map<String, dynamic> data = jsonDecode(response.body);
-  if (data != null) {
+  if (data != null && data.containsKey('dogscheckedin')) {
     CheckInParkLocation tempPark = CheckInParkLocation.fromJson(data);
     if (tempPark.dogsCheckedIn.isNotEmpty) {
       park.addList(tempPark.dogsCheckedIn);
     }
-  } else if (data == null) {
+  } else if (data == null || !data.containsKey('dogscheckedin')) {
     List<Dog> empty = [];
     park.addList(empty);
   }
 }
 
-Future postCheckInPark(CheckInParkLocation loc) async {
+Future<http.Response> postCheckInPark(CheckInParkLocation park) async {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/.json';
-  final Map<String, dynamic> data = {loc.name.substring(17): loc.toJson()};
+  final Map<String, dynamic> data = {park.name.substring(17): park.toJson()};
   String json = jsonEncode(data);
   return http.patch(Uri.parse(url), body: json);
+}
+
+Future<http.Response> removeCheckInPark(CheckInParkLocation park) {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/.json';
+  final Map<String, dynamic> data = {park.name.substring(17): park.toJson()};
+  String json = jsonEncode(data);
+
+  return http.patch(Uri.parse(url), body: json);
+}
+
+CheckInParkLocation parkForRemovingOrAddingFireBase(LocationPark park) {
+  return CheckInParkLocation(name: park.name, dogsCheckedIn: park.dogsInPark);
 }
 
 class LocationPark {

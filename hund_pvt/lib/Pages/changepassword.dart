@@ -364,7 +364,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/home');
+                Navigator.of(context).pop();
               },
             ),
           ],

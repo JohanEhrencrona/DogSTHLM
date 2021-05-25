@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -69,9 +71,12 @@ class _SettingsState extends State<Settings> {
                       return Container();
                     }),
               ),
-              onTap: () {
-                new PicPicker(uid: auth.currentUser.uid).getImage();
-                WidgetsBinding.instance.addPostFrameCallback((_) => setState);
+              onTap: () async {
+                await new PicPicker(uid: auth.currentUser.uid).getImage();
+                Timer(Duration(seconds: 2), () {
+                  setState(() {});
+                });
+                //WidgetsBinding.instance.addPostFrameCallback((_) => setState);
               },
             ),
             const SizedBox(height: 50.0),

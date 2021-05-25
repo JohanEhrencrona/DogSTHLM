@@ -90,7 +90,7 @@ class CheckBoxListTileModel {
           imageTest: AssetImage("assets/images/trashcan_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Dog parks',
-          isChecked: false,
+          isChecked: true,
           imageTest: AssetImage("assets/images/dog_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Veterinarians',
@@ -98,7 +98,7 @@ class CheckBoxListTileModel {
           imageTest: AssetImage("assets/images/veterinary_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Cafés',
-          isChecked: true,
+          isChecked: false,
           imageTest: AssetImage("assets/images/cafe_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Restaurants',
