@@ -291,6 +291,11 @@ class _EditProfilePageState extends State<EditProfile> {
             ),
           ],
         )),
+        bottomNavigationBar: Image.asset(
+            "assets/images/Dog_siluette.png",
+            height: 150,
+            color: Color(0x22000000)
+            ),
       ),
     );
   }

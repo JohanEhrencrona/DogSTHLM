@@ -57,31 +57,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                             children: <Widget>[
                               Row(children: <Widget>[
                                 //vänstra iconen/bilden
-                                Padding(
-                                    padding: EdgeInsets.only(left: 0),
-                                    child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: IconButton(
-                                          icon: Image.asset(
-                                            "assets/images/cancel_symbol.png",
-                                            width: 17,
-                                            height: 17,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            infoWindowController
-                                                .hideInfoWindow();
-                                          },
-                                        ))),
-                                //vänstra iconen/bilden
-
-                                // creating some room between the symbols
-                                Container(
-                                  width: 94,
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 0),
-                                    child: Align(
+                                Align(
                                         alignment: Alignment.topLeft,
                                         child: IconButton(
                                           icon: Image.asset(
@@ -133,7 +109,27 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                             }
                                             setState(() {});
                                           },
-                                        ))),
+                                        )),
+                                //vänstra iconen/bilden
+
+                                // creating some room between the symbols
+                                Container(
+                                  width: 94,
+                                ),
+                                Align(
+                                        alignment: Alignment.topLeft,
+                                        child: IconButton(
+                                          icon: Image.asset(
+                                            "assets/images/cancel_symbol.png",
+                                            width: 17,
+                                            height: 17,
+                                            color: Colors.white,
+                                          ),
+                                          onPressed: () {
+                                            infoWindowController
+                                                .hideInfoWindow();
+                                          },
+                                        )),
                               ]),
                               Expanded(
                                   child: Container(
@@ -285,31 +281,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                             children: <Widget>[
                               Row(children: <Widget>[
                                 //vänstra iconen/bilden
-                                Padding(
-                                    padding: EdgeInsets.only(left: 0),
-                                    child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: IconButton(
-                                          icon: Image.asset(
-                                            "assets/images/cancel_symbol.png",
-                                            width: 17,
-                                            height: 17,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            infoWindowController
-                                                .hideInfoWindow();
-                                          },
-                                        ))),
-                                //vänstra iconen/bilden
-
-                                // creating some room between the symbols
-                                Container(
-                                  width: 94,
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 0),
-                                    child: Align(
+                                Align(
                                         alignment: Alignment.topLeft,
                                         child: IconButton(
                                           icon: Image.asset(
@@ -331,7 +303,28 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                             }
                                             setState(() {});
                                           },
-                                        ))),
+                                        )),
+                                //vänstra iconen/bilden
+
+                                // creating some room between the symbols
+                                Container(
+                                  width: 94,
+                                ),
+                                Align(
+                                        alignment: Alignment.topLeft,
+                                        child: IconButton(
+                                          icon: Image.asset(
+                                            "assets/images/cancel_symbol.png",
+                                            width: 17,
+                                            height: 17,
+                                            color: Colors.white,
+                                          ),
+                                          onPressed: () {
+                                            infoWindowController
+                                                .hideInfoWindow();
+                                          },
+                                        )),
+                                
                                 Padding(
                                     padding: EdgeInsets.only(left: 0),
                                     child: Align(
