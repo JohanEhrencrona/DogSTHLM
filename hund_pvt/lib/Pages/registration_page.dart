@@ -1,5 +1,5 @@
 import 'dart:io';
-
+ 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hund_pvt/Services/userdatabase.dart';
 import 'package:image_picker/image_picker.dart';
-
+ 
 import 'login_page.dart';
-
+ 
 class RegistrationPage extends StatefulWidget {
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
 }
-
+ 
 class _RegistrationPageState extends State<RegistrationPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   String errorMessage = '';
@@ -36,30 +36,31 @@ class _RegistrationPageState extends State<RegistrationPage> {
   //BorderRadius _borderRadius = BorderRadius.all(Radius.circular(20));
   TextStyle _style = TextStyle(color: Colors.white);
   Color _fillColor = Color(0x22000000);
-
+ 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
+    return Container(
+      decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-                child: SingleChildScrollView(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
                   child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 80),
+              padding: EdgeInsets.only(top: 40),
               child: Row(
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 10, bottom: 30, top: 40),
                   child: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Navigator.pushReplacementNamed(context, '/login_page')
+                  onPressed: () => Navigator.pushReplacementNamed(context, '/loginpage')
                   ),
                 ),
                 Padding(
@@ -320,24 +321,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
               style: TextStyle(fontSize: 24, color: Colors.green),
             )
                 : Container()),
-
-            Container(height: 300),
           ],
         ),
                 ),
       ),
-      );
+    );
   }
-
+ 
   Future<User> signUp(email, password) async {
     try {
       User user = (await FirebaseAuth.instance.
       createUserWithEmailAndPassword(email: email, password: password))
           .user;
       assert(user != null);
-
+ 
       assert(await user.getIdToken() != null);
-
+ 
       await UserDatabaseService(uid: user.uid).pushUserData(_dogName, _dogRace, _dogAge);
       return user;
     } catch (e) {
@@ -345,14 +344,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
       return null;
     }
   }
-
+ 
   handleError(FirebaseAuthException error) {
     setState(() {
       errorMessage = 'The email is already associated with an account';
     });
     }
-
-
+ 
+ 
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -362,21 +361,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
     else
       return null;
   }
-
+ 
   String validatePassword(String value) {
     if (value.length < 6 || value.length > 14) {
       return 'Please enter a valid password (6-14 characters)';
     }
     return null;
   }
-
+ 
   String validateConfirmPassword(String value) {
     if (value.trim() != _passwordController.text.trim()) {
       return 'The passwords are not matching';
     }
     return null;
   }
-
+ 
   String validateString(String value) {
     if (value.trim().isEmpty) {
       return 'Cant be empty';
@@ -386,7 +385,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     }
     return null;
   }
-
+ 
   String validateInt(String value) {
     if (value.trim().isEmpty) {
       return 'Cant be empty';
@@ -399,6 +398,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
     }
     return null;
   }
-
-
+ 
+ 
 }
+ 
+ 
+

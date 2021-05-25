@@ -252,9 +252,9 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
 
     }
     if (widget.currentParkLocation.dogsInPark.contains(userList.first.dog)) {
-      checkInText = 'Checka ut';
+      checkInText = 'Check out';
     } else {
-      checkInText = 'Checka in';
+      checkInText = 'Check in';
     }
     return Stack(
       children: <Widget>[
@@ -291,7 +291,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                             Row(children: <Widget>[
                               // creating some room between the symbols
                               Container(
-                                width: 94,
+                                width: 142,
                               ),
                               Padding(
                                   padding: EdgeInsets.only(left: 0),
@@ -393,6 +393,10 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                             padding: EdgeInsets.only(
                                                 left: 2, bottom: 2),
                                             child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: Color(0x30000000),
+                                                shadowColor: Colors.transparent,
+                                              ),
                                                 onPressed: () async {
                                                   var ancestralState = context
                                                       .findRootAncestorStateOfType();
@@ -423,7 +427,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                         .setState(() {});
                                                   } else {
                                                     maybeCheckOutFirst =
-                                                        'Checka ut först';
+                                                        'Checka out first';
                                                     setState(() {});
                                                   }
                                                 },
