@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hund_pvt/Services/userdatabase.dart';
- 
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
- 
+
 class _LoginPageState extends State<LoginPage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = new GoogleSignIn();
@@ -22,15 +22,15 @@ class _LoginPageState extends State<LoginPage> {
   String _password;
   final _emailIdController = TextEditingController(text: '');
   final _passwordController = TextEditingController(text: '');
- 
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -180,7 +180,38 @@ class _LoginPageState extends State<LoginPage> {
                             width: 50,
                           ),
                           // ignore: deprecated_member_use
-//-----------------------------------------SIGN IN BUTTON----------------------------------------------------------------
+//-----------------------------------------REGISTER BUTTON----------------------------------------------------------------
+                          SizedBox(
+                            height: 40,
+                            width: 100,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Color(0x22000000),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text("Register",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                  )),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  new MaterialPageRoute(
+                                    builder: (context) => RegistrationPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+//---------------------------------------CREATING SOME ROOM------------------------------------------------------------
+                          Container(
+                            width: 65,
+                          ),
+//---------------------------------------LOG IN BUTTON-----------------------------------------------
                           SizedBox(
                             height: 40,
                             width: 100,
@@ -221,38 +252,6 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                           ),
- 
-//---------------------------------------CREATING SOME ROOM------------------------------------------------------------
-                          Container(
-                            width: 65,
-                          ),
-//---------------------------------------REGISTER BUTTON-----------------------------------------------
-                          SizedBox(
-                            height: 40,
-                            width: 100,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Color(0x22000000),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              child: Text("Register",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                  )),
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => RegistrationPage(),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
- 
 //-------------------------------------------END OF REGISTER BUTTON-------------------------------------------------
                           // ignore: deprecated_member_use
                         ],
@@ -270,14 +269,14 @@ class _LoginPageState extends State<LoginPage> {
                   )
                 : Container()),
             Container(
-           //   height: 200,
-            ),
+                //   height: 200,
+                ),
           ],
         )),
       ),
     );
   }
- 
+
   Future<User> signIn(String email, String password) async {
     try {
       User user = (await auth.signInWithEmailAndPassword(
@@ -290,16 +289,14 @@ class _LoginPageState extends State<LoginPage> {
       final User currentUser = await auth.currentUser;
       assert(user.uid == currentUser.uid);
       await UserDatabaseService(uid: user.uid).addUserAndDogToApplication();
- 
+
       return user;
     } catch (FirebaseAuthException) {
       handleError(FirebaseAuthException);
       return null;
     }
   }
- 
- 
- 
+
   handleError(FirebaseAuthException error) {
     Future<void> _showMyDialog() async {
       return showDialog<void>(
@@ -328,7 +325,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
   }
- 
+
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -338,14 +335,14 @@ class _LoginPageState extends State<LoginPage> {
     else
       return null;
   }
- 
+
   String validatePassword(String value) {
     if (value.trim().isEmpty || value.length < 6) {
       return 'Enter a valid password';
     }
     return null;
   }
- 
+
   String validateString(String value) {
     if (value.trim().isEmpty) {
       return 'Cant be empty';
@@ -353,4 +350,3 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 }
-
