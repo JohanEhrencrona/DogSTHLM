@@ -174,7 +174,7 @@ class _HomeState extends State<Home> {
                       colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
             ),
             actions: <Widget>[
-/*                IconButton(
+              IconButton(
                   icon: Icon(Icons.print),
                   onPressed: () {
                     print('trashlist ${trashCanList.length}');
@@ -183,12 +183,11 @@ class _HomeState extends State<Home> {
                     print('restaurantlist ${restaurantList.length}');
                     print('petshoplist ${petshopList.length}');
                     //print(favoriteList.first.name);
-                    print(cafeList.first.reviewsandpoints.keys);
-                    print(cafeList.first.reviewsandpoints.values);
-                    print(cafeList.first.type);
-                    print(petshopList.first.type);
-                    print(parksList.first.name);
-                  }), */
+                    print(cafeList.first.name);
+                    print(petshopList.first.name);
+                    print(restaurantList.first.name);
+                    print(vetsList.first.name);
+                  }),
               /* IconButton(
                   icon: Icon(Icons.print),
                   onPressed: () {
@@ -237,6 +236,7 @@ class _HomeState extends State<Home> {
             width: 260,
             offset: 25,
           ),
+          checkInWidget(),
         ]),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
@@ -321,8 +321,9 @@ class _HomeState extends State<Home> {
                   child: IconButton(
                     onPressed: () async {
                       animatedWidgetPark.dogsInPark.remove(userList.first.dog);
-                      await removeCheckInPark(
-                          parkForRemovingOrAddingFireBase(animatedWidgetPark));
+                      await postOrDeleteCheckInPark(
+                          createTempParkForRemovingOrAddingFireBase(
+                              animatedWidgetPark));
                       userList.first.setCheckedIn(false);
                       await getCheckInPark(animatedWidgetPark);
                       selected = false;
