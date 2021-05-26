@@ -90,7 +90,8 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                       longitude: widget
                                                           .currentLocation
                                                           .longitude);
-                                              await removeFavorite(favorite);
+                                              await postOrDeleteFavorite(
+                                                  favorite, 'delete');
                                               favoriteList.remove(
                                                   widget.currentLocation);
                                             } else {
@@ -109,7 +110,8 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                       longitude: widget
                                                           .currentLocation
                                                           .longitude);
-                                              await postFavorite(favorite);
+                                              await postOrDeleteFavorite(
+                                                  favorite, 'post');
                                               await getFavorites();
                                             }
                                             setState(() {});
@@ -404,10 +406,11 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                       .dogsInPark
                                                       .contains(
                                                           userList.first.dog)) {
-                                                    await checkOutFromPark(
-                                                        parkForRemovingOrAddingFireBase(
+                                                    await checkInAndOutFromPark(
+                                                        createTempParkForRemovingOrAddingFireBase(
                                                             widget
-                                                                .currentParkLocation));
+                                                                .currentParkLocation),
+                                                        false);
                                                     userList.first
                                                         .setCheckedIn(false);
                                                     setState(() {});
@@ -416,10 +419,11 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                   } else if (userList
                                                           .first.checkedIn !=
                                                       true) {
-                                                    await checkInToPark(
-                                                        parkForRemovingOrAddingFireBase(
+                                                    await checkInAndOutFromPark(
+                                                        createTempParkForRemovingOrAddingFireBase(
                                                             widget
-                                                                .currentParkLocation));
+                                                                .currentParkLocation),
+                                                        true);
                                                     userList.first
                                                         .setCheckedIn(true);
                                                     setState(() {});
@@ -456,17 +460,19 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
     );
   }
 
-  Future<void> checkInToPark(CheckInParkLocation park) async {
-    widget.currentParkLocation.dogsInPark.add(userList.first.dog);
-    setParkForCheckInWidget(widget.currentParkLocation, true);
-    await postCheckInPark(park);
-    await getCheckInPark(widget.currentParkLocation);
-  }
-
-  Future<void> checkOutFromPark(CheckInParkLocation park) async {
-    widget.currentParkLocation.dogsInPark.remove(userList.first.dog);
-    setParkForCheckInWidget(widget.currentParkLocation, false);
-    await removeCheckInPark(park);
+  Future<void> checkInAndOutFromPark(
+      CheckInParkLocation park, bool checkedIn) async {
+    if (checkedIn == true) {
+      print('inne i true');
+      widget.currentParkLocation.dogsInPark.add(userList.first.dog);
+    }
+    if (checkedIn == false) {
+      print('inne i false');
+      widget.currentParkLocation.dogsInPark.remove(userList.first.dog);
+    }
+    print('efter if');
+    setParkForCheckInWidget(widget.currentParkLocation, checkedIn);
+    await postOrDeleteCheckInPark(park);
     await getCheckInPark(widget.currentParkLocation);
   }
 }
