@@ -5,6 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'dart:math';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,7 +20,9 @@ import 'package:flutter_test/flutter_test.dart';
 typedef Callback = void Function(MethodCall call);
 
 
-// Credit to FireBase Developers
+// Copyright 2020 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 void setupFirebaseAuthMocks([Callback customHandlers]) {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -68,6 +72,12 @@ void setUppAll () async {
 void  main() {
   setupFirebaseAuthMocks();
   setUppAll();
+  const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   Widget createWidgetForTesting({Widget child}){
     return MaterialApp(
@@ -77,8 +87,11 @@ void  main() {
 
 
 
-  testWidgets('Test registrate account', (WidgetTester tester) async {
+  testWidgets('Test register account', (WidgetTester tester) async {
     await tester.pumpWidget(createWidgetForTesting(child: new RegistrationPage()));
+
+
+
      final emailSignInField = find.bySemanticsLabel("Email");
      expect(emailSignInField, findsOneWidget);
      await tester.enterText(emailSignInField, "testtest@test.nu");
@@ -117,6 +130,59 @@ void  main() {
     expect(successMessage, findsOneWidget);
   });
 
+  testWidgets('Test email validator', (WidgetTester tester) async {
+    await tester.pumpWidget(createWidgetForTesting(child: new RegistrationPage()));
 
+    final emailSignInField = find.bySemanticsLabel("Email");
+    expect(emailSignInField, findsOneWidget);
+
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    //final findErrorText = find.text("Please enter a valid email");
+
+    for (int i = 0; i < 100; ++i) {
+      String email =  getRandomString(_rnd.nextInt(15)) + "@" + getRandomString(_rnd.nextInt(5)) + "." + getRandomString(_rnd.nextInt(5));
+      print(email);
+      await tester.enterText(emailSignInField, email);
+      expect(find.text(email), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 500)); // add delay
+      final findErrorText = find.text("Please enter a valid email");
+      if (!regex.hasMatch(email)){
+        expect(findErrorText, findsOneWidget);
+        // ignore: unnecessary_statements
+      } else () {
+        // ignore: unnecessary_statements
+        expect(findErrorText, findsNothing);
+      };
+    }
+  });
+
+
+
+  testWidgets('Test password validator', (WidgetTester tester) async {
+    await tester.pumpWidget(createWidgetForTesting(child: new RegistrationPage()));
+
+    final PasswordSignInField = find.bySemanticsLabel("Password");
+    expect(PasswordSignInField, findsOneWidget);
+
+    Pattern passwordPattern = r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])';
+    RegExp passwordRegex = new RegExp(passwordPattern);;
+
+    for (int i = 0; i < 100; ++i) {
+      String password =  getRandomString(_rnd.nextInt(10)) + _rnd.nextInt(10).toString() + getRandomString(_rnd.nextInt(5));
+      print(password);
+      await tester.enterText(PasswordSignInField, password);
+      await tester.pump(const Duration(milliseconds: 500)); // add delay
+      final findErrorText = find.text("(8-16 characters), 1 capitalized letter, 1 number");
+      if (!passwordRegex.hasMatch(password)){
+        expect(findErrorText, findsOneWidget);
+        // ignore: unnecessary_statements
+      } else () {
+        // ignore: unnecessary_statements
+        expect(findErrorText, findsNothing);
+      };
+    }
+  });
 
 }

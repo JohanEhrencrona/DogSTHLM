@@ -59,12 +59,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   padding: EdgeInsets.only(left: 10, bottom: 30, top: 40),
                   child: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Navigator.pushReplacementNamed(context, '/login_page')
+                  onPressed: () => Navigator.pushReplacementNamed(context, '/loginpage')
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 80, bottom: 30, top: 40),
-                  child: Text("Register", style: TextStyle(color: Colors.white, fontSize: 25, letterSpacing: 5)),
+                  child: Text(" Register ", style: TextStyle(color: Colors.white, fontSize: 25, letterSpacing: 5)),
                 ),
               ],
             ),
@@ -274,9 +274,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       child: ButtonBar(
                         children: <Widget>[
                           SizedBox(
-                    height: 40,
+                              height: 40,
                               width: 100,
                               child: TextButton(
+                                key: ValueKey("RegisterButton"),
                               style: TextButton.styleFrom(
                                 backgroundColor: Color(0x22000000),
                                 shape: RoundedRectangleBorder(
@@ -289,7 +290,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   fontSize: 18,
                                   color: Colors.white,
                                 )),
-                              onPressed: () { 
+                              onPressed: () {
+                                print("KOM HIT DÅ JÄVLA SKIT AAHADSHDHSAHSD");
                                 if (_formStateKey.currentState.validate()) {
                                 _formStateKey.currentState.save();
                                 signUp(_emailId, _password).then((user) {
@@ -316,6 +318,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             (successMessage != 'Successfully registered account'
                 ? Text(
               successMessage,
+              key: ValueKey("successMessage"),
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 24, color: Colors.green),
             )
@@ -330,6 +333,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Future<User> signUp(email, password) async {
+    print("kom hit");
+
     try {
       User user = (await FirebaseAuth.instance.
       createUserWithEmailAndPassword(email: email, password: password))
@@ -347,6 +352,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   handleError(FirebaseAuthException error) {
+    print("error");
+
     setState(() {
       errorMessage = 'The email is already associated with an account';
     });
@@ -354,20 +361,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
 
   String validateEmail(String value) {
+
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Please enter a valid email';
-    else
+    if (!regex.hasMatch(value)){
+    return 'Please enter a valid email';
+}   else
       return null;
   }
 
   String validatePassword(String value) {
-    if (value.length < 6 || value.length > 14) {
-      return 'Please enter a valid password (6-14 characters)';
+    Pattern passwordPattern = r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])';
+    RegExp passwordRegex = new RegExp(passwordPattern);
+    if ((value.length < 8 || value.length > 16) || !passwordRegex.hasMatch(value)) {
+      print("Invalid password");
+      return '(8-16 characters), 1 capitalized letter, 1 number';
     }
-    return null;
+    else {
+      print("VALID password");
+      return null;
+    }
   }
 
   String validateConfirmPassword(String value) {
