@@ -34,6 +34,7 @@ class AddPlaceState extends State<AddPlace> {
                 end: Alignment.bottomCenter,
                 colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
         child: Scaffold(
+            resizeToAvoidBottomInset: false,
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
@@ -226,6 +227,7 @@ class AddPlaceState extends State<AddPlace> {
               ),
             )));
   }
+
 //--------------------------------------------------------END CHECKBOXES----------------------------------------
 
   void itemChange(bool val, int index) {
