@@ -190,6 +190,7 @@ class LocationPark {
   double latitude;
   double longitude;
   List<CrsCoordinate> wgs84Points;
+  String type;
   bool fav = false;
 
   List<Dog> dogsInPark = [];
