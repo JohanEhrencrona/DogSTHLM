@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
   //Google/////////////////////////////////////////////////////////////
   GoogleMapController _controller;
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   //Cluster////////////////////////////////////////////////////////////
   void updateCluster(double zoom) {
     trashCans = fluster
@@ -92,6 +93,7 @@ class _HomeState extends State<Home> {
       return empty;
     }
   }
+
   //Cluster////////////////////////////////////////////////////////////
 
   static const LatLng _center = const LatLng(59.325898, 18.0539599);
@@ -197,7 +199,7 @@ class _HomeState extends State<Home> {
                     print(trashCans.first.position);
                     print(trashCanList.first.wgs84);
                     print(cafeMarkers.first.position);
-                    print(parksList.first.wgs84Points); 
+                    print(parksList.first.wgs84Points);
                     print(userList.first.checkedIn);
                     setState(() {});
                   }), */
@@ -238,17 +240,6 @@ class _HomeState extends State<Home> {
             offset: 25,
           ),
           checkInWidget(),
-          Positioned(
-            top: 65,
-            left: 370,
-            //bottom: 20,
-            child: IconButton(
-              icon: Icon(Icons.settings, size: 35, color: Color(0xffDD5151)),
-              onPressed: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
-          ),
         ]),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
@@ -270,30 +261,38 @@ class _HomeState extends State<Home> {
             backgroundColor: Colors.transparent,
             items: [
               BottomNavigationBarItem(
+                icon: Icon(Icons.add),
+                label: ("Add new place"),
+              ),
+              BottomNavigationBarItem(
                 icon: Image.asset("assets/images/favourites_symbol.png",
                     height: 22),
-                label: ("Favourite"),
+                label: ("Favorites"),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.filter_alt_rounded),
                 label: ("Filter"),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.add),
-                label: ("Add new place"),
+                icon: Icon(Icons.account_circle),
+                label: ("Profile"),
               ),
             ],
             onTap: (index) {
               setState(() {
                 if (index == 0) {
+                  Navigator.pushNamed(context, '/addplace').then(poppingBack);
+                }
+                if (index == 1) {
                   Navigator.pushNamed(context, '/favorite')
                       .then((value) => goToMarker(value));
                 }
-                if (index == 1) {
+                if (index == 2) {
                   Navigator.pushNamed(context, '/filter').then(poppingBack);
                 }
-                if (index == 2) {
-                  Navigator.pushNamed(context, '/addplace').then(poppingBack);
+                if (index == 3) {
+                  Navigator.pushNamed(context, '/settings')
+                      .then((value) => goToMarker(value));
                 }
               });
             }));
