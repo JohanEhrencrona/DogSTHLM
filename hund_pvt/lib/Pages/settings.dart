@@ -136,7 +136,7 @@ class _SettingsState extends State<Settings> {
                 ListTile(
                     tileColor: Color(0x22000000),
                   leading: Icon(Icons.chat_bubble, color: Colors.white),
-                  title: Text("Contact us", style: _style),
+                  title: Text("Contact us/help", style: _style),
                   onTap: () {
                     Navigator.of(context).pushNamed('/contactus');
                   },
@@ -162,15 +162,15 @@ class _SettingsState extends State<Settings> {
               onTap: () => openAppSettings(),
             ),
 
-            SwitchListTile(
+            /*SwitchListTile(
               tileColor: Color(0x22000000),
               activeColor: Colors.white,
               value: true,
               title: Text("Day and night mode", style: _style),
               onChanged: (val) {},
-            ),
+            ),*/
 
-            ListTile(
+            /*ListTile(
                 tileColor: Color(0x22000000),
                 leading: Icon(Icons.help, color: Colors.white),
                 title: Text("Help?", style: _style),
@@ -178,7 +178,7 @@ class _SettingsState extends State<Settings> {
                     Icon(Icons.keyboard_arrow_right, color: Colors.white), //add lock button icon
                 onTap: () {
                   //Open help!
-                }),
+                }),*/
 
             ListTile(
                 tileColor: Color(0x22000000),

@@ -67,6 +67,7 @@ class FavoriteState extends State<Favorite> {
                   }),
             ),
           ),
+          
         ));
   }
 }
