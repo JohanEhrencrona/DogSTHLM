@@ -50,6 +50,7 @@ class _SettingsState extends State<Settings> {
                             padding: EdgeInsets.only(bottom: 10),
                             child: Image.asset(
                                 "assets/images/standardpicture.png",
+                                color: Colors.white,
                                 height: 150),
                           );
                         } else {
@@ -79,7 +80,7 @@ class _SettingsState extends State<Settings> {
                 //WidgetsBinding.instance.addPostFrameCallback((_) => setState);
               },
             ),
-            const SizedBox(height: 50.0),
+            const SizedBox(height: 25.0),
 //----------------------------------------------------PROFILE PIC END---------------------------------------------------------
             Padding(
               padding: EdgeInsets.only(left: 20, bottom: 10),
@@ -113,15 +114,6 @@ class _SettingsState extends State<Settings> {
                     onTap: () {
                       Navigator.of(context).pushNamed('/changepassword');
                     }),
-                SwitchListTile(
-                  tileColor: Color(0x22000000),
-                  activeColor: Colors.white,
-                  value: true,
-                  title: Text("Notifications", style: _style,),
-                  onChanged: (val) {
-                    //Activate Notifications
-                  },
-                ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 10, top: 20),
                   child: Text(
