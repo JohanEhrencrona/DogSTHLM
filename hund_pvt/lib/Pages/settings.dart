@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -69,9 +71,12 @@ class _SettingsState extends State<Settings> {
                       return Container();
                     }),
               ),
-              onTap: () {
-                new PicPicker(uid: auth.currentUser.uid).getImage();
-                WidgetsBinding.instance.addPostFrameCallback((_) => setState);
+              onTap: () async {
+                await new PicPicker(uid: auth.currentUser.uid).getImage();
+                Timer(Duration(seconds: 2), () {
+                  setState(() {});
+                });
+                //WidgetsBinding.instance.addPostFrameCallback((_) => setState);
               },
             ),
             const SizedBox(height: 50.0),
@@ -131,7 +136,7 @@ class _SettingsState extends State<Settings> {
                 ListTile(
                     tileColor: Color(0x22000000),
                   leading: Icon(Icons.chat_bubble, color: Colors.white),
-                  title: Text("Contact us", style: _style),
+                  title: Text("Contact us/help", style: _style),
                   onTap: () {
                     Navigator.of(context).pushNamed('/contactus');
                   },
@@ -157,15 +162,15 @@ class _SettingsState extends State<Settings> {
               onTap: () => openAppSettings(),
             ),
 
-            SwitchListTile(
+            /*SwitchListTile(
               tileColor: Color(0x22000000),
               activeColor: Colors.white,
               value: true,
               title: Text("Day and night mode", style: _style),
               onChanged: (val) {},
-            ),
+            ),*/
 
-            ListTile(
+            /*ListTile(
                 tileColor: Color(0x22000000),
                 leading: Icon(Icons.help, color: Colors.white),
                 title: Text("Help?", style: _style),
@@ -173,7 +178,7 @@ class _SettingsState extends State<Settings> {
                     Icon(Icons.keyboard_arrow_right, color: Colors.white), //add lock button icon
                 onTap: () {
                   //Open help!
-                }),
+                }),*/
 
             ListTile(
                 tileColor: Color(0x22000000),

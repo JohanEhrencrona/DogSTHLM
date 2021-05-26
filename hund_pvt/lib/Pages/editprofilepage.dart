@@ -291,6 +291,11 @@ class _EditProfilePageState extends State<EditProfile> {
             ),
           ],
         )),
+        bottomNavigationBar: Image.asset(
+            "assets/images/Dog_siluette.png",
+            height: 150,
+            color: Color(0x22000000)
+            ),
       ),
     );
   }
@@ -371,7 +376,7 @@ class _EditProfilePageState extends State<EditProfile> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/settings');
+                Navigator.popUntil(context, ModalRoute.withName('/settings'));
               },
             ),
           ],

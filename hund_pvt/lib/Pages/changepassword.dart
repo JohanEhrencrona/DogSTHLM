@@ -271,6 +271,11 @@ class _ChangePasswordState extends State<ChangePassword> {
             ),
           ],
         )),
+        bottomNavigationBar: Image.asset(
+            "assets/images/Dog_siluette.png",
+            height: 150,
+            color: Color(0x22000000)
+            ),
     ));
   }
 
@@ -364,7 +369,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/home');
+                Navigator.of(context).pop();
               },
             ),
           ],

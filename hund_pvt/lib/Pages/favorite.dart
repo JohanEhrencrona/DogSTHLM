@@ -51,7 +51,7 @@ class FavoriteState extends State<Favorite> {
                                       name: loc.name,
                                       latitude: loc.latitude,
                                       longitude: loc.longitude);
-                              await removeFavorite(favorite);
+                              await postOrDeleteFavorite(favorite, 'delete');
                               favoriteList.removeAt(index);
                               setState(() {});
                             }),
@@ -67,6 +67,7 @@ class FavoriteState extends State<Favorite> {
                   }),
             ),
           ),
+          
         ));
   }
 }

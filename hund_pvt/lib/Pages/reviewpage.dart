@@ -93,28 +93,27 @@ class ReviewState extends State<ReviewPage> {
                         ),
                       ),
                       Padding(
-                  padding: EdgeInsets.all(20),
-                  child: TextFormField(
-                  style: _style,
-                  minLines: 8,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    alignLabelWithHint: true,
-                    labelStyle: TextStyle(color: Color(0xaaffffff)),
-                    labelText: "Leave a comment...",
-                    fillColor: Color(0x22000000),
-                    filled: true,
-                    focusedBorder: _outlineInputBorder,
-                    enabledBorder: _outlineInputBorder,
-                  ),
-                  onChanged: (T) {
-                    reviewText = T;
-                    print(reviewText);
-                    setState(() {});
-                  },
-                ),
-                ),
+                        padding: EdgeInsets.all(20),
+                        child: TextFormField(
+                          style: _style,
+                          minLines: 8,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                            alignLabelWithHint: true,
+                            labelStyle: TextStyle(color: Color(0xaaffffff)),
+                            labelText: "Leave a comment...",
+                            fillColor: Color(0x22000000),
+                            filled: true,
+                            focusedBorder: _outlineInputBorder,
+                            enabledBorder: _outlineInputBorder,
+                          ),
+                          onChanged: (T) {
+                            reviewText = T;
+                            setState(() {});
+                          },
+                        ),
+                      ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[

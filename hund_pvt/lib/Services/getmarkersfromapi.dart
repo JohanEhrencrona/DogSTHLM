@@ -27,11 +27,7 @@ List<Locations> petshopList = [];
 List<Locations> vetsList = [];
 List<Locations> favoriteList = [];
 
-CrsCoordinate convertPoint(double lat, double long) {
-  return CrsCoordinate.createCoordinate(
-          CrsProjection.sweref_99_18_00, lat, long)
-      .transform(CrsProjection.wgs84);
-}
+enum listType { cafe, petshop, restaurant, vets }
 
 class Locations {
   var whitePaw = Image.asset(
@@ -47,7 +43,6 @@ class Locations {
     height: 18,
     fit: BoxFit.cover,
   );
-
   var secondPaw = Image.asset(
     'assets/images/fa-solid_paw.png',
     width: 18,
@@ -101,7 +96,6 @@ class Locations {
   }
 
   void addReviewAndPoints(String review, int point) {
-    //reviewsandpoints[review] = point;
     reviewsandpoints.putIfAbsent(review, () => point);
   }
 
@@ -181,26 +175,6 @@ class Locations {
   }
 }
 
-//TRASHCAN///////////////////////////////////////////////////////////////////////////////
-Future getTrashCan() async {
-  http.Response response = await http.get(Uri.parse(
-      'https://openstreetgs.stockholm.se/geoservice/api/9f0bd873-30d2-40ad-99f3-7a32f115717f/wfs?request=GetFeature&typeName=od_gis:Skrapkorg_Punkt&outputFormat=JSON'));
-  final jsonResponse = jsonDecode(response.body);
-  FeatureCollection pin = new FeatureCollection.fromJson(jsonResponse);
-  //Iterate through and convert coordinates
-  pin.features.forEach((element) {
-    trashCanList.add(LocationTrash(
-        wgs84: convertPoint(element.geometry.coordinateLat.toDouble(),
-            element.geometry.coordinateLong.toDouble())));
-  });
-}
-
-void createTrashMarkers() {
-  trashCanList.forEach((element) {
-    addTrashMarkersClusters(element.wgs84.yLatitude, element.wgs84.xLongitude);
-  });
-}
-
 class LocationTrash {
   CrsCoordinate wgs84;
 
@@ -211,7 +185,65 @@ class LocationTrash {
   }
 }
 
-void markFavoritesInLists(List list) {
+class LocationPark {
+  String name;
+  double latitude;
+  double longitude;
+  List<CrsCoordinate> wgs84Points;
+  String type;
+  bool fav = false;
+
+  List<Dog> dogsInPark = [];
+
+  LocationPark({this.name, this.latitude, this.longitude, this.wgs84Points});
+
+  List getParkCoordinate() {
+    return wgs84Points;
+  }
+
+  void setFavorite() {
+    fav = true;
+  }
+
+  void unFavorite() {
+    fav = false;
+  }
+
+  void addList(List list) {
+    dogsInPark = list;
+  }
+
+  String getDogs() {
+    String names = ' ';
+    if (dogsInPark.isEmpty) {
+      return names;
+    } else
+      dogsInPark.forEach((element) {
+        names += element.name + ', ';
+      });
+
+    return names;
+  }
+}
+
+CheckInParkLocation createTempParkForRemovingOrAddingFireBase(
+    LocationPark park) {
+  return CheckInParkLocation(name: park.name, dogsCheckedIn: park.dogsInPark);
+}
+
+CrsCoordinate convertPoint(double lat, double long) {
+  return CrsCoordinate.createCoordinate(
+          CrsProjection.sweref_99_18_00, lat, long)
+      .transform(CrsProjection.wgs84);
+}
+
+void createTrashMarkers() {
+  trashCanList.forEach((element) {
+    addTrashMarkersClusters(element.wgs84.yLatitude, element.wgs84.xLongitude);
+  });
+}
+
+void markFavoritesInListsWhenCollecting(List list) {
   Locations loc;
   list.forEach((fav) {
     if (cafeList.contains(fav)) {
@@ -230,6 +262,29 @@ void markFavoritesInLists(List list) {
   });
 }
 
+void createParkMarkers() {
+  parksList.forEach((element) {
+    List<LatLng> coord = [];
+    element.wgs84Points.forEach((element) {
+      coord.add(LatLng(element.yLatitude, element.xLongitude));
+    });
+    addParkPolygons(coord);
+  });
+}
+
+Future getTrashCan() async {
+  http.Response response = await http.get(Uri.parse(
+      'https://openstreetgs.stockholm.se/geoservice/api/9f0bd873-30d2-40ad-99f3-7a32f115717f/wfs?request=GetFeature&typeName=od_gis:Skrapkorg_Punkt&outputFormat=JSON'));
+  final jsonResponse = jsonDecode(response.body);
+  FeatureCollection pin = new FeatureCollection.fromJson(jsonResponse);
+  //Iterate through and convert coordinates
+  pin.features.forEach((element) {
+    trashCanList.add(LocationTrash(
+        wgs84: convertPoint(element.geometry.coordinateLat.toDouble(),
+            element.geometry.coordinateLong.toDouble())));
+  });
+}
+
 Future getFavorites() async {
   http.Response response = await http.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json'));
@@ -241,26 +296,22 @@ Future getFavorites() async {
   }
 }
 
-Future<http.Response> postFavorite(LocationsFromDatabase favorite) {
-  String url =
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json';
+Future<http.Response> postOrDeleteFavorite(
+    LocationsFromDatabase favorite, String method) {
   final Map<String, dynamic> data = {favorite.name: favorite.toJson()};
-  String json = jsonEncode(data);
-
-  return http.patch(Uri.parse(url), body: json);
+  if (method == 'post') {
+    print('inne i post');
+    String url =
+        'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json';
+    return http.patch(Uri.parse(url), body: jsonEncode(data));
+  } else {
+    print('inne i delete');
+    String url =
+        'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/${favorite.name}.json';
+    return http.delete(Uri.parse(url), body: jsonEncode(data));
+  }
 }
 
-Future<http.Response> removeFavorite(LocationsFromDatabase favorite) {
-  String url =
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/${favorite.name}.json';
-  final Map<String, dynamic> data = {favorite.name: favorite.toJson()};
-  String json = jsonEncode(data);
-
-  return http.delete(Uri.parse(url), body: json);
-}
-//TRASHCAN///////////////////////////////////////////////////////////////////////////////
-
-//DOGPARKS///////////////////////////////////////////////////////////////////////////////
 Future getPark() async {
   http.Response response = await http.get(Uri.parse(
       'https://openstreetgs.stockholm.se/geoservice/api/9f0bd873-30d2-40ad-99f3-7a32f115717f/wfs/?version=1.0.0&request=GetFeature&typeName=od_gis:Hundrastgard_Yta&outputFormat=JSON'));
@@ -301,80 +352,35 @@ Future getPark() async {
   });
 }
 
-void createParkMarkers() {
-  parksList.forEach((element) {
-    List<LatLng> coord = [];
-    element.wgs84Points.forEach((element) {
-      coord.add(LatLng(element.yLatitude, element.xLongitude));
-    });
-    addParkPolygons(coord);
-  });
-}
-
 Future getCheckInPark(LocationPark park) async {
   http.Response response = await http.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/${park.name.substring(17)}.json'));
   Map<String, dynamic> data = jsonDecode(response.body);
-  if (data != null) {
+  if (data != null && data.containsKey('dogscheckedin')) {
     CheckInParkLocation tempPark = CheckInParkLocation.fromJson(data);
     if (tempPark.dogsCheckedIn.isNotEmpty) {
       park.addList(tempPark.dogsCheckedIn);
     }
-  } else if (data == null) {
+  } else if (data == null || !data.containsKey('dogscheckedin')) {
     List<Dog> empty = [];
     park.addList(empty);
   }
 }
 
-Future postCheckInPark(CheckInParkLocation loc) async {
+Future<http.Response> postOrDeleteCheckInPark(CheckInParkLocation park) async {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/.json';
-  final Map<String, dynamic> data = {loc.name.substring(17): loc.toJson()};
+  final Map<String, dynamic> data = {park.name.substring(17): park.toJson()};
   String json = jsonEncode(data);
   return http.patch(Uri.parse(url), body: json);
 }
 
-class LocationPark {
-  String name;
-  double latitude;
-  double longitude;
-  List<CrsCoordinate> wgs84Points;
-  bool fav = false;
-  String type = 'parks';
-  List<Dog> dogsInPark = [];
-
-  LocationPark({this.name, this.latitude, this.longitude, this.wgs84Points});
-
-  List getParkCoordinate() {
-    return wgs84Points;
-  }
-
-  void setFavorite() {
-    fav = true;
-  }
-
-  void unFavorite() {
-    fav = false;
-  }
-
-  void addList(List list) {
-    dogsInPark = list;
-  }
-
-  String getDogs() {
-    String names = ' ';
-    if (dogsInPark.isEmpty) {
-      return names;
-    } else
-      dogsInPark.forEach((element) {
-        names += element.name + ', ';
-      });
-
-    return names;
-  }
+Future postReview(Locations loc) async {
+  String url =
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/${loc.type}/${loc.name}/Reviews/.json';
+  String json = jsonEncode(loc.reviewsandpoints);
+  return http.patch(Uri.parse(url), body: json);
 }
-
-//DOGPARKS///////////////////////////////////////////////////////////////////////////////
 
 List<Locations> locationListGenerator(Map data, String type) {
   List<Locations> list = [];
@@ -392,87 +398,28 @@ List<Locations> locationListGenerator(Map data, String type) {
   return list;
 }
 
-Future postReview(Locations loc) async {
-  String url =
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/${loc.type}/${loc.name}/Reviews/.json';
-  String json = jsonEncode(loc.reviewsandpoints);
-  return http.patch(Uri.parse(url), body: json);
+Future getPlacesFromFireBase(String type, listType enumType) async {
+  http.Response response = await http.get(Uri.parse(
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/$type/.json'));
+  Map<String, dynamic> data = Map.from(jsonDecode(response.body));
+  var list = locationListGenerator(data, type);
+
+  if (enumType == listType.cafe) {
+    return cafeList = list;
+  } else if (enumType == listType.petshop) {
+    return petshopList = list;
+  } else if (enumType == listType.restaurant) {
+    return restaurantList = list;
+  } else {
+    return vetsList = list;
+  }
 }
 
-//CAFES///////////////////////////////////////////////////////////////////////////////
-Future getCafes() async {
-  return await http
-      .get(Uri.parse(
-          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json'))
-      .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => cafeList = locationListGenerator(data, 'cafes'));
-}
-
-Future<http.Response> postCafes(LocationsFromDatabase cafe) {
+Future postPlaceToFireBase(LocationsFromDatabase postLoc, String type) async {
   String url =
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/cafes/.json';
-  final Map<String, dynamic> data = {cafe.name: cafe.toJson()};
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/$type/.json';
+  final Map<String, dynamic> data = {postLoc.name: postLoc.toJson()};
   String json = jsonEncode(data);
 
   return http.patch(Uri.parse(url), body: json);
 }
-//CAFES///////////////////////////////////////////////////////////////////////////////
-
-//PETSHOPS///////////////////////////////////////////////////////////////////////////////
-
-Future getPetshops() async {
-  return await http
-      .get(Uri.parse(
-          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/petshops/.json'))
-      .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => petshopList = locationListGenerator(data, 'petshops'));
-}
-
-Future<http.Response> postPetShops(LocationsFromDatabase petshop) {
-  String url =
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/petshops/.json';
-  final Map<String, dynamic> data = {petshop.name: petshop.toJson()};
-  String json = jsonEncode(data);
-
-  return http.patch(Uri.parse(url), body: json);
-}
-
-//PETSHOPS///////////////////////////////////////////////////////////////////////////////
-
-/*
-! -------------------------------------RESTAURANTS-----------------------------------------
-*/
-Future getRestaurants() async {
-  return await http
-      .get(Uri.parse(
-          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/restaurants/.json'))
-      .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) =>
-          restaurantList = locationListGenerator(data, 'restaurants'));
-}
-
-Future<http.Response> postRestaurant(LocationsFromDatabase restaurant) {
-  String url =
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/restaurants/.json';
-  final Map<String, dynamic> data = {restaurant.name: restaurant.toJson()};
-  String json = jsonEncode(data);
-
-  return http.patch(Uri.parse(url), body: json);
-}
-/*
-! -------------------------------------RESTAURANTS-----------------------------------------
-*/
-
-/*
-! -------------------------------------VETS-----------------------------------------
-*/
-Future getVets() async {
-  return await http
-      .get(Uri.parse(
-          'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/vets/.json'))
-      .then((response) => Map.from(jsonDecode(response.body)))
-      .then((data) => vetsList = locationListGenerator(data, 'vets'));
-}
-/*
-! -------------------------------------VETS-----------------------------------------
-*/
