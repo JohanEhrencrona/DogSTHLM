@@ -24,11 +24,13 @@ class FavoriteState extends State<Favorite> {
             title: Text("Favourites", style: TextStyle(letterSpacing: 2)),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.only(left: 25),
+          body: Center(
+//            padding: EdgeInsets.only(left: 25),
             child: Container(
+              alignment: Alignment.topCenter,
               width: 340,
-              height: 600,
+//              height: 600,
+              height: 1000,
               child: ListView.builder(
                   itemCount: favoriteList.length,
                   itemBuilder: (context, index) {
@@ -67,7 +69,6 @@ class FavoriteState extends State<Favorite> {
                   }),
             ),
           ),
-          
         ));
   }
 }
