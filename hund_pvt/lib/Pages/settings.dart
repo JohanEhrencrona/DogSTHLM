@@ -30,7 +30,7 @@ class _SettingsState extends State<Settings> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
-            title: Text("Settings", style: TextStyle(letterSpacing: 2)),
+            title: Text("Profile", style: TextStyle(letterSpacing: 2)),
             centerTitle: true,
         ),
         body: SingleChildScrollView(

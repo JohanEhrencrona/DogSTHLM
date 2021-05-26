@@ -214,7 +214,7 @@ class LocationPark {
   }
 
   String getDogs() {
-    String names = ' ';
+    String names = '';
     if (dogsInPark.isEmpty) {
       return names;
     } else

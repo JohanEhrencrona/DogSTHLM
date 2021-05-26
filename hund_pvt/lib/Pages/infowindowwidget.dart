@@ -23,7 +23,7 @@ class InfoWindowWidget extends StatefulWidget {
 
 class _InfoWindowWidgetState extends State<InfoWindowWidget> {
   String checkInText;
-  String maybeCheckOutFirst = 'Hundrastgård';
+  String maybeCheckOutFirst = 'Dog Park';
 
   @override
   Widget build(BuildContext context) {
@@ -226,13 +226,12 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                             padding: EdgeInsets.only(
                                                 bottom: 5, left: 2),
                                             child: InkWell(
-                                              child: Text("Report place",
+                                              child: Text("",
                                                   style: TextStyle(
                                                       fontSize: 15,
                                                       decoration: TextDecoration
                                                           .underline,
                                                       color: Colors.white)),
-                                              onTap: () {},
                                             ),
                                           ),
                                         ],
@@ -256,7 +255,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
     if (widget.currentParkLocation.dogsInPark.contains(userList.first.dog)) {
       checkInText = 'Check out';
     } else {
-      checkInText = 'Check in';
+      checkInText = 'Check in  ';
     }
     return Stack(
       children: <Widget>[
@@ -346,8 +345,6 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                               child: Text('Dogs in park :',
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      decoration: TextDecoration
-                                                          .underline,
                                                       color: Colors.white)),
                                               onTap: () {
                                                 Navigator.push(
@@ -393,7 +390,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                         ),
                                         Padding(
                                             padding: EdgeInsets.only(
-                                                left: 2, bottom: 2),
+                                                left: 50, bottom: 2),
                                             child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 primary: Color(0x30000000),
@@ -431,7 +428,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                         .setState(() {});
                                                   } else {
                                                     maybeCheckOutFirst =
-                                                        'Checka out first';
+                                                        'Check out first';
                                                     setState(() {});
                                                   }
                                                 },
