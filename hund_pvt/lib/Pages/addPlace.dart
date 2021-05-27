@@ -218,7 +218,6 @@ class AddPlaceState extends State<AddPlace> {
                               color: Colors.white,
                             )),
                         onPressed: () {
-                          print(key);
                           if (name == null || address == null) {
                             showErrorDialog(context, 'empty');
                           } else if (name.isEmpty || address.isEmpty) {

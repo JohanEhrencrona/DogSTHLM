@@ -163,58 +163,6 @@ class _HomeState extends State<Home> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        /*appBar: AppBar(
-            //backgroundColor: Colors.pink,
-            // Here we take the value from the MyHomePage object that was created by
-            // the App.build method, and use it to set our appbar title.
-            title: Text(
-              "Dog App",
-              style: TextStyle(letterSpacing: 2.0),
-            ),
-            centerTitle: true,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-            ),
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.print),
-                  onPressed: () {
-                    print('trashlist ${trashCanList.length}');
-                    print('parklist ${parksList.length}');
-                    print('cafelist ${cafeList.length}');
-                    print('restaurantlist ${restaurantList.length}');
-                    print('petshoplist ${petshopList.length}');
-                    //print(favoriteList.first.name);
-                    print(cafeList.first.name);
-                    print(petshopList.first.name);
-                    print(restaurantList.first.name);
-                    print(vetsList.first.name);
-                  }),
-              /* IconButton(
-                  icon: Icon(Icons.print),
-                  onPressed: () {
-                     print(trashCanMarkers.toString());
-                    print(parkPolygonsSet.first.toString());
-                    print(markCounter);
-                    print(trashCans.first.position);
-                    print(trashCanList.first.wgs84);
-                    print(cafeMarkers.first.position);
-                    print(parksList.first.wgs84Points);
-                    print(userList.first.checkedIn);
-                    setState(() {});
-                  }), */
-              IconButton(
-                icon: const Icon(Icons.settings_applications),
-                tooltip: 'Settings',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
-                },
-              ),
-            ]),*/
         body: Stack(children: <Widget>[
           GoogleMap(
               padding: EdgeInsets.only(top: 65),

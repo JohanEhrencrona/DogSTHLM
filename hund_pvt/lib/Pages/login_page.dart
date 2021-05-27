@@ -234,7 +234,6 @@ class _LoginPageState extends State<LoginPage> {
                                   _formStateKey.currentState.save();
                                   signIn(_emailId, _password).then((user) {
                                     if (user != null) {
-                                      print('Logged in successfully.');
                                       setState(() {
                                         successMessage =
                                             'Logged in successfully.';
