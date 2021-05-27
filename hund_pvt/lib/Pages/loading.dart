@@ -28,7 +28,6 @@ class _LoadingState extends State<Loading> {
     ]).then((List _) => {
           createTrashMarkers(),
           createParkMarkers(),
-          print(cafeList.first.name),
           addMarkers(parksList, sets.parks, 1),
           addMarkers(cafeList, sets.cafe, 0),
           addMarkers(petshopList, sets.petshop, 3),
@@ -37,33 +36,7 @@ class _LoadingState extends State<Loading> {
           markFavoritesInListsWhenCollecting(favoriteList),
           Navigator.pushReplacementNamed(context, '/home'),
         });
-
-    //Navigator.pushReplacementNamed(context, '/login');
   }
-  /* void collectApi() async {
-    return Future.wait([
-      getTrashCan(),
-      getPark(),
-      getCafes(),
-      getPetshops(),
-      getRestaurants(),
-      getVets(),
-      getFavorites(),
-    ]).then((List _) => {
-          createTrashMarkers(),
-          createParkMarkers(),
-          print(cafeList.first.name),
-          addMarkers(parksList, sets.parks, 1),
-          addMarkers(cafeList, sets.cafe, 0),
-          addMarkers(petshopList, sets.petshop, 3),
-          addMarkers(restaurantList, sets.restaurant, 2),
-          addMarkers(vetsList, sets.vets, 5),
-          markFavoritesInLists(favoriteList),
-          Navigator.pushReplacementNamed(context, '/home'),
-        });
-
-    //Navigator.pushReplacementNamed(context, '/login');
-  } */
 
   @override
   void initState() {

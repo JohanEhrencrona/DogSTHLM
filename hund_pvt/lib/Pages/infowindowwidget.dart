@@ -460,14 +460,11 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
   Future<void> checkInAndOutFromPark(
       CheckInParkLocation park, bool checkedIn) async {
     if (checkedIn == true) {
-      print('inne i true');
       widget.currentParkLocation.dogsInPark.add(userList.first.dog);
     }
     if (checkedIn == false) {
-      print('inne i false');
       widget.currentParkLocation.dogsInPark.remove(userList.first.dog);
     }
-    print('efter if');
     setParkForCheckInWidget(widget.currentParkLocation, checkedIn);
     await postOrDeleteCheckInPark(http.Client(), park);
     await getCheckInPark(http.Client(), widget.currentParkLocation);

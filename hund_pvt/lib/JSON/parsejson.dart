@@ -6,7 +6,6 @@ class FeatureCollection {
 
   factory FeatureCollection.fromJson(Map<String, dynamic> parsedJson) {
     var list = parsedJson['features'] as List;
-    print(list.runtimeType);
     List<Features> featuresList =
         list.map((i) => Features.fromJson(i)).toList();
 

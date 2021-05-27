@@ -9,7 +9,7 @@
         android:label="hund_pvt"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
-                  android:value=""/>
+                  android:value="AIzaSyCg6q-TOkJbrvDgrpv9Zz89ZWmgyCn2y18"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
