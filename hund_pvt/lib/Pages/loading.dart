@@ -4,6 +4,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 import 'package:hund_pvt/Services/markersets.dart';
 
+//http import for testing, to be able to send
+// client as parameter.
+import 'package:http/http.dart' as http;
+
 List<BitmapDescriptor> customIcons = <BitmapDescriptor>[];
 
 class Loading extends StatefulWidget {
@@ -16,11 +20,11 @@ class _LoadingState extends State<Loading> {
     return Future.wait([
       getTrashCan(),
       getPark(),
-      getPlacesFromFireBase('cafes', listType.cafe),
-      getPlacesFromFireBase('petshops', listType.petshop),
-      getPlacesFromFireBase('restaurants', listType.restaurant),
-      getPlacesFromFireBase('vets', listType.vets),
-      getFavorites(),
+      getPlacesFromFireBase(http.Client(), 'cafes', listType.cafe),
+      getPlacesFromFireBase(http.Client(), 'petshops', listType.petshop),
+      getPlacesFromFireBase(http.Client(), 'restaurants', listType.restaurant),
+      getPlacesFromFireBase(http.Client(), 'vets', listType.vets),
+      getFavorites(http.Client()),
     ]).then((List _) => {
           createTrashMarkers(),
           createParkMarkers(),

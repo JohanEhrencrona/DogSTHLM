@@ -8,6 +8,10 @@ import 'package:hund_pvt/Pages/loading.dart';
 
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
+//http import for testing, to be able to send
+// client as parameter.
+import 'package:http/http.dart' as http;
+
 int markCounter = 1;
 
 enum sets { cafe, petshop, restaurant, vets, parks }
@@ -40,7 +44,7 @@ void addMarkers(List list, sets type, int iconNumber) {
                 ),
                 LatLng(element.latitude, element.longitude));
           } else {
-            await getCheckInPark(element);
+            await getCheckInPark(http.Client(), element);
             element.getDogs();
             infoWindowController.addInfoWindow(
                 InfoWindowWidget(
@@ -120,5 +124,3 @@ Fluster<TrashMarkerCluster> fluster = Fluster<TrashMarkerCluster>(
             isCluster: cluster.isCluster));
 
 //ClusterTrash/////////////////////////////////////
-
-

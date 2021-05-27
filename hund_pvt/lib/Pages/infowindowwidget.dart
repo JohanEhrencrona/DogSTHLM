@@ -10,6 +10,10 @@ import 'package:hund_pvt/JSON/parsejsonlocationfirebase.dart';
 
 import 'package:hund_pvt/Pages/home.dart';
 
+//http import for testing, to be able to send
+// client as parameter.
+import 'package:http/http.dart' as http;
+
 class InfoWindowWidget extends StatefulWidget {
   final Locations currentLocation;
   final LocationPark currentParkLocation;
@@ -63,60 +67,57 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                               Row(children: <Widget>[
                                 //vänstra iconen/bilden
                                 Align(
-                                        alignment: Alignment.topLeft,
-                                        child: IconButton(
-                                          icon: Image.asset(
-                                            widget.currentLocation.fav
-                                                ? "assets/images/full_heart_symbol.png"
-                                                : "assets/images/heart_symbol.png",
-                                            width: 20,
-                                            height: 20,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () async {
-                                            if (widget.currentLocation.fav) {
-                                              widget.currentLocation
-                                                  .unFavorite();
-                                              LocationsFromDatabase favorite =
-                                                  LocationsFromDatabase(
-                                                      adress: widget
-                                                          .currentLocation
-                                                          .adress,
-                                                      name: widget
-                                                          .currentLocation.name,
-                                                      latitude: widget
-                                                          .currentLocation
-                                                          .latitude,
-                                                      longitude: widget
-                                                          .currentLocation
-                                                          .longitude);
-                                              await postOrDeleteFavorite(
-                                                  favorite, 'delete');
-                                              favoriteList.remove(
-                                                  widget.currentLocation);
-                                            } else {
-                                              widget.currentLocation
-                                                  .setFavorite();
-                                              LocationsFromDatabase favorite =
-                                                  LocationsFromDatabase(
-                                                      adress: widget
-                                                          .currentLocation
-                                                          .adress,
-                                                      name: widget
-                                                          .currentLocation.name,
-                                                      latitude: widget
-                                                          .currentLocation
-                                                          .latitude,
-                                                      longitude: widget
-                                                          .currentLocation
-                                                          .longitude);
-                                              await postOrDeleteFavorite(
-                                                  favorite, 'post');
-                                              await getFavorites();
-                                            }
-                                            setState(() {});
-                                          },
-                                        )),
+                                    alignment: Alignment.topLeft,
+                                    child: IconButton(
+                                      icon: Image.asset(
+                                        widget.currentLocation.fav
+                                            ? "assets/images/full_heart_symbol.png"
+                                            : "assets/images/heart_symbol.png",
+                                        width: 20,
+                                        height: 20,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () async {
+                                        if (widget.currentLocation.fav) {
+                                          widget.currentLocation.unFavorite();
+                                          LocationsFromDatabase favorite =
+                                              LocationsFromDatabase(
+                                                  adress: widget
+                                                      .currentLocation.adress,
+                                                  name: widget
+                                                      .currentLocation.name,
+                                                  latitude: widget
+                                                      .currentLocation.latitude,
+                                                  longitude: widget
+                                                      .currentLocation
+                                                      .longitude);
+                                          await postOrDeleteFavorite(
+                                              http.Client(),
+                                              favorite,
+                                              'delete');
+                                          await getFavorites(http.Client());
+                                        } else {
+                                          widget.currentLocation.setFavorite();
+                                          LocationsFromDatabase favorite =
+                                              LocationsFromDatabase(
+                                                  adress: widget
+                                                      .currentLocation.adress,
+                                                  name: widget
+                                                      .currentLocation.name,
+                                                  latitude: widget
+                                                      .currentLocation.latitude,
+                                                  longitude: widget
+                                                      .currentLocation
+                                                      .longitude);
+                                          await postOrDeleteFavorite(
+                                              http.Client(), favorite, 'post');
+                                          await getFavorites(
+                                            http.Client(),
+                                          );
+                                        }
+                                        setState(() {});
+                                      },
+                                    )),
                                 //vänstra iconen/bilden
 
                                 // creating some room between the symbols
@@ -124,19 +125,18 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                   width: 94,
                                 ),
                                 Align(
-                                        alignment: Alignment.topLeft,
-                                        child: IconButton(
-                                          icon: Image.asset(
-                                            "assets/images/cancel_symbol.png",
-                                            width: 17,
-                                            height: 17,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            infoWindowController
-                                                .hideInfoWindow();
-                                          },
-                                        )),
+                                    alignment: Alignment.topLeft,
+                                    child: IconButton(
+                                      icon: Image.asset(
+                                        "assets/images/cancel_symbol.png",
+                                        width: 17,
+                                        height: 17,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        infoWindowController.hideInfoWindow();
+                                      },
+                                    )),
                               ]),
                               Expanded(
                                   child: Container(
@@ -250,7 +250,6 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                   )))
         ],
       );
-
     }
     if (widget.currentParkLocation.dogsInPark.contains(userList.first.dog)) {
       checkInText = 'Check out';
@@ -392,10 +391,11 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                             padding: EdgeInsets.only(
                                                 left: 50, bottom: 2),
                                             child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                primary: Color(0x30000000),
-                                                shadowColor: Colors.transparent,
-                                              ),
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: Color(0x30000000),
+                                                  shadowColor:
+                                                      Colors.transparent,
+                                                ),
                                                 onPressed: () async {
                                                   var ancestralState = context
                                                       .findRootAncestorStateOfType();
@@ -469,7 +469,7 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
     }
     print('efter if');
     setParkForCheckInWidget(widget.currentParkLocation, checkedIn);
-    await postOrDeleteCheckInPark(park);
-    await getCheckInPark(widget.currentParkLocation);
+    await postOrDeleteCheckInPark(http.Client(), park);
+    await getCheckInPark(http.Client(), widget.currentParkLocation);
   }
 }

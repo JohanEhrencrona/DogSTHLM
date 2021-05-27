@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
+//http import for testing, to be able to send
+// client as parameter.
+import 'package:http/http.dart' as http;
+
 TextStyle _style = TextStyle(color: Colors.white);
 OutlineInputBorder _outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(25.0),
@@ -203,7 +207,7 @@ class ReviewState extends State<ReviewPage> {
                             } else if (reviewText.isNotEmpty &&
                                 reviewText != null) {
                               location.addReviewAndPoints(reviewText, points);
-                              await postReview(location);
+                              await postReview(http.Client(), location);
 
                               location.setInfoPaws(location.getPoints());
 

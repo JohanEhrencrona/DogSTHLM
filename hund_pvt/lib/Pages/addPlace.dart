@@ -4,6 +4,10 @@ import 'package:hund_pvt/Services/markersets.dart';
 import 'package:geocode/geocode.dart';
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 
+//http import for testing, to be able to send
+// client as parameter.
+import 'package:http/http.dart' as http;
+
 class AddPlace extends StatefulWidget {
   @override
   AddPlaceState createState() => AddPlaceState();
@@ -258,22 +262,27 @@ class AddPlaceState extends State<AddPlace> {
       );
 
       if (key == 'Restaurant') {
-        await postPlaceToFireBase(placeToAdd, 'restaurants');
-        await getPlacesFromFireBase('restaurants', listType.restaurant);
+        await postOrDeletePlaceToFireBase(
+            http.Client(), placeToAdd, 'restaurants', 'post');
+        await getPlacesFromFireBase(
+            http.Client(), 'restaurants', listType.restaurant);
         restaurantMarkers = {};
         addMarkers(restaurantList, sets.restaurant, 2);
         Navigator.of(context).pop();
       }
       if (key == 'Café') {
-        await postPlaceToFireBase(placeToAdd, 'cafes');
-        await getPlacesFromFireBase('cafes', listType.cafe);
+        await postOrDeletePlaceToFireBase(
+            http.Client(), placeToAdd, 'cafes', 'post');
+        await getPlacesFromFireBase(http.Client(), 'cafes', listType.cafe);
         cafeMarkers = {};
         addMarkers(cafeList, sets.cafe, 0);
         Navigator.of(context).pop();
       }
       if (key == 'Petshop') {
-        await postPlaceToFireBase(placeToAdd, 'petshops');
-        await getPlacesFromFireBase('petshops', listType.petshop);
+        await postOrDeletePlaceToFireBase(
+            http.Client(), placeToAdd, 'petshops', 'post');
+        await getPlacesFromFireBase(
+            http.Client(), 'petshops', listType.petshop);
         petshopMarkers = {};
         addMarkers(petshopList, sets.petshop, 3);
         Navigator.of(context).pop();
