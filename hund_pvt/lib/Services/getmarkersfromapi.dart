@@ -209,12 +209,12 @@ class LocationPark {
     fav = false;
   }
 
-  void addList(List list) {
+  void replaceList(List list) {
     dogsInPark = list;
   }
 
   String getDogs() {
-    String names = ' ';
+    String names = '';
     if (dogsInPark.isEmpty) {
       return names;
     } else
@@ -285,30 +285,28 @@ Future getTrashCan() async {
   });
 }
 
-Future getFavorites() async {
-  http.Response response = await http.get(Uri.parse(
-      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json'));
+Future getFavorites(http.Client client) async {
+  http.Response response = await client.get(Uri.parse(
+      'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${userList.first.uid}/.json'));
   if (response.body != 'null') {
     return favoriteList =
         locationListGenerator(Map.from(jsonDecode(response.body)), '');
   } else {
-    return;
+    return favoriteList = [];
   }
 }
 
 Future<http.Response> postOrDeleteFavorite(
-    LocationsFromDatabase favorite, String method) {
+    http.Client client, LocationsFromDatabase favorite, String method) {
   final Map<String, dynamic> data = {favorite.name: favorite.toJson()};
   if (method == 'post') {
-    print('inne i post');
     String url =
-        'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/.json';
-    return http.patch(Uri.parse(url), body: jsonEncode(data));
+        'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${userList.first.uid}/.json';
+    return client.patch(Uri.parse(url), body: jsonEncode(data));
   } else {
-    print('inne i delete');
     String url =
-        'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${auth.currentUser.uid}/${favorite.name}.json';
-    return http.delete(Uri.parse(url), body: jsonEncode(data));
+        'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/favorites/${userList.first.uid}/${favorite.name}.json';
+    return client.delete(Uri.parse(url), body: jsonEncode(data));
   }
 }
 
@@ -352,30 +350,31 @@ Future getPark() async {
   });
 }
 
-Future getCheckInPark(LocationPark park) async {
-  http.Response response = await http.get(Uri.parse(
+Future getCheckInPark(http.Client client, LocationPark park) async {
+  http.Response response = await client.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/${park.name.substring(17)}.json'));
   Map<String, dynamic> data = jsonDecode(response.body);
   if (data != null && data.containsKey('dogscheckedin')) {
     CheckInParkLocation tempPark = CheckInParkLocation.fromJson(data);
     if (tempPark.dogsCheckedIn.isNotEmpty) {
-      park.addList(tempPark.dogsCheckedIn);
+      park.replaceList(tempPark.dogsCheckedIn);
     }
   } else if (data == null || !data.containsKey('dogscheckedin')) {
     List<Dog> empty = [];
-    park.addList(empty);
+    park.replaceList(empty);
   }
 }
 
-Future<http.Response> postOrDeleteCheckInPark(CheckInParkLocation park) async {
+Future<http.Response> postOrDeleteCheckInPark(
+    http.Client client, CheckInParkLocation park) async {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/parks/.json';
   final Map<String, dynamic> data = {park.name.substring(17): park.toJson()};
   String json = jsonEncode(data);
-  return http.patch(Uri.parse(url), body: json);
+  return client.patch(Uri.parse(url), body: json);
 }
 
-Future postReview(Locations loc) async {
+Future postReview(http.Client client, Locations loc) async {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/${loc.type}/${loc.name}/Reviews/.json';
   String json = jsonEncode(loc.reviewsandpoints);
@@ -398,8 +397,9 @@ List<Locations> locationListGenerator(Map data, String type) {
   return list;
 }
 
-Future getPlacesFromFireBase(String type, listType enumType) async {
-  http.Response response = await http.get(Uri.parse(
+Future getPlacesFromFireBase(
+    http.Client client, String type, listType enumType) async {
+  http.Response response = await client.get(Uri.parse(
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/$type/.json'));
   Map<String, dynamic> data = Map.from(jsonDecode(response.body));
   var list = locationListGenerator(data, type);
@@ -415,11 +415,20 @@ Future getPlacesFromFireBase(String type, listType enumType) async {
   }
 }
 
-Future postPlaceToFireBase(LocationsFromDatabase postLoc, String type) async {
+Future postOrDeletePlaceToFireBase(http.Client client,
+    LocationsFromDatabase postLoc, String type, String method) async {
   String url =
       'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/$type/.json';
   final Map<String, dynamic> data = {postLoc.name: postLoc.toJson()};
   String json = jsonEncode(data);
 
-  return http.patch(Uri.parse(url), body: json);
+  if (method == 'post') {
+    return client.patch(Uri.parse(url), body: json);
+  }
+  if (method == 'delete') {
+    return client.delete(
+        Uri.parse(
+            'https://dogsthlm-default-rtdb.europe-west1.firebasedatabase.app/locations/$type/${postLoc.name}.json'),
+        body: json);
+  }
 }

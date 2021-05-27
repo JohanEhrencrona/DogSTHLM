@@ -13,6 +13,10 @@ import 'package:hund_pvt/Services/getmarkersfromapi.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+//http import for testing, to be able to send
+// client as parameter.
+import 'package:http/http.dart' as http;
+
 String _mapStyle;
 
 //Check in widget
@@ -305,8 +309,8 @@ class _HomeState extends State<Home> {
         height: 55,
         bottom: 10,
         right: selected ? 215 : -100,
-        duration: Duration(seconds: 2),
-        curve: Curves.bounceIn,
+        duration: Duration(milliseconds: 400),
+        curve: Curves.linear,
         child: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -334,10 +338,11 @@ class _HomeState extends State<Home> {
                     onPressed: () async {
                       animatedWidgetPark.dogsInPark.remove(userList.first.dog);
                       await postOrDeleteCheckInPark(
+                          http.Client(),
                           createTempParkForRemovingOrAddingFireBase(
                               animatedWidgetPark));
                       userList.first.setCheckedIn(false);
-                      await getCheckInPark(animatedWidgetPark);
+                      await getCheckInPark(http.Client(), animatedWidgetPark);
                       selected = false;
                       setState(() {});
                     },
