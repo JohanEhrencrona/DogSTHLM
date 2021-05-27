@@ -25,15 +25,15 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //resizeToAvoidBottomInset: false,
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
-        child: SingleChildScrollView(
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[Color(0xffDD5151), Color(0xff583177)])),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -180,7 +180,38 @@ class _LoginPageState extends State<LoginPage> {
                             width: 50,
                           ),
                           // ignore: deprecated_member_use
-//-----------------------------------------SIGN IN BUTTON----------------------------------------------------------------
+//-----------------------------------------REGISTER BUTTON----------------------------------------------------------------
+                          SizedBox(
+                            height: 40,
+                            width: 100,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Color(0x22000000),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text("Register",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                  )),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  new MaterialPageRoute(
+                                    builder: (context) => RegistrationPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+//---------------------------------------CREATING SOME ROOM------------------------------------------------------------
+                          Container(
+                            width: 65,
+                          ),
+//---------------------------------------LOG IN BUTTON-----------------------------------------------
                           SizedBox(
                             height: 40,
                             width: 100,
@@ -221,38 +252,6 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                           ),
-
-//---------------------------------------CREATING SOME ROOM------------------------------------------------------------
-                          Container(
-                            width: 65,
-                          ),
-//---------------------------------------REGISTER BUTTON-----------------------------------------------
-                          SizedBox(
-                            height: 40,
-                            width: 100,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Color(0x22000000),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              child: Text("Register",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                  )),
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => RegistrationPage(),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-
 //-------------------------------------------END OF REGISTER BUTTON-------------------------------------------------
                           // ignore: deprecated_member_use
                         ],
@@ -270,8 +269,8 @@ class _LoginPageState extends State<LoginPage> {
                   )
                 : Container()),
             Container(
-              height: 200,
-            ),
+                //   height: 200,
+                ),
           ],
         )),
       ),
@@ -297,8 +296,6 @@ class _LoginPageState extends State<LoginPage> {
       return null;
     }
   }
-
-
 
   handleError(FirebaseAuthException error) {
     Future<void> _showMyDialog() async {

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hund_pvt/Pages/filter.dart';
 import 'package:hund_pvt/Services/markersets.dart';
+import 'package:hund_pvt/Services/userswithdogs.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:hund_pvt/Services/getmarkersfromapi.dart';
@@ -14,6 +15,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 String _mapStyle;
 
+//Check in widget
+bool selected = false;
+LocationPark animatedWidgetPark = LocationPark(name: '');
+
+//Check in widget
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -27,6 +33,7 @@ class _HomeState extends State<Home> {
   //Google/////////////////////////////////////////////////////////////
   GoogleMapController _controller;
   final FirebaseAuth auth = FirebaseAuth.instance;
+
   //Cluster////////////////////////////////////////////////////////////
   void updateCluster(double zoom) {
     trashCans = fluster
@@ -86,6 +93,7 @@ class _HomeState extends State<Home> {
       return empty;
     }
   }
+
   //Cluster////////////////////////////////////////////////////////////
 
   static const LatLng _center = const LatLng(59.325898, 18.0539599);
@@ -151,7 +159,7 @@ class _HomeState extends State<Home> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
+        /*appBar: AppBar(
             //backgroundColor: Colors.pink,
             // Here we take the value from the MyHomePage object that was created by
             // the App.build method, and use it to set our appbar title.
@@ -177,24 +185,24 @@ class _HomeState extends State<Home> {
                     print('restaurantlist ${restaurantList.length}');
                     print('petshoplist ${petshopList.length}');
                     //print(favoriteList.first.name);
-                    print(cafeList.first.reviewsandpoints.keys);
-                    print(cafeList.first.reviewsandpoints.values);
-                    print(cafeList.first.type);
-                    print(petshopList.first.type);
-                    print(parksList.first.name);
+                    print(cafeList.first.name);
+                    print(petshopList.first.name);
+                    print(restaurantList.first.name);
+                    print(vetsList.first.name);
                   }),
-              IconButton(
+              /* IconButton(
                   icon: Icon(Icons.print),
                   onPressed: () {
-                    print(trashCanMarkers.toString());
+                     print(trashCanMarkers.toString());
                     print(parkPolygonsSet.first.toString());
                     print(markCounter);
                     print(trashCans.first.position);
                     print(trashCanList.first.wgs84);
                     print(cafeMarkers.first.position);
                     print(parksList.first.wgs84Points);
+                    print(userList.first.checkedIn);
                     setState(() {});
-                  }),
+                  }), */
               IconButton(
                 icon: const Icon(Icons.settings_applications),
                 tooltip: 'Settings',
@@ -202,9 +210,10 @@ class _HomeState extends State<Home> {
                   Navigator.pushNamed(context, '/settings');
                 },
               ),
-            ]),
+            ]),*/
         body: Stack(children: <Widget>[
           GoogleMap(
+              padding: EdgeInsets.only(top: 65),
               onMapCreated: _onMapCreated,
               markers: getMarkers(),
               polygons: getPolygon(),
@@ -230,6 +239,7 @@ class _HomeState extends State<Home> {
             width: 260,
             offset: 25,
           ),
+          checkInWidget(),
         ]),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
@@ -251,34 +261,99 @@ class _HomeState extends State<Home> {
             backgroundColor: Colors.transparent,
             items: [
               BottomNavigationBarItem(
+                icon: Icon(Icons.add),
+                label: ("Add new place"),
+              ),
+              BottomNavigationBarItem(
                 icon: Image.asset("assets/images/favourites_symbol.png",
                     height: 22),
-                label: ("Favourite"),
+                label: ("Favorites"),
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.filter_alt_rounded),
                 label: ("Filter"),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.add),
-                label: ("Add new place"),
+                icon: Icon(Icons.account_circle),
+                label: ("Profile"),
               ),
             ],
             onTap: (index) {
               setState(() {
                 if (index == 0) {
+                  Navigator.pushNamed(context, '/addplace').then(poppingBack);
+                }
+                if (index == 1) {
                   Navigator.pushNamed(context, '/favorite')
                       .then((value) => goToMarker(value));
                 }
-                if (index == 1) {
+                if (index == 2) {
                   Navigator.pushNamed(context, '/filter').then(poppingBack);
                 }
-                if (index == 2) {
-                  Navigator.pushNamed(context, '/addplace').then(poppingBack);
+                if (index == 3) {
+                  Navigator.pushNamed(context, '/settings')
+                      .then((value) => goToMarker(value));
                 }
               });
             }));
   }
+
+  Widget checkInWidget() {
+    return AnimatedPositioned(
+        width: selected ? 170 : 70,
+        height: 55,
+        bottom: 10,
+        right: selected ? 215 : -100,
+        duration: Duration(seconds: 2),
+        curve: Curves.bounceIn,
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment(0.0, -1.0),
+                  end: Alignment(0.0, 2.0),
+                  colors: <Color>[Color(0xffDD5151), Color(0xff583177)]),
+              borderRadius: BorderRadius.circular(15)),
+          height: 50,
+          width: 150,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  child: Text(
+                    'Checked into park',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.all(5)),
+                CircleAvatar(
+                  backgroundColor: Color(0x30000000),
+                  radius: 16,
+                  child: IconButton(
+                    onPressed: () async {
+                      animatedWidgetPark.dogsInPark.remove(userList.first.dog);
+                      await postOrDeleteCheckInPark(
+                          createTempParkForRemovingOrAddingFireBase(
+                              animatedWidgetPark));
+                      userList.first.setCheckedIn(false);
+                      await getCheckInPark(animatedWidgetPark);
+                      selected = false;
+                      setState(() {});
+                    },
+                    color: Colors.white,
+                    icon: Icon(Icons.logout, size: 18),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
+  }
+}
+
+void setParkForCheckInWidget(LocationPark checkedInPark, bool boolean) {
+  animatedWidgetPark = checkedInPark;
+  selected = boolean;
 }
 
 Future<void> requestPermission() async {

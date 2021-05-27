@@ -20,7 +20,6 @@ class LocationsFromDatabase {
   factory LocationsFromDatabase.fromJson(Map<String, dynamic> parsedJson) {
     String parsed = parsedJson.toString();
     if (parsed.contains('Reviews')) {
-      print('true');
       return LocationsFromDatabase(
         adress: parsedJson['Adress'],
         latitude: parsedJson['latitude'],
@@ -29,7 +28,6 @@ class LocationsFromDatabase {
         reviews: Map<String, int>.from(parsedJson['Reviews']),
       );
     } else {
-      print('not found');
       return LocationsFromDatabase(
         adress: parsedJson['Adress'],
         latitude: parsedJson['latitude'],

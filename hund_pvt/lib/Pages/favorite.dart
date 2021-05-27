@@ -21,14 +21,16 @@ class FavoriteState extends State<Favorite> {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
-            title: Text("Favourites", style: TextStyle(letterSpacing: 2)),
+            title: Text("Favorites", style: TextStyle(letterSpacing: 2)),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.only(left: 25),
+          body: Center(
+//            padding: EdgeInsets.only(left: 25),
             child: Container(
+              alignment: Alignment.topCenter,
               width: 340,
-              height: 600,
+//              height: 600,
+              height: 1000,
               child: ListView.builder(
                   itemCount: favoriteList.length,
                   itemBuilder: (context, index) {
@@ -40,21 +42,6 @@ class FavoriteState extends State<Favorite> {
                       shadowColor: Colors.transparent,
                       child: ListTile(
                         tileColor: Colors.transparent,
-                        trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              Locations loc = favoriteList.elementAt(index);
-                              loc.unFavorite();
-                              LocationsFromDatabase favorite =
-                                  LocationsFromDatabase(
-                                      adress: loc.adress,
-                                      name: loc.name,
-                                      latitude: loc.latitude,
-                                      longitude: loc.longitude);
-                              await removeFavorite(favorite);
-                              favoriteList.removeAt(index);
-                              setState(() {});
-                            }),
                         onTap: () {
                           Navigator.pop(context, favoriteList.elementAt(index));
                         },

@@ -29,10 +29,15 @@ class FilterScreenState extends State<FilterScreen> {
               ),
             ),
             body: ListView.builder(
+              padding: EdgeInsets.all(15),
               itemCount: checkBoxListTileModel.length,
               itemBuilder: (BuildContext context, int index) {
                 return new Card(
-                    color: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                  shadowColor: Colors.transparent,
+                    color: Color(0x22000000),
                     child: new Container(
                       padding: new EdgeInsets.all(8),
                       child: Column(
@@ -65,7 +70,13 @@ class FilterScreenState extends State<FilterScreen> {
                       ),
                     ));
               },
-            )));
+            ),
+            bottomNavigationBar: Image.asset(
+            "assets/images/Dog_siluette.png",
+            height: 150,
+            color: Color(0x22000000)
+            ),
+            ));
   }
 
   void itemChange(bool val, int index) {
@@ -90,7 +101,7 @@ class CheckBoxListTileModel {
           imageTest: AssetImage("assets/images/trashcan_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Dog parks',
-          isChecked: false,
+          isChecked: true,
           imageTest: AssetImage("assets/images/dog_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Veterinarians',
@@ -98,7 +109,7 @@ class CheckBoxListTileModel {
           imageTest: AssetImage("assets/images/veterinary_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Cafés',
-          isChecked: true,
+          isChecked: false,
           imageTest: AssetImage("assets/images/cafe_symbol.png")),
       CheckBoxListTileModel(
           filtername: 'Restaurants',

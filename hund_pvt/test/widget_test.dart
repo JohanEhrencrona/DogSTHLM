@@ -6,7 +6,6 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'dart:math';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,11 +19,13 @@ import 'package:flutter_test/flutter_test.dart';
 typedef Callback = void Function(MethodCall call);
 
 
+
 // Copyright 2020 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 void setupFirebaseAuthMocks([Callback customHandlers]) {
   TestWidgetsFlutterBinding.ensureInitialized();
+
 
   MethodChannelFirebase.channel.setMockMethodCallHandler((call) async {
     if (call.method == 'Firebase#initializeCore') {
@@ -57,6 +58,7 @@ void setupFirebaseAuthMocks([Callback customHandlers]) {
     return null;
   });
 }
+
 
 Future<T> neverEndingFuture<T>() async {
   // ignore: literal_only_boolean_expressions
@@ -186,3 +188,4 @@ void  main() {
   });
 
 }
+
