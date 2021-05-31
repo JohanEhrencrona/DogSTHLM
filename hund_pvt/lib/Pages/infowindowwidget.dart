@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hund_pvt/Pages/dogsinpark.dart';
 import 'package:hund_pvt/Pages/showreviews.dart';
@@ -28,6 +30,10 @@ class InfoWindowWidget extends StatefulWidget {
 class _InfoWindowWidgetState extends State<InfoWindowWidget> {
   String checkInText;
   String maybeCheckOutFirst = 'Dog Park';
+
+  FutureOr setstatePopping(dynamic value) {
+    setState(() {}); //Updates google map when returning from filterScreen.
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +195,8 @@ class _InfoWindowWidgetState extends State<InfoWindowWidget> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             ShowReviews(widget
-                                                                .currentLocation)));
+                                                                .currentLocation))).then(
+                                                    setstatePopping);
                                               },
                                             ),
                                           ),
