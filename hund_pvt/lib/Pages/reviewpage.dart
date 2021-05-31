@@ -206,7 +206,8 @@ class ReviewState extends State<ReviewPage> {
                               showErrorDialog(context);
                             } else if (reviewText.isNotEmpty &&
                                 reviewText != null) {
-                              location.addReviewAndPoints(reviewText, points);
+                              location.addReviewAndPoints(
+                                  reviewText.replaceAll("\n", " "), points);
                               await postReview(http.Client(), location);
 
                               location.setInfoPaws(location.getPoints());

@@ -133,9 +133,9 @@ class _HomeState extends State<Home> {
       });
       getMarkers().forEach((element) {
         if (element.markerId.value == loc.name) {
-          element.onTap();
           _controller.moveCamera(CameraUpdate.newCameraPosition(
               CameraPosition(target: element.position, zoom: 16.0)));
+          element.onTap();
         }
       });
     }
@@ -233,7 +233,8 @@ class _HomeState extends State<Home> {
             onTap: (index) {
               setState(() {
                 if (index == 0) {
-                  Navigator.pushNamed(context, '/addplace').then(poppingBack);
+                  Navigator.pushNamed(context, '/addplace')
+                      .then((value) => goToMarker(value));
                 }
                 if (index == 1) {
                   Navigator.pushNamed(context, '/favorite')

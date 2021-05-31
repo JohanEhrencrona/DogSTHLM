@@ -17,7 +17,7 @@ List<CheckBoxListTileModel> checkBoxListTileModel =
     CheckBoxListTileModel.getFilters();
 
 class AddPlaceState extends State<AddPlace> {
-  String key = 'Restaurant';
+  String key;
   String name;
   String address;
   int group = 1;
@@ -31,6 +31,15 @@ class AddPlaceState extends State<AddPlace> {
 
   @override
   Widget build(BuildContext context) {
+    if (checkBoxListTileModel[0].isChecked) {
+      key = checkBoxListTileModel[0].filtername;
+    }
+    if (checkBoxListTileModel[1].isChecked) {
+      key = checkBoxListTileModel[1].filtername;
+    }
+    if (checkBoxListTileModel[2].isChecked) {
+      key = checkBoxListTileModel[2].filtername;
+    }
     return Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -163,45 +172,6 @@ class AddPlaceState extends State<AddPlace> {
                               ));
                         },
                       )),
-
-//-------------------------------------------OLD RADIO BUTTONS------------------------------------------
-                  /*Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Radio(
-                      value: 1,
-                      autofocus: true,
-                      groupValue: group,
-                      onChanged: (T) {
-                        key = 'restaurant';
-                        setState(() {
-                          group = T;
-                        });
-                      }),
-                  Text("Restaurant"),
-                  Radio(
-                      value: 2,
-                      groupValue: group,
-                      onChanged: (T) {
-                        key = 'cafe';
-                        setState(() {
-                          group = T;
-                        });
-                      }),
-                  Text("Café"),
-                  Radio(
-                      value: 3,
-                      groupValue: group,
-                      onChanged: (T) {
-                        key = 'petshop';
-                        setState(() {
-                          group = T;
-                        });
-                      }),
-                  Text("Petshop"),
-                ],
-              ),*/
-//-------------------------------------------------------CHECKBOXES--------------------------------------------------
                   SizedBox(
                     height: 50,
                     width: 120,
@@ -218,6 +188,7 @@ class AddPlaceState extends State<AddPlace> {
                               color: Colors.white,
                             )),
                         onPressed: () {
+                          print(key);
                           if (name == null || address == null) {
                             showErrorDialog(context, 'empty');
                           } else if (name.isEmpty || address.isEmpty) {
@@ -259,6 +230,12 @@ class AddPlaceState extends State<AddPlace> {
         latitude: coordinates.latitude,
         longitude: coordinates.longitude,
       );
+      Locations popToLoc = Locations(
+        adress: address,
+        name: name,
+        latitude: coordinates.latitude,
+        longitude: coordinates.latitude,
+      );
 
       if (key == 'Restaurant') {
         await postOrDeletePlaceToFireBase(
@@ -267,7 +244,7 @@ class AddPlaceState extends State<AddPlace> {
             http.Client(), 'restaurants', listType.restaurant);
         restaurantMarkers = {};
         addMarkers(restaurantList, sets.restaurant, 2);
-        Navigator.of(context).pop();
+        Navigator.pop(context, popToLoc);
       }
       if (key == 'Café') {
         await postOrDeletePlaceToFireBase(
@@ -275,7 +252,7 @@ class AddPlaceState extends State<AddPlace> {
         await getPlacesFromFireBase(http.Client(), 'cafes', listType.cafe);
         cafeMarkers = {};
         addMarkers(cafeList, sets.cafe, 0);
-        Navigator.of(context).pop();
+        Navigator.pop(context, popToLoc);
       }
       if (key == 'Petshop') {
         await postOrDeletePlaceToFireBase(
@@ -284,7 +261,7 @@ class AddPlaceState extends State<AddPlace> {
             http.Client(), 'petshops', listType.petshop);
         petshopMarkers = {};
         addMarkers(petshopList, sets.petshop, 3);
-        Navigator.of(context).pop();
+        Navigator.pop(context, popToLoc);
       }
     } catch (e) {
       showErrorDialog(context, 'notFound');
