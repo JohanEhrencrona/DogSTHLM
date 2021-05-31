@@ -45,6 +45,7 @@ class _SettingsState extends State<Settings> {
                         context, "profilePicture/" + auth.currentUser.uid),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
+                        print(snapshot.data);
                         if (snapshot.data == null) {
                           return Padding(
                             padding: EdgeInsets.only(bottom: 10),
@@ -105,6 +106,19 @@ class _SettingsState extends State<Settings> {
                     onTap: () {
                       Navigator.of(context).pushNamed('/editprofile');
                     }),
+                  ListTile(
+                      tileColor: Color(0x22000000),
+                      leading: Icon(Icons.add_a_photo_outlined, color: Colors.white),
+                      title: Text("Edit profile picture", style: _style),
+                      trailing:
+                      Icon(Icons.keyboard_arrow_right, color: Colors.white),
+                    onTap: () async {
+                      await new PicPicker(uid: auth.currentUser.uid).getImage();
+                      Timer(Duration(seconds: 2), () {
+                        setState(() {});
+                      });
+                    },
+                  ),
                 ListTile(
                     tileColor: Color(0x22000000),
                     leading: Icon(Icons.lock_outline, color: Colors.white),
